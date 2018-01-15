@@ -1,0 +1,1 @@
+add_subdirectory(pybind11 EXCLUDE_FROM_ALL)
