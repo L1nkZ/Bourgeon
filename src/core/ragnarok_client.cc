@@ -9,6 +9,8 @@ RagnarokClient::RagnarokClient() : timestamp_() {}
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
   if (timestamp_ == kUnknownTimeStamp) return false;
+
+  return true;
 }
 
 unsigned long RagnarokClient::timestamp() const { return timestamp_; }
