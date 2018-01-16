@@ -2,13 +2,17 @@
 #include <Windows.h>
 #include <iomanip>
 #include <sstream>
+#include "core/py_callbacks.h"
 #include "utils/byte_pattern.h"
+#include "utils/hooking/hook_manager.h"
 
 RagnarokClient::RagnarokClient() : timestamp_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
   if (timestamp_ == kUnknownTimeStamp) return false;
+
+  RegisterHooks();
 
   return true;
 }
@@ -55,4 +59,15 @@ unsigned long RagnarokClient::TranslateTimeStamp(const std::string& str) const {
 
   sstream >> std::get_time(&time, "%b %d %Y");
   return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
+}
+
+#define HOOK_ONKEYDOWN ((uint8_t*)0x006BA3F0)
+
+bool RagnarokClient::RegisterHooks() {
+  using namespace hooking;
+
+  void* original = HookManager::Instance().SetHook(
+      HookType::kJmpHook, HOOK_ONKEYDOWN, (uint8_t*)pycallbacks::OnKeyDown);
+
+  return true;
 }

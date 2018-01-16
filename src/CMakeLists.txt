@@ -12,6 +12,10 @@ set(BOURGEON_FILES
 
 	core/ragnarok_client.cc
 	core/ragnarok_client.h
+	core/py_callbacks.cc
+	core/py_callbacks.h
+	core/bourgeon.cc
+	core/bourgeon.h
 )
 
 add_library(bourgeon SHARED ${BOURGEON_FILES})

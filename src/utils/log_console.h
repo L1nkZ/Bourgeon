@@ -13,7 +13,8 @@ class LogConsole {
   void LogDebug(const std::string& log);
 
  private:
-  FILE* console_fp_;
+  FILE* cout_fp_;
+  FILE* cerr_fp_;
 };
 
 #endif /* BOURGEON_UTILS_LOG_CONSOLE_H_ */

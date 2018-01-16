@@ -1,6 +1,7 @@
 #ifndef BOURGEON_UTILS_HOOKING_HOOK_MANAGER_H_
 #define BOURGEON_UTILS_HOOKING_HOOK_MANAGER_H_
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -17,17 +18,19 @@ struct HookInfo {
 class HookManager {
  public:
   // Singleton stuff
-  static HookManager& GetInstance() {
+  static HookManager& Instance() {
     static HookManager instance;
     return instance;
   }
   HookManager(HookManager const&) = delete;
   void operator=(HookManager const&) = delete;
 
-  const std::unordered_map<uint8_t*, HookInfo*>& hook_map() const;
+  const std::unordered_map<uint8_t*, std::shared_ptr<HookInfo>>& hook_map()
+      const;
   const std::vector<uint8_t*>& hwbp_hooks() const;
 
-  void* SetHook(HookType, uint8_t*, uint8_t*);
+  void* SetHook(HookType hook_type, uint8_t* hook_addr,
+                uint8_t* hook_destination);
   bool UnsetHook(uint8_t*);
 
  private:
@@ -39,7 +42,7 @@ class HookManager {
   bool UpdateThreadsContexts();
 
  private:
-  std::unordered_map<uint8_t*, HookInfo*> hook_map_;
+  std::unordered_map<uint8_t*, std::shared_ptr<HookInfo>> hook_map_;
   std::vector<uint8_t*> hwbp_hooks_;
   bool handler_added_;
 };

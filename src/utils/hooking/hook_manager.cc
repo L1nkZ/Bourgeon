@@ -1,4 +1,4 @@
-#include "hook_manager.h" =
+#include "hook_manager.h"
 #include <Windows.h>
 #include <stdexcept>
 #include "detours.h"
@@ -12,7 +12,8 @@ static LONG CALLBACK ExceptionHandler(PEXCEPTION_POINTERS);
 HookManager::HookManager()
     : hook_map_(), hwbp_hooks_(), handler_added_(false){};
 
-const std::unordered_map<uint8_t*, HookInfo*>& HookManager::hook_map() const {
+const std::unordered_map<uint8_t*, std::shared_ptr<HookInfo>>&
+HookManager::hook_map() const {
   return hook_map_;
 }
 
@@ -36,43 +37,39 @@ void* HookManager::SetHook(HookType hookType, uint8_t* hookAddr,
   if (NULL == original) return NULL;
 
   // REGISTER THE HOOK
-  HookInfo* hookInfo = new HookInfo;
+  auto hookInfo = std::make_shared<HookInfo>();
 
   hookInfo->hookType = hookType;
   hookInfo->destination = destination;
   hookInfo->original = original;
 
-  hook_map_[hookAddr] = hookInfo;
+  hook_map_[hookAddr] = std::move(hookInfo);
 
   return original;
 }
 
 bool HookManager::UnsetHook(uint8_t* hookAddr) {
-  try {
-    HookInfo* hookInfo = hook_map_.at(hookAddr);
-    if (NULL == hookInfo) return false;
+  std::shared_ptr<HookInfo> hookInfo;
+  bool result = false;
 
-    bool result;
-    switch (hookInfo->hookType) {
-      case HookType::kJmpHook:
-        result = UnsetJmpHook(hookAddr, hookInfo->original);
-        hook_map_[hookAddr] = NULL;
-        delete hookInfo;
-        return result;
-        break;
-      case HookType::kHwbpHook:
-        result = UnsetHwbpHook(hookAddr, hookInfo->original);
-        hook_map_[hookAddr] = NULL;
-        delete hookInfo;
-        return result;
-        break;
-      default:
-        return false;
-    }
+  try {
+    auto it = hook_map_.find(hookAddr);
+    hookInfo = it->second;
+    hook_map_.erase(it);
   } catch (const std::out_of_range&) {
+    return false;
   }
 
-  return false;
+  switch (hookInfo->hookType) {
+    case HookType::kJmpHook:
+      result = UnsetJmpHook(hookAddr, hookInfo->original);
+      break;
+    case HookType::kHwbpHook:
+      result = UnsetHwbpHook(hookAddr, hookInfo->original);
+      break;
+  }
+
+  return result;
 }
 
 //===========================================
@@ -236,7 +233,7 @@ bool HookManager::UpdateThreadsContexts() {
 
 LONG CALLBACK ExceptionHandler(PEXCEPTION_POINTERS ExceptionInfo) {
   if (ExceptionInfo->ExceptionRecord->ExceptionCode == EXCEPTION_SINGLE_STEP) {
-    auto hwbp_hooks = HookManager::GetInstance().hwbp_hooks();
+    auto hwbp_hooks = HookManager::Instance().hwbp_hooks();
     size_t index = 0;
 
     while (index < 4) {
@@ -245,7 +242,7 @@ LONG CALLBACK ExceptionHandler(PEXCEPTION_POINTERS ExceptionInfo) {
     }
     if (index > 3) return EXCEPTION_CONTINUE_SEARCH;
 
-    auto hook_map = HookManager::GetInstance().hook_map();
+    auto hook_map = HookManager::Instance().hook_map();
 
     ExceptionInfo->ContextRecord->Eip =
         (DWORD)((hook_map[hwbp_hooks[index]])->destination);

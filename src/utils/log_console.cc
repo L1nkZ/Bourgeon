@@ -2,18 +2,18 @@
 #include <Windows.h>
 #include <iostream>
 
-LogConsole::LogConsole(bool alloc_console) : console_fp_() {
+LogConsole::LogConsole(bool alloc_console) : cout_fp_(), cerr_fp_() {
   if (alloc_console && AllocConsole()) {
-    freopen_s(&console_fp_, "CONOUT$", "w", stdout);
-    freopen_s(&console_fp_, "CONERR$", "w", stderr);
+    freopen_s(&cout_fp_, "CONOUT$", "w", stdout);
+    freopen_s(&cerr_fp_, "CONERR$", "w", stderr);
   }
 }
 
 LogConsole::~LogConsole() {
-  if (console_fp_) {
-    fclose(console_fp_);
-    FreeConsole();
-  }
+  if (cout_fp_ || cerr_fp_) FreeConsole();
+
+  if (cout_fp_) fclose(cout_fp_);
+  if (cerr_fp_) fclose(cerr_fp_);
 }
 
 void LogConsole::LogInfo(const std::string& log) {
