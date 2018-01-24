@@ -33,6 +33,7 @@ using namespace hooking;
 }
 
 static std::unordered_map<void *, void *> destinations;
+// This is 20170613 dependent
 static std::unordered_map<std::string, uint8_t *> hook_addresses = {
     {"WindowProc", (uint8_t *)0x00AA7370},    // WindowProc
     {"OnKeyDown", (uint8_t *)0x006BA3F0},     // ProcessPushButton
