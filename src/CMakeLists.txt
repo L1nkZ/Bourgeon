@@ -12,12 +12,21 @@ set(BOURGEON_FILES
 
 	core/ragnarok_client.cc
 	core/ragnarok_client.h
-	core/py_callbacks.cc
-	core/py_callbacks.h
+	core/native_hooks.cc
+	core/native_hooks.h
 	core/bourgeon.cc
 	core/bourgeon.h
+
+	ragnarok/session.h
+	ragnarok/session_factory.cc
+	ragnarok/session_factory.h
+	ragnarok/session20170613.cc
+	ragnarok/session20170613.h
+
+	python/bourgeon.cc
+	python/ragnarok_client.cc
 )
 
-add_library(bourgeon SHARED ${BOURGEON_FILES})
+add_library(bourgeon MODULE ${BOURGEON_FILES})
 target_include_directories(bourgeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(bourgeon pybind11::embed)

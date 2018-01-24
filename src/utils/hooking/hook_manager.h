@@ -29,6 +29,9 @@ class HookManager {
       const;
   const std::vector<uint8_t*>& hwbp_hooks() const;
 
+  uint8_t* PrepareHook(uint8_t* hook_addr);
+  bool ActivateHook(uint8_t* hook_addr, uint8_t* destination);
+
   void* SetHook(HookType hook_type, uint8_t* hook_addr,
                 uint8_t* hook_destination);
   bool UnsetHook(uint8_t*);

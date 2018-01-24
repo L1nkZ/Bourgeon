@@ -2,15 +2,20 @@
 #include <Windows.h>
 #include <iomanip>
 #include <sstream>
-#include "core/py_callbacks.h"
+#include "core/native_hooks.h"
+#include "ragnarok/session_factory.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
 
-RagnarokClient::RagnarokClient() : timestamp_() {}
+RagnarokClient::RagnarokClient() : timestamp_(), session_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
   if (timestamp_ == kUnknownTimeStamp) return false;
+
+  SessionFactory factory;
+  session_ = factory.Create(timestamp_);
+  if (!session_) return false;
 
   RegisterHooks();
 
@@ -18,6 +23,8 @@ bool RagnarokClient::Initialize() {
 }
 
 unsigned long RagnarokClient::timestamp() const { return timestamp_; }
+
+Session& RagnarokClient::session() const { return *session_; }
 
 unsigned long RagnarokClient::GetClientTimeStamp() const {
   char* client_base = static_cast<char*>(GetClientBase());
@@ -61,13 +68,11 @@ unsigned long RagnarokClient::TranslateTimeStamp(const std::string& str) const {
   return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
 }
 
-#define HOOK_ONKEYDOWN ((uint8_t*)0x006BA3F0)
-
 bool RagnarokClient::RegisterHooks() {
   using namespace hooking;
 
-  void* original = HookManager::Instance().SetHook(
-      HookType::kJmpHook, HOOK_ONKEYDOWN, (uint8_t*)pycallbacks::OnKeyDown);
+  native_hooks::HookOnKeyDown();
+  native_hooks::HookOnChatMessage();
 
   return true;
 }

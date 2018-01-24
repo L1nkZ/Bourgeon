@@ -21,9 +21,53 @@ const std::vector<uint8_t*>& HookManager::hwbp_hooks() const {
   return hwbp_hooks_;
 }
 
+uint8_t* HookManager::PrepareHook(uint8_t* hook_addr) {
+  uint8_t* original;
+
+  original = (PBYTE)VirtualAlloc(NULL, 23, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+  if (!original) return nullptr;
+
+  // Copy the original function
+  size_t size = 0;
+  while (size < 5) {
+    uint8_t* next = reinterpret_cast<uint8_t*>(
+        DetourCopyInstruction(original + size, hook_addr + size, NULL));
+    size = next - hook_addr;
+  }
+
+  // Put JMP from original+size to hookAddr+size
+  INT32 jmpSrc = (INT32)(original + size + 5);
+  INT32 jmpDst = (INT32)(hook_addr + size);
+  *(original + size) = 0xE9;
+  *((PINT32)(original + size + 1)) = (INT32)(jmpDst - jmpSrc);
+
+  return original;
+}
+
+bool HookManager::ActivateHook(uint8_t* hook_addr, uint8_t* destination) {
+  MEMORY_BASIC_INFORMATION mbi;
+  DWORD oldProtection;
+
+  if (!VirtualQuery(hook_addr, &mbi, sizeof(mbi))) return false;
+  if (!VirtualProtect(hook_addr, 0x5, PAGE_EXECUTE_READWRITE, &oldProtection))
+    return false;
+
+  // Put JMP from hookAddr to destination
+  INT32 jmpSrc = (INT32)(hook_addr + 5);
+  INT32 jmpDst = (INT32)(destination);
+  *(hook_addr) = 0xE9;
+  *((PINT32)(hook_addr + 1)) = (INT32)(jmpDst - jmpSrc);
+
+  VirtualProtect(hook_addr, 0x5, oldProtection, &oldProtection);
+  FlushInstructionCache(GetCurrentProcess(), hook_addr, 0x5);
+
+  return true;
+}
+
 void* HookManager::SetHook(HookType hookType, uint8_t* hookAddr,
                            uint8_t* destination) {
-  PBYTE original = NULL;
+  PBYTE original = nullptr;
+
   switch (hookType) {
     case HookType::kJmpHook:
       original = SetJmpHook(hookAddr, destination);
@@ -32,9 +76,9 @@ void* HookManager::SetHook(HookType hookType, uint8_t* hookAddr,
       original = SetHwbpHook(hookAddr, destination);
       break;
     default:
-      return NULL;
+      return nullptr;
   }
-  if (NULL == original) return NULL;
+  if (!original) return nullptr;
 
   // REGISTER THE HOOK
   auto hookInfo = std::make_shared<HookInfo>();
@@ -77,43 +121,11 @@ bool HookManager::UnsetHook(uint8_t* hookAddr) {
 //===========================================
 
 uint8_t* HookManager::SetJmpHook(uint8_t* hookAddr, uint8_t* destination) {
-  PBYTE original = NULL;
-  MEMORY_BASIC_INFORMATION MBI;
+  uint8_t* original = PrepareHook(hookAddr);
+  if (ActivateHook(hookAddr, destination)) return original;
+  VirtualFree(original, 0, MEM_RELEASE);
 
-  if (!VirtualQuery(hookAddr, &MBI, sizeof(MBI))) return NULL;
-
-  DWORD oldProtection;
-
-  if (!VirtualProtect(hookAddr, 0x5, PAGE_EXECUTE_READWRITE, &oldProtection))
-    return NULL;
-
-  original = (PBYTE)VirtualAlloc(NULL, 23, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-  if (NULL == original) return NULL;
-
-  // Copy the original function
-  DWORD size = 0;
-  while (size < 5) {
-    PBYTE next =
-        (PBYTE)DetourCopyInstruction(original + size, hookAddr + size, NULL);
-    size = next - hookAddr;
-  }
-
-  // Put JMP from original+size to hookAddr+size
-  INT32 jmpSrc = (INT32)(original + size + 5);
-  INT32 jmpDst = (INT32)(hookAddr + size);
-  *(original + size) = 0xE9;
-  *((PINT32)(original + size + 1)) = (INT32)(jmpDst - jmpSrc);
-
-  // Put JMP from hookAddr to destination
-  jmpSrc = (INT32)(hookAddr + 5);
-  jmpDst = (INT32)(destination);
-  *(hookAddr) = 0xE9;
-  *((PINT32)(hookAddr + 1)) = (INT32)(jmpDst - jmpSrc);
-
-  VirtualProtect(hookAddr, 0x5, oldProtection, &oldProtection);
-  FlushInstructionCache(GetCurrentProcess(), hookAddr, 0x5);
-
-  return original;
+  return nullptr;
 }
 
 uint8_t* HookManager::SetHwbpHook(uint8_t* hookAddr, uint8_t* destination) {
@@ -135,7 +147,7 @@ uint8_t* HookManager::SetHwbpHook(uint8_t* hookAddr, uint8_t* destination) {
                                               NULL, NULL);
   size = next - hookAddr;
 
-  // Put JMP from original+size to hookAddr+size
+  // Put JMP from original + size to hookAddr + size
   INT32 jmpSrc = (INT32)(original + size + 5);
   INT32 jmpDst = (INT32)(hookAddr + size);
   *(original + size) = 0xE9;

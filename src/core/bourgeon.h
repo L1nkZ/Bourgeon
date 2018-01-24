@@ -2,9 +2,12 @@
 #define BOURGEON_CORE_BOURGEON_H_
 
 #include <pybind11/embed.h>
+#include <memory>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <vector>
+#include "core/ragnarok_client.h"
 #include "utils/log_console.h"
 
 class Bourgeon {
@@ -16,6 +19,8 @@ class Bourgeon {
   }
   Bourgeon(Bourgeon const&) = delete;
   void operator=(Bourgeon const&) = delete;
+
+  RagnarokClient& client();
 
   bool Initialize();
   // Python related
@@ -32,6 +37,8 @@ class Bourgeon {
   LogConsole console_;
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
+  std::vector<unsigned long> plugin_threads_;
+  RagnarokClient client_;
 };
 
-#endif /* BOURGEON_CORE_BOURGEON_H_ */
+#endif  // BOURGEON_CORE_BOURGEON_H_
