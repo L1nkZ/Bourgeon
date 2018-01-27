@@ -1,17 +1,17 @@
+# Plugin settings --------------------------------------------------------------
+SERVER = "irc.rizon.net"
+NICKNAME = "ro_client"
+CHANNEL = "#Hercules"
+
+# Plugin code ------------------------------------------------------------------
 # This plugin requires the irc library
 # To install it, it's as simple as: pip install irc
-
 import bourgeon
 import ragnarok_client as ro_client
 import irc.client
 import atexit
 
 in_game = False
-
-# Plugin settings
-SERVER = "irc.rizon.net"
-NICKNAME = "ro_client"
-CHANNEL = "#Hercules"
 
 # Objects' initialization
 bourgeon.log("-= IRC plugin =-")

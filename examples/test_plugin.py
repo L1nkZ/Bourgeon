@@ -1,3 +1,4 @@
+# Plugin code ------------------------------------------------------------------
 import bourgeon
 import ragnarok_client as client
 

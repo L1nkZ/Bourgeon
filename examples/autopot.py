@@ -1,13 +1,14 @@
-import bourgeon
-import ragnarok_client as client
-
-in_game = False
-
-# Plugin settings
+# Plugin settings --------------------------------------------------------------
 HP_MIN_PERCENT = 0.9
 SP_MIN_PERCENT = 0.8
 RED_SLIM_POTION = 545
 BLUE_POTION = 505
+
+# Plugin code ------------------------------------------------------------------
+import bourgeon
+import ragnarok_client as client
+
+in_game = False
 
 def on_tick():
 	if in_game:
