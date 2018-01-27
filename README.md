@@ -11,7 +11,7 @@ Clients supported
 
 Requirements
 ------------
-* Python >= 3.5
+* Python >= 3.5 (32-bit)
 * CMake
 * Visual Studio 2015
 
