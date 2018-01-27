@@ -17,11 +17,19 @@ set(BOURGEON_FILES
 	core/bourgeon.cc
 	core/bourgeon.h
 
-	ragnarok/session.h
-	ragnarok/session_factory.cc
-	ragnarok/session_factory.h
-	ragnarok/session20170613.cc
-	ragnarok/session20170613.h
+	ragnarok/object_factory.cc
+	ragnarok/object_factory.h
+	ragnarok/packets.h
+
+	ragnarok/session/session.cc
+	ragnarok/session/session.h
+	ragnarok/session/session20170613.cc
+	ragnarok/session/session20170613.h
+	ragnarok/session/item_info.h
+
+	ragnarok/ragconnection/ragconnection.h
+	ragnarok/ragconnection/ragconnection20170613.cc
+	ragnarok/ragconnection/ragconnection20170613.h
 
 	python/bourgeon.cc
 	python/ragnarok_client.cc

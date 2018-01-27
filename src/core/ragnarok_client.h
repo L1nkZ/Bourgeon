@@ -3,7 +3,8 @@
 
 #include <memory>
 #include <string>
-#include "ragnarok/session.h"
+#include "ragnarok/ragconnection/ragconnection.h"
+#include "ragnarok/session/session.h"
 
 class RagnarokClient {
  public:
@@ -13,6 +14,10 @@ class RagnarokClient {
 
   unsigned long timestamp() const;
   Session& session() const;
+  RagConnection& rag_connection() const;
+
+  // High level methods implemented by the client
+  bool UseItemById(int item_id) const;
 
  private:
   unsigned long GetClientTimeStamp() const;
@@ -27,6 +32,7 @@ class RagnarokClient {
  private:
   unsigned long timestamp_;
   std::unique_ptr<Session> session_;
+  std::unique_ptr<RagConnection> rag_connection_;
 };
 
 #endif  // BOURGEON_CORE_RAGNAROK_CLIENT_H_

@@ -26,7 +26,7 @@ bool Bourgeon::Initialize() {
   auto registrees = callbacks_["Tick"];
   for (;;) {
     for (auto registree : registrees) registree();
-    Sleep(1000);
+    Sleep(100);
   }
 
   return true;

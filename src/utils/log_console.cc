@@ -5,7 +5,7 @@
 LogConsole::LogConsole(bool alloc_console) : cout_fp_(), cerr_fp_() {
   if (alloc_console && AllocConsole()) {
     freopen_s(&cout_fp_, "CONOUT$", "w", stdout);
-    freopen_s(&cerr_fp_, "CONERR$", "w", stderr);
+    freopen_s(&cerr_fp_, "CONOUT$", "w", stderr);
   }
 }
 

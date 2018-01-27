@@ -1,12 +1,12 @@
 #ifndef BOURGEON_RAGNAROK_SESSION20170613_H_
 #define BOURGEON_RAGNAROK_SESSION20170613_H_
 
+#include <stdint.h>
 #include <list>
 #include <vector>
-#include "item_info.h"
 #include "session.h"
 
-class Session20170613 : public Session {
+class Session20170613 final : public Session {
  public:
   Session20170613();
 
@@ -14,14 +14,16 @@ class Session20170613 : public Session {
   // int GetBodyState();
   // int GetEffectState();
   // int GetHealthState();
-  // uint32_t GetAid();
-  int GetMaxHp() override;
-  int GetHp() override;
-  int GetMaxSp() override;
-  int GetSp() override;
-  // struct ITEM_INFO* GetItemInfoById(struct ITEM_INFO* itemInfo, int id);
+  uint32_t GetAid() const override;
+  int GetMaxHp() const override;
+  int GetHp() const override;
+  int GetMaxSp() const override;
+  int GetSp() const override;
   // bool IsSiegeMode();
   // bool IsBattleFieldMode();
+
+ protected:
+  const std::list<struct ITEM_INFO>& item_list() const override;
 
  private:
   struct Attrs {
@@ -58,4 +60,4 @@ class Session20170613 : public Session {
   Attrs* attributes_;
 };
 
-#endif // BOURGEON_RAGNAROK_SESSION20170613_H_
+#endif  // BOURGEON_RAGNAROK_SESSION20170613_H_

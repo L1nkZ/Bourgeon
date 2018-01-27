@@ -1,6 +1,6 @@
 Bourgeon
 --------
-Bourgeon is a C++11 library whose purpose it to provide an easy-to-use python
+Bourgeon is a C++11 library whose purpose is to provide an easy-to-use python
 interface to implement plugins for Ragnarok Online clients.  
 
 *Note: This is a work in progess.*
@@ -8,6 +8,27 @@ interface to implement plugins for Ragnarok Online clients.
 Clients supported
 -----------------
 * 2017-06-14a
+
+Requirements
+------------
+* Python >= 3.5
+* CMake
+* Visual Studio 2015
+
+Build
+-----
+```shell
+$ cd Bourgeon
+$ mkdir build && cd build
+$ cmake .. -T v140
+```
+
+How to use
+----------
+* Build the module (*bourgeon.dll*)
+* Move the module to your Ragnarok folder and rename it to **bourgeon.mix**
+* Create a folder named **plugins** in your Ragnarok folder and put your plugins into it
+* Run your Ragnarok client
 
 Plugins
 -------

@@ -5,7 +5,7 @@ namespace python {
 
 void print_message(const char *message, unsigned int color,
                    unsigned int filter) {
-  unsigned long UIChatWnd_SendMsg = 0x006BCFC0;
+  uint32_t UIChatWnd_SendMsg = 0x006BCFC0;
 
   _asm
   {
@@ -20,10 +20,18 @@ void print_message(const char *message, unsigned int color,
 }
 
 PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
+  // Print a message into the game chat
   m.def("print_in_chat", [](std::string message, unsigned int color = 0xFFFFFF,
                             unsigned int filter = 0) {
     print_message(message.c_str(), color, filter);
   });
+
+  // Use an item given its id. Returns true if the item was used successfully,
+  // and false otherwise.
+  m.def("use_item", [](int item_id) -> bool {
+    return Bourgeon::Instance().client().UseItemById(item_id);
+  });
+
   m.def("get_hp", []() -> int {
     return Bourgeon::Instance().client().session().GetHp();
   });

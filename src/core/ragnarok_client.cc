@@ -3,19 +3,24 @@
 #include <iomanip>
 #include <sstream>
 #include "core/native_hooks.h"
-#include "ragnarok/session_factory.h"
+#include "ragnarok/object_factory.h"
+#include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
 
-RagnarokClient::RagnarokClient() : timestamp_(), session_() {}
+RagnarokClient::RagnarokClient()
+    : timestamp_(), session_(), rag_connection_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
   if (timestamp_ == kUnknownTimeStamp) return false;
 
-  SessionFactory factory;
-  session_ = factory.Create(timestamp_);
+  ObjectFactory factory;
+  session_ = factory.CreateSession(timestamp_);
   if (!session_) return false;
+
+  rag_connection_ = factory.CreateRagConnection(timestamp_);
+  if (!rag_connection_) return false;
 
   RegisterHooks();
 
@@ -25,6 +30,22 @@ bool RagnarokClient::Initialize() {
 unsigned long RagnarokClient::timestamp() const { return timestamp_; }
 
 Session& RagnarokClient::session() const { return *session_; }
+
+RagConnection& RagnarokClient::rag_connection() const {
+  return *rag_connection_;
+}
+
+bool RagnarokClient::UseItemById(int item_id) const {
+  ITEM_INFO iinfo = session_->GetItemInfoById(item_id);
+  if (iinfo.item_index_ == 0) return false;
+
+  PACKET_CZ_USE_ITEM packet;
+  packet.header = static_cast<short>(PacketHeader::CZ_USE_ITEM);
+  packet.index = (unsigned short)iinfo.item_index_;
+  packet.aid = session_->GetAid();
+  return rag_connection_->SendPacket(sizeof(PACKET_CZ_USE_ITEM),
+                                     (char*)&packet);
+}
 
 unsigned long RagnarokClient::GetClientTimeStamp() const {
   char* client_base = static_cast<char*>(GetClientBase());
