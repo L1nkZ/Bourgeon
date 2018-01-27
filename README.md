@@ -15,9 +15,10 @@ Requirements
 * CMake
 * Visual Studio 2015
 
-Build
+Clone and build
 -----
 ```shell
+$ git clone https://github.com/L1nkZ/Bourgeon --recurse-submodules
 $ cd Bourgeon
 $ mkdir build && cd build
 $ cmake .. -T v140
