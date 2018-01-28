@@ -11,6 +11,9 @@ PYBIND11_EMBEDDED_MODULE(bourgeon, m) {
   m.def("register_callback", [](std::string cb_name, pybind11::object func) {
     Bourgeon::Instance().RegisterCallback(cb_name, func);
   });
+  m.def("unregister_callback", [](std::string cb_name, pybind11::object func) {
+    Bourgeon::Instance().UnregisterCallback(cb_name, func);
+  });
 }
 
 }  // namespace python

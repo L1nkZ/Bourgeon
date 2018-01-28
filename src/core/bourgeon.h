@@ -26,6 +26,8 @@ class Bourgeon {
   // Python related
   void RegisterCallback(const std::string& callback_name,
                         const pybind11::object& function);
+  void UnregisterCallback(const std::string& callback_name,
+                          const pybind11::object& function);
   const std::vector<pybind11::object>& GetCallbackRegistrees(
       const std::string& callback_name);
 

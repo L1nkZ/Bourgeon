@@ -23,9 +23,15 @@ bool Bourgeon::Initialize() {
   LoadPlugins("./plugins");
 
   // Process ticks indefinitely
-  auto registrees = callbacks_["Tick"];
   for (;;) {
-    for (auto registree : registrees) registree();
+    for (auto& registree : callbacks_["Tick"]) {
+      try {
+        registree();
+      } catch (pybind11::error_already_set& error) {
+        console_.LogError(error.what());
+        UnregisterCallback("Tick", registree);
+      }
+    }
     Sleep(100);
   }
 
@@ -34,8 +40,26 @@ bool Bourgeon::Initialize() {
 
 void Bourgeon::RegisterCallback(const std::string& callback_name,
                                 const pybind11::object& function) {
-  console_.LogInfo("Registration to " + callback_name + " requested");
+  try {
+    console_.LogInfo(function.attr("__name__").cast<std::string>() +
+                     " has been registered to " + callback_name);
+  } catch (pybind11::error_already_set& error) {
+    console_.LogError(error.what());
+  }
   callbacks_[callback_name].push_back(function);
+}
+
+void Bourgeon::UnregisterCallback(const std::string& callback_name,
+                                  const pybind11::object& function) {
+  for (auto it = callbacks_[callback_name].begin();
+       it != callbacks_[callback_name].end(); ++it) {
+    if (function.ptr() == it->ptr()) {
+      callbacks_[callback_name].erase(it);
+      console_.LogInfo(function.attr("__name__").cast<std::string>() +
+                       " has been unregistered from " + callback_name);
+      break;
+    }
+  }
 }
 
 const std::vector<pybind11::object>& Bourgeon::GetCallbackRegistrees(
@@ -57,8 +81,12 @@ void Bourgeon::LoadPlugins(const std::string& folder) {
 
     std::string filename(fd.cFileName);
     console_.LogInfo("Found " + filename);
-    eval_file(folder + '/' + filename,
-              module::import("__main__").attr("__dict__"));
+    try {
+      eval_file(folder + '/' + filename,
+                module::import("__main__").attr("__dict__"));
+    } catch (error_already_set& error) {
+      console_.LogError(error.what());
+    }
   } while (FindNextFileA(h_find, &fd));
 
   FindClose(h_find);

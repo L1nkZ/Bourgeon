@@ -27,10 +27,14 @@ using namespace hooking;
   {                                                                        \
     auto registrees = Bourgeon::Instance().GetCallbackRegistrees(CB_NAME); \
     for (auto registree : registrees) {                                    \
-      registree(__VA_ARGS__);                                              \
+      try {                                                                \
+        registree(__VA_ARGS__);                                            \
+      } catch (pybind11::error_already_set & error) {                      \
+        std::cerr << error.what() << std::endl;                            \
+        Bourgeon::Instance().UnregisterCallback(CB_NAME, registree);       \
+      }                                                                    \
     }                                                                      \
-  \
-}
+  }
 
 static std::unordered_map<void *, void *> destinations;
 static std::unordered_map<std::string, uint8_t *> hook_addresses = {
@@ -78,9 +82,14 @@ void HookOnKeyDown() {
 // OnChatMessage
 void _fastcall OnChatMessage(int ecx, int edx, const char *packet) {
   std::string message(packet + 4);
-  pybind11::str py_s = pybind11::reinterpret_steal<pybind11::str>(
-      PyUnicode_DecodeLatin1(message.data(), message.length(), nullptr));
-  CallRegistrees(__func__, py_s);
+  try {
+    pybind11::str py_s = pybind11::reinterpret_steal<pybind11::str>(
+        PyUnicode_DecodeLatin1(message.data(), message.length(), nullptr));
+    CallRegistrees(__func__, py_s);
+  } catch (pybind11::error_already_set &error) {
+    std::cerr << error.what() << std::endl;
+  }
+
   decltype(&Zc_Notify_Playerchat) OProcessPushButton =
       reinterpret_cast<decltype(&Zc_Notify_Playerchat)>(
           destinations[OnChatMessage]);
