@@ -3,27 +3,12 @@
 
 namespace python {
 
-void print_message(const char *message, unsigned int color,
-                   unsigned int filter) {
-  uint32_t UIChatWnd_SendMsg = 0x006BCFC0;
-
-  _asm
-  {
-      push 00h
-      push filter /* Filter */
-      push color /* Color */
-      push message /* Message */
-      push 01h
-      mov ECX, 0x00E53F00
-      call UIChatWnd_SendMsg
-  }
-}
-
 PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
   // Print a message into the game chat
   m.def("print_in_chat", [](std::string message, unsigned int color = 0xFFFFFF,
                             unsigned int filter = 0) {
-    print_message(message.c_str(), color, filter);
+    Bourgeon::Instance().client().window_mgr().SendMsg(
+        1, reinterpret_cast<int>(message.c_str()), color, filter, 0);
   });
 
   // Use an item given its id. Returns true if the item was used successfully,

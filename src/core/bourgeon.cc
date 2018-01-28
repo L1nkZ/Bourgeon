@@ -14,7 +14,9 @@ bool Bourgeon::Initialize() {
   console_.LogInfo("Bourgeon " VERSION_MAJOR "." VERSION_MINOR "\n");
 
   if (!client_.Initialize()) {
-    console_.LogError("Bourgeon failed to initialize");
+    console_.LogError(
+        "Bourgeon failed to initialize, your client is most likely not "
+        "supported. (yet!)");
     return false;
   }
   console_.LogInfo("Bourgeon initialized successfully !");

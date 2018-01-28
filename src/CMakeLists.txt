@@ -31,6 +31,10 @@ set(BOURGEON_FILES
 	"ragnarok/ragconnection/ragconnection20170613.cc"
 	"ragnarok/ragconnection/ragconnection20170613.h"
 
+	"ragnarok/ui_window_mgr/ui_window_mgr.h"
+	"ragnarok/ui_window_mgr/ui_window_mgr20170613.cc"
+	"ragnarok/ui_window_mgr/ui_window_mgr20170613.h"
+
 	"python/bourgeon.cc"
 	"python/ragnarok_client.cc"
 )

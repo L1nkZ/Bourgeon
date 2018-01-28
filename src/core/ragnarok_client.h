@@ -5,6 +5,7 @@
 #include <string>
 #include "ragnarok/ragconnection/ragconnection.h"
 #include "ragnarok/session/session.h"
+#include "ragnarok/ui_window_mgr/ui_window_mgr.h"
 
 class RagnarokClient {
  public:
@@ -15,6 +16,7 @@ class RagnarokClient {
   unsigned long timestamp() const;
   Session& session() const;
   RagConnection& rag_connection() const;
+  UIWindowMgr& window_mgr() const;
 
   // High level methods implemented by the client
   bool UseItemById(int item_id) const;
@@ -33,6 +35,7 @@ class RagnarokClient {
   unsigned long timestamp_;
   std::unique_ptr<Session> session_;
   std::unique_ptr<RagConnection> rag_connection_;
+  std::unique_ptr<UIWindowMgr> window_mgr_;
 };
 
 #endif  // BOURGEON_CORE_RAGNAROK_CLIENT_H_

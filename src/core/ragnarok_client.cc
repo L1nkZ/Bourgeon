@@ -22,6 +22,9 @@ bool RagnarokClient::Initialize() {
   rag_connection_ = factory.CreateRagConnection(timestamp_);
   if (!rag_connection_) return false;
 
+  window_mgr_ = factory.CreateUIWindowMgr(timestamp_);
+  if (!window_mgr_) return false;
+
   RegisterHooks();
 
   return true;
@@ -34,6 +37,8 @@ Session& RagnarokClient::session() const { return *session_; }
 RagConnection& RagnarokClient::rag_connection() const {
   return *rag_connection_;
 }
+
+UIWindowMgr& RagnarokClient::window_mgr() const { return *window_mgr_; }
 
 bool RagnarokClient::UseItemById(int item_id) const {
   ITEM_INFO iinfo = session_->GetItemInfoById(item_id);
