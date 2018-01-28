@@ -26,12 +26,12 @@ bool Bourgeon::Initialize() {
 
   // Process ticks indefinitely
   for (;;) {
-    for (auto& registree : callbacks_["Tick"]) {
+    for (auto& registree : callbacks_["OnTick"]) {
       try {
         registree();
       } catch (pybind11::error_already_set& error) {
         console_.LogError(error.what());
-        UnregisterCallback("Tick", registree);
+        UnregisterCallback("OnTick", registree);
       }
     }
     Sleep(100);

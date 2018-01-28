@@ -117,7 +117,7 @@ if guild:
         for channel in watched_channels:
             bourgeon.log("- %s" % channel["name"])
         bourgeon.register_callback("OnChatMessage", on_chat_message)
-        bourgeon.register_callback("Tick", on_tick)
+        bourgeon.register_callback("OnTick", on_tick)
     else:
         bourgeon.log("No accessible channels found in the server")
 else:

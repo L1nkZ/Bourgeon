@@ -59,5 +59,5 @@ def on_exit():
 server.connect(SERVER, 6667, NICKNAME)
 server.add_global_handler("pubmsg", on_irc_message)
 bourgeon.register_callback("OnChatMessage", on_chat_message)
-bourgeon.register_callback("Tick", on_tick)
+bourgeon.register_callback("OnTick", on_tick)
 atexit.register(on_exit)

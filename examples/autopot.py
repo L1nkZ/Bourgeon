@@ -33,4 +33,4 @@ def on_chat_message(message):
 
 bourgeon.log("-= Autopot plugin =-")
 bourgeon.register_callback("OnChatMessage", on_chat_message)
-bourgeon.register_callback("Tick", on_tick)
+bourgeon.register_callback("OnTick", on_tick)
