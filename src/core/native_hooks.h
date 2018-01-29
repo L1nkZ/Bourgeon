@@ -9,6 +9,7 @@ namespace native_hooks {
 // void HookWindowProc();
 void HookOnKeyDown();
 void HookOnChatMessage();
+void HookOnTalkType();
 
 }  // namespace native_hooks
 

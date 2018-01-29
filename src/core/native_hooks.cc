@@ -3,6 +3,7 @@
 #include <pybind11/pytypes.h>
 #include <iostream>
 #include "core/bourgeon.h"
+#include "ragnarok/talktype.h"
 #include "utils/hooking/hook_manager.h"
 #include "utils/log_console.h"
 
@@ -19,6 +20,11 @@ bool _fastcall ProcessPushButton(int, int, unsigned long, int, int) {
 };
 
 void _fastcall Zc_Notify_Playerchat(int, int, const char *){};
+
+int _fastcall GetTalkType(int, int, char const *chat_buffer,
+                          TalkType *talk_type, void *) {
+  return 0;
+}
 
 using namespace hooking;
 
@@ -38,9 +44,10 @@ using namespace hooking;
 
 static std::unordered_map<void *, void *> destinations;
 static std::unordered_map<std::string, uint8_t *> hook_addresses = {
-    {"WindowProc", (uint8_t *)0x00AA7370},    // WindowProc
-    {"OnKeyDown", (uint8_t *)0x006BA3F0},     // ProcessPushButton
-    {"OnChatMessage", (uint8_t *)0x009E62B0}  // Zc_Notify_Playerchat
+    {"WindowProc", (uint8_t *)0x00AA7370},     // WindowProc
+    {"OnKeyDown", (uint8_t *)0x006BA3F0},      // ProcessPushButton
+    {"OnChatMessage", (uint8_t *)0x009E62B0},  // Zc_Notify_Playerchat
+    {"OnTalkType", (uint8_t *)0x00A5E960}      // GetTalkType
 };
 
 // int HWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -100,6 +107,28 @@ void HookOnChatMessage() {
   destinations[OnChatMessage] = HookManager::Instance().SetHook(
       HookType::kJmpHook, hook_addresses["OnChatMessage"],
       reinterpret_cast<uint8_t *>(OnChatMessage));
+}
+
+// OnTalkType
+int _fastcall OnTalkType(int ecx, int edx, char const *chat_buffer,
+                         TalkType *talk_type, void *param) {
+  try {
+    pybind11::str py_chat = pybind11::reinterpret_steal<pybind11::str>(
+        PyUnicode_DecodeLatin1(chat_buffer, strlen(chat_buffer), nullptr));
+    CallRegistrees(__func__, py_chat);
+  } catch (pybind11::error_already_set &error) {
+    std::cerr << error.what() << std::endl;
+  }
+
+  decltype(&GetTalkType) OProcessPushButton =
+      reinterpret_cast<decltype(&GetTalkType)>(destinations[OnTalkType]);
+  return OProcessPushButton(ecx, edx, chat_buffer, talk_type, param);
+}
+
+void HookOnTalkType() {
+  destinations[OnTalkType] = HookManager::Instance().SetHook(
+      HookType::kJmpHook, hook_addresses["OnTalkType"],
+      reinterpret_cast<uint8_t *>(OnTalkType));
 }
 
 }  // namespace native_hooks

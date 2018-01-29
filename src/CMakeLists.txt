@@ -20,6 +20,7 @@ set(BOURGEON_FILES
 	"ragnarok/object_factory.cc"
 	"ragnarok/object_factory.h"
 	"ragnarok/packets.h"
+	"ragnarok/talktype.h"
 
 	"ragnarok/session/session.cc"
 	"ragnarok/session/session.h"

@@ -99,6 +99,7 @@ bool RagnarokClient::RegisterHooks() {
 
   native_hooks::HookOnKeyDown();
   native_hooks::HookOnChatMessage();
+  native_hooks::HookOnTalkType();
 
   return true;
 }
