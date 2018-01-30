@@ -1,14 +1,14 @@
-#ifndef BOURGEON_RAGNAROK_SESSION20170613_H_
-#define BOURGEON_RAGNAROK_SESSION20170613_H_
+#ifndef BOURGEON_RAGNAROK_SESSION_20170613_H_
+#define BOURGEON_RAGNAROK_SESSION_20170613_H_
 
 #include <stdint.h>
 #include <list>
 #include <vector>
 #include "session.h"
 
-class Session20170613 final : public Session {
+class Session_20170613 final : public Session {
  public:
-  Session20170613();
+  Session_20170613();
 
   // void InitTalkTypeTable();
   // int GetBodyState();
@@ -60,4 +60,4 @@ class Session20170613 final : public Session {
   Attrs* attributes_;
 };
 
-#endif  // BOURGEON_RAGNAROK_SESSION20170613_H_
+#endif  // BOURGEON_RAGNAROK_SESSION_20170613_H_

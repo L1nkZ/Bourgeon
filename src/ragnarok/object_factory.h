@@ -2,7 +2,7 @@
 #define BOURGEON_RAGNAROK_OBJECT_FACTORY_H_
 
 #include <memory>
-#include "ragconnection/ragconnection.h"
+#include "rag_connection/rag_connection.h"
 #include "session/session.h"
 #include "ui_window_mgr/ui_window_mgr.h"
 

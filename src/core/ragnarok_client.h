@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include "ragnarok/ragconnection/ragconnection.h"
+#include "ragnarok/rag_connection/rag_connection.h"
 #include "ragnarok/session/session.h"
 #include "ragnarok/ui_window_mgr/ui_window_mgr.h"
 

@@ -1,14 +1,14 @@
 #include "object_factory.h"
-#include "ragconnection/ragconnection20170613.h"
-#include "session/session20170613.h"
-#include "ui_window_mgr/ui_window_mgr20170613.h"
+#include "rag_connection/rag_connection_20170613.h"
+#include "session/session_20170613.h"
+#include "ui_window_mgr/ui_window_mgr_20170613.h"
 
 std::unique_ptr<Session> ObjectFactory::CreateSession(unsigned long timestamp) {
   std::unique_ptr<Session> result;
 
   switch (timestamp) {
     case 20170613:
-      result = std::make_unique<Session20170613>();
+      result = std::make_unique<Session_20170613>();
       break;
     default:
       result = nullptr;
@@ -23,7 +23,7 @@ std::unique_ptr<RagConnection> ObjectFactory::CreateRagConnection(
 
   switch (timestamp) {
     case 20170613:
-      result = std::make_unique<RagConnection20170613>();
+      result = std::make_unique<RagConnection_20170613>();
       break;
     default:
       result = nullptr;
@@ -38,7 +38,7 @@ std::unique_ptr<UIWindowMgr> ObjectFactory::CreateUIWindowMgr(
 
   switch (timestamp) {
     case 20170613:
-      result = std::make_unique<UIWindowMgr20170613>();
+      result = std::make_unique<UIWindowMgr_20170613>();
       break;
     default:
       result = nullptr;

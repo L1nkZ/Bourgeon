@@ -24,17 +24,17 @@ set(BOURGEON_FILES
 
 	"ragnarok/session/session.cc"
 	"ragnarok/session/session.h"
-	"ragnarok/session/session20170613.cc"
-	"ragnarok/session/session20170613.h"
+	"ragnarok/session/session_20170613.cc"
+	"ragnarok/session/session_20170613.h"
 	"ragnarok/session/item_info.h"
 
-	"ragnarok/ragconnection/ragconnection.h"
-	"ragnarok/ragconnection/ragconnection20170613.cc"
-	"ragnarok/ragconnection/ragconnection20170613.h"
+	"ragnarok/rag_connection/rag_connection.h"
+	"ragnarok/rag_connection/rag_connection_20170613.cc"
+	"ragnarok/rag_connection/rag_connection_20170613.h"
 
 	"ragnarok/ui_window_mgr/ui_window_mgr.h"
-	"ragnarok/ui_window_mgr/ui_window_mgr20170613.cc"
-	"ragnarok/ui_window_mgr/ui_window_mgr20170613.h"
+	"ragnarok/ui_window_mgr/ui_window_mgr_20170613.cc"
+	"ragnarok/ui_window_mgr/ui_window_mgr_20170613.h"
 
 	"python/bourgeon.cc"
 	"python/ragnarok_client.cc"
