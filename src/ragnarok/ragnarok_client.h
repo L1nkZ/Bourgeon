@@ -1,11 +1,10 @@
 #ifndef BOURGEON_CORE_RAGNAROK_CLIENT_H_
 #define BOURGEON_CORE_RAGNAROK_CLIENT_H_
 
-#include <memory>
 #include <string>
-#include "ragnarok/rag_connection/rag_connection.h"
-#include "ragnarok/session/session.h"
-#include "ragnarok/ui_window_mgr/ui_window_mgr.h"
+#include "rag_connection/rag_connection.h"
+#include "session/session.h"
+#include "ui_window_mgr/ui_window_mgr.h"
 
 class RagnarokClient {
  public:
@@ -32,9 +31,9 @@ class RagnarokClient {
 
  private:
   unsigned long timestamp_;
-  std::unique_ptr<Session> session_;
-  std::unique_ptr<RagConnection> rag_connection_;
-  std::unique_ptr<UIWindowMgr> window_mgr_;
+  Session::Pointer session_;
+  RagConnection::Pointer rag_connection_;
+  UIWindowMgr::Pointer window_mgr_;
 };
 
 #endif  // BOURGEON_CORE_RAGNAROK_CLIENT_H_

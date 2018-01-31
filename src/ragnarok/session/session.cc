@@ -1,6 +1,6 @@
 #include "session.h"
 #include <iostream>
-#include "core/bourgeon.h"
+#include "bourgeon.h"
 
 ITEM_INFO Session::GetItemInfoById(int nameid) const {
   auto ilist = item_list();

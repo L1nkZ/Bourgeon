@@ -7,7 +7,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
-#include "core/ragnarok_client.h"
+#include "ragnarok/ragnarok_client.h"
 #include "utils/log_console.h"
 
 class Bourgeon {

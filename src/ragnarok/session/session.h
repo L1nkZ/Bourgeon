@@ -2,12 +2,15 @@
 #define BOURGEON_RAGNAROK_SESSION_H_
 
 #include <list>
+#include <memory>
 #include "item_info.h"
 #include "ragnarok/talktype.h"
 #include "utils/hooking/proxy.h"
 
 class Session {
  public:
+  using Pointer = std::unique_ptr<Session>;
+
   virtual uint32_t GetAid() const = 0;
   virtual int GetMaxHp() const = 0;
   virtual int GetHp() const = 0;

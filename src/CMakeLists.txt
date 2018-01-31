@@ -1,21 +1,15 @@
 set(BOURGEON_FILES
 	"main.cc"
+	"bourgeon.cc"
+	"bourgeon.h"
 
-	"utils/byte_pattern.cc"
-	"utils/byte_pattern.h"
-	"utils/log_console.cc"
-	"utils/log_console.h"
-	"utils/hooking/detours.h"
-	"utils/hooking/disasm.cc"
-	"utils/hooking/hook_manager.cc"
-	"utils/hooking/hook_manager.h"
-	"utils/hooking/proxy.h"
+	# Python
+	"python/bourgeon.cc"
+	"python/ragnarok_client.cc"
 
-	"core/ragnarok_client.cc"
-	"core/ragnarok_client.h"
-	"core/bourgeon.cc"
-	"core/bourgeon.h"
-
+	# Ragnarok
+	"ragnarok/ragnarok_client.cc"
+	"ragnarok/ragnarok_client.h"
 	"ragnarok/object_factory.cc"
 	"ragnarok/object_factory.h"
 	"ragnarok/packets.h"
@@ -36,8 +30,16 @@ set(BOURGEON_FILES
 	"ragnarok/ui_window_mgr/20170613/ui_window_mgr.cc"
 	"ragnarok/ui_window_mgr/20170613/ui_window_mgr.h"
 
-	"python/bourgeon.cc"
-	"python/ragnarok_client.cc"
+	# Utils
+	"utils/byte_pattern.cc"
+	"utils/byte_pattern.h"
+	"utils/log_console.cc"
+	"utils/log_console.h"
+	"utils/hooking/detours.h"
+	"utils/hooking/disasm.cc"
+	"utils/hooking/hook_manager.cc"
+	"utils/hooking/hook_manager.h"
+	"utils/hooking/proxy.h"
 )
 
 add_library(bourgeon MODULE ${BOURGEON_FILES})

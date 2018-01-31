@@ -1,4 +1,4 @@
-#include "core/bourgeon.h"
+#include "bourgeon.h"
 
 #include <Windows.h>
 

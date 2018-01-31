@@ -1,4 +1,4 @@
-#include "core/bourgeon.h"
+#include "bourgeon.h"
 #include <pybind11/embed.h>
 #include <iostream>
 

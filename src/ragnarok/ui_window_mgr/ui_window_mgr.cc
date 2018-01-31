@@ -1,6 +1,6 @@
 #include "ui_window_mgr.h"
 #include <iostream>
-#include "core/bourgeon.h"
+#include "bourgeon.h"
 
 bool UIWindowMgr::ProcessPushButton(unsigned long vkey, int new_key,
                                     int accurate_key) {

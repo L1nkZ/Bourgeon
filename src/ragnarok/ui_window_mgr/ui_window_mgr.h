@@ -1,6 +1,7 @@
 #ifndef BOURGEON_RAGNAROK_UI_WINDOW_MGR_UI_WINDOW_MGR_H_
 #define BOURGEON_RAGNAROK_UI_WINDOW_MGR_UI_WINDOW_MGR_H_
 
+#include <memory>
 #include "utils/hooking/proxy.h"
 
 enum class UIMessage {
@@ -29,6 +30,8 @@ enum class UIMessage {
 
 class UIWindowMgr {
  public:
+  using Pointer = std::unique_ptr<UIWindowMgr>;
+
   // Original
   bool ProcessPushButton(unsigned long vkey, int new_key, int accurate_key);
   size_t SendMsg(UIMessage message, int val1, int val2, int val3, int val4);

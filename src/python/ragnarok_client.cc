@@ -1,5 +1,5 @@
 #include <pybind11/embed.h>
-#include "core/bourgeon.h"
+#include "bourgeon.h"
 
 namespace python {
 

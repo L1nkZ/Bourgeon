@@ -1,14 +1,15 @@
 #include "ragnarok_client.h"
-#include <Windows.h>
 #include <iomanip>
 #include <sstream>
-#include "ragnarok/object_factory.h"
-#include "ragnarok/packets.h"
+#include "object_factory.h"
+#include "packets.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
 
+#include <Windows.h>
+
 RagnarokClient::RagnarokClient()
-    : timestamp_(), session_(), rag_connection_() {}
+    : timestamp_(), session_(), rag_connection_(), window_mgr_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
