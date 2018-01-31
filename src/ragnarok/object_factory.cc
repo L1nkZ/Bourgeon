@@ -1,7 +1,7 @@
 #include "object_factory.h"
-#include "rag_connection/rag_connection_20170613.h"
-#include "session/session_20170613.h"
-#include "ui_window_mgr/ui_window_mgr_20170613.h"
+#include "rag_connection/20170613/rag_connection.h"
+#include "session/20170613/session.h"
+#include "ui_window_mgr/20170613/ui_window_mgr.h"
 
 std::unique_ptr<Session> ObjectFactory::CreateSession(unsigned long timestamp) {
   std::unique_ptr<Session> result;

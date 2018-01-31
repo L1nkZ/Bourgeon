@@ -1,4 +1,4 @@
-#include "ui_window_mgr_20170613.h"
+#include "ui_window_mgr.h"
 #include <stdint.h>
 #include "utils/hooking/hook_manager.h"
 #include "utils/hooking/proxy.h"

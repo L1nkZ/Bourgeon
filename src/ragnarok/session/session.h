@@ -16,17 +16,17 @@ class Session {
 
   ITEM_INFO GetItemInfoById(int nameid) const;
 
-  static MethodRef<Session,
-                   int (Session::*)(const char *chatBuf,
-                                    enum TalkType *talkType, void *param)>
-      GetTalkType;
-
   // Hooks
   int GetTalkTypeHook(char const *chat_buffer, TalkType *talk_type,
                       void *param);
 
  protected:
   virtual const std::list<struct ITEM_INFO> &item_list() const = 0;
+
+  static MethodRef<Session,
+                   int (Session::*)(const char *chatBuf,
+                                    enum TalkType *talkType, void *param)>
+      GetTalkType;
 };
 
 #endif  // BOURGEON_RAGNAROK_SESSION_H_

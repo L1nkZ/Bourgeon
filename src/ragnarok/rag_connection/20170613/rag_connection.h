@@ -1,7 +1,7 @@
-#ifndef BOURGEON_RAGNAROK_RAGCONNECTION_20170613_H_
-#define BOURGEON_RAGNAROK_RAGCONNECTION_20170613_H_
+#ifndef BOURGEON_RAGNAROK_RAGCONNECTION_20170613_RAGCONNECTION_H_
+#define BOURGEON_RAGNAROK_RAGCONNECTION_20170613_RAGCONNECTION_H_
 
-#include "rag_connection.h"
+#include "ragnarok/rag_connection/rag_connection.h"
 
 class RagConnection_20170613 final : public RagConnection {
  public:
@@ -16,4 +16,4 @@ class RagConnection_20170613 final : public RagConnection {
   RagConnection_20170613* rag_connection_;
 };
 
-#endif /* BOURGEON_RAGNAROK_RAGCONNECTION_20170613_H_ */
+#endif /* BOURGEON_RAGNAROK_RAGCONNECTION_20170613_RAGCONNECTION_H_ */

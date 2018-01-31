@@ -1,4 +1,4 @@
-#include "Session_20170613.h"
+#include "session.h"
 #include "utils/hooking/hook_manager.h"
 #include "utils/hooking/proxy.h"
 

@@ -1,4 +1,4 @@
-#include "rag_connection_20170613.h"
+#include "rag_connection.h"
 #include <stdint.h>
 
 RagConnection_20170613::RagConnection_20170613() {

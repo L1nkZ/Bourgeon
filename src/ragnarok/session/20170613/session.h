@@ -1,11 +1,11 @@
-#ifndef BOURGEON_RAGNAROK_SESSION_20170613_H_
-#define BOURGEON_RAGNAROK_SESSION_20170613_H_
+#ifndef BOURGEON_RAGNAROK_20170613_SESSION_H_
+#define BOURGEON_RAGNAROK_20170613_SESSION_H_
 
 #include <stdint.h>
 #include <list>
 #include <vector>
+#include "ragnarok/session/session.h"
 #include "ragnarok/talktype.h"
-#include "session.h"
 
 class Session_20170613 final : public Session {
  public:
@@ -61,4 +61,4 @@ class Session_20170613 final : public Session {
   Attrs *attributes_;
 };
 
-#endif  // BOURGEON_RAGNAROK_SESSION_20170613_H_
+#endif  // BOURGEON_RAGNAROK_20170613_SESSION_H_
