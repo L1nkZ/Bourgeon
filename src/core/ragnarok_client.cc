@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <iomanip>
 #include <sstream>
-#include "core/native_hooks.h"
 #include "ragnarok/object_factory.h"
 #include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
@@ -24,8 +23,6 @@ bool RagnarokClient::Initialize() {
 
   window_mgr_ = factory.CreateUIWindowMgr(timestamp_);
   if (!window_mgr_) return false;
-
-  RegisterHooks();
 
   return true;
 }
@@ -92,14 +89,4 @@ unsigned long RagnarokClient::TranslateTimeStamp(const std::string& str) const {
 
   sstream >> std::get_time(&time, "%b %d %Y");
   return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
-}
-
-bool RagnarokClient::RegisterHooks() {
-  using namespace hooking;
-
-  native_hooks::HookOnKeyDown();
-  native_hooks::HookOnChatMessage();
-  native_hooks::HookOnTalkType();
-
-  return true;
 }

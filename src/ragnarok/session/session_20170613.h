@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <list>
 #include <vector>
+#include "ragnarok/talktype.h"
 #include "session.h"
 
 class Session_20170613 final : public Session {
@@ -23,7 +24,7 @@ class Session_20170613 final : public Session {
   // bool IsBattleFieldMode();
 
  protected:
-  const std::list<struct ITEM_INFO>& item_list() const override;
+  const std::list<struct ITEM_INFO> &item_list() const override;
 
  private:
   struct Attrs {
@@ -50,14 +51,14 @@ class Session_20170613 final : public Session {
     uint8_t padding2[0xEC];
     std::list<struct ITEM_INFO> item_list_;
     uint8_t padding3[0x3464];
-    std::vector<std::pair<char const*, enum TALKTYPE>> talk_type_table_;
+    std::vector<std::pair<char const *, enum TALKTYPE>> talk_type_table_;
     uint8_t padding4[0x3F0];
     int hp_;
     int max_hp_;
     int sp_;
     int max_sp_;
   };
-  Attrs* attributes_;
+  Attrs *attributes_;
 };
 
 #endif  // BOURGEON_RAGNAROK_SESSION_20170613_H_

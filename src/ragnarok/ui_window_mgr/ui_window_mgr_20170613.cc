@@ -1,19 +1,20 @@
 #include "ui_window_mgr_20170613.h"
 #include <stdint.h>
+#include "utils/hooking/hook_manager.h"
+#include "utils/hooking/proxy.h"
 
 UIWindowMgr_20170613::UIWindowMgr_20170613() {
-  window_mgr_ = reinterpret_cast<UIWindowMgr_20170613*>(0x00E53F00);
-}
+  using namespace hooking;
 
-size_t UIWindowMgr_20170613::SendMsg(int message, int val1, int val2, int val3,
-                                     int val4) {
-  return window_mgr_->SendMsgWrapper(message, val1, val2, val3, val4);
-}
+  this_ = reinterpret_cast<UIWindowMgr_20170613*>(0x00E53F00);
 
-_declspec(naked) size_t UIWindowMgr_20170613::SendMsgWrapper(int message,
-                                                             int val1, int val2,
-                                                             int val3,
-                                                             int val4) {
-  static uint32_t send_msg = 0x006BCFC0;
-  __asm jmp send_msg;
+  // Hooks
+  UIWindowMgr::ProcessPushButtonRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x006BA3F0),
+      reinterpret_cast<uint8_t*>(
+          void_cast(&UIWindowMgr::ProcessPushButtonHook)));
+
+  UIWindowMgr::SendMsgRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x006BCFC0),
+      reinterpret_cast<uint8_t*>(void_cast(&UIWindowMgr::SendMsgHook)));
 }

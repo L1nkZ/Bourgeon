@@ -26,7 +26,6 @@ class RagnarokClient {
   void* GetClientBase() const;
   std::string GetClientFilename() const;
   unsigned long TranslateTimeStamp(const std::string& str) const;
-  bool RegisterHooks();
 
  public:
   const unsigned long kUnknownTimeStamp = 0;

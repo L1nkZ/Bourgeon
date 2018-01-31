@@ -8,7 +8,8 @@ PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
   m.def("print_in_chat",
         [](std::string message, unsigned int color, unsigned int filter) {
           Bourgeon::Instance().client().window_mgr().SendMsg(
-              1, reinterpret_cast<int>(message.c_str()), color, filter, 0);
+              UIMessage::UIM_PUSHINTOCHATHISTORY,
+              reinterpret_cast<int>(message.c_str()), color, filter, 0);
         });
 
   // Use an item given its id. Returns true if the item was used successfully,

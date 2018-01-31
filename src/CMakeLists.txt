@@ -9,11 +9,10 @@ set(BOURGEON_FILES
 	"utils/hooking/disasm.cc"
 	"utils/hooking/hook_manager.cc"
 	"utils/hooking/hook_manager.h"
+	"utils/hooking/proxy.h"
 
 	"core/ragnarok_client.cc"
 	"core/ragnarok_client.h"
-	"core/native_hooks.cc"
-	"core/native_hooks.h"
 	"core/bourgeon.cc"
 	"core/bourgeon.h"
 
@@ -32,6 +31,7 @@ set(BOURGEON_FILES
 	"ragnarok/rag_connection/rag_connection_20170613.cc"
 	"ragnarok/rag_connection/rag_connection_20170613.h"
 
+	"ragnarok/ui_window_mgr/ui_window_mgr.cc"
 	"ragnarok/ui_window_mgr/ui_window_mgr.h"
 	"ragnarok/ui_window_mgr/ui_window_mgr_20170613.cc"
 	"ragnarok/ui_window_mgr/ui_window_mgr_20170613.h"
