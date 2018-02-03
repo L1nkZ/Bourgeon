@@ -31,6 +31,9 @@ Arguments: 1: *message* : str
 * `OnTalkType`: Executed every time a talk type (*i.e.* an client command
 starting with '/') is resolved on the client.  
 Arguments: 1: *chat_buffer* : str
+* `OnModeSwitch`: Executed every the client switches mode (*i.e.* when the map
+changes).  
+Arguments: 1: *mode_type* : int, 2: *map_name* : str
 
 ### ragnarok_client
 * **print_in_chat(message : str, color : int, filter : int):** Print *message*
