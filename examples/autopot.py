@@ -49,9 +49,9 @@ def on_command(chat_buffer):
 	elif chat_buffer.find("/ap_toggle") == 0:
 		ap_activated = not ap_activated
 		if ap_activated:
-			client.print_in_chat("Autpot activated", 0xFFFFFF, 0)
+			client.print_in_chat("Autopot activated", 0xFFFFFF, 0)
 		else:
-			client.print_in_chat("Autpot deactivated", 0xFFFFFF, 0)
+			client.print_in_chat("Autopot deactivated", 0xFFFFFF, 0)
 
 
 bourgeon.log("-= Autopot plugin =-")
