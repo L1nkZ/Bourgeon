@@ -27,10 +27,10 @@ int Session::GetTalkTypeHook(char const* chat_buffer, TalkType* talk_type,
     }
   }
 
-  return GetTalkType(this, chat_buffer, talk_type, param);
+  return GetTalkTypeRef(this, chat_buffer, talk_type, param);
 }
 
 // References
 MethodRef<Session, int (Session::*)(const char* chatBuf,
                                     enum TalkType* talkType, void* param)>
-    Session::GetTalkType;
+    Session::GetTalkTypeRef;

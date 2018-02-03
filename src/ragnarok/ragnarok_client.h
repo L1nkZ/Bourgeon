@@ -2,6 +2,7 @@
 #define BOURGEON_CORE_RAGNAROK_CLIENT_H_
 
 #include <string>
+#include "mode_mgr/mode_mgr.h"
 #include "rag_connection/rag_connection.h"
 #include "session/session.h"
 #include "ui_window_mgr/ui_window_mgr.h"
@@ -34,6 +35,7 @@ class RagnarokClient {
   Session::Pointer session_;
   RagConnection::Pointer rag_connection_;
   UIWindowMgr::Pointer window_mgr_;
+  ModeMgr::Pointer mode_mgr_;
 };
 
 #endif  // BOURGEON_CORE_RAGNAROK_CLIENT_H_

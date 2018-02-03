@@ -7,6 +7,8 @@ class RagConnection {
  public:
   using Pointer = std::unique_ptr<RagConnection>;
 
+  virtual ~RagConnection() = default;
+
   virtual bool SendPacket(int packet_len, char* packet) = 0;
 };
 

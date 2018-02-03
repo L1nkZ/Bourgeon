@@ -23,6 +23,8 @@ class Bourgeon {
   RagnarokClient& client();
 
   bool Initialize();
+  void RunTick();
+
   // Python related
   void RegisterCallback(const std::string& callback_name,
                         const pybind11::object& function);

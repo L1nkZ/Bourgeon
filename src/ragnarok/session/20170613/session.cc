@@ -9,7 +9,7 @@ Session_20170613::Session_20170613() {
   attributes_ = reinterpret_cast<Session_20170613::Attrs*>(0x00FF6D00);
 
   // Hooks
-  Session::GetTalkType = HookManager::Instance().SetHook(
+  Session::GetTalkTypeRef = HookManager::Instance().SetHook(
       HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x00A5E960),
       reinterpret_cast<uint8_t*>(void_cast(&Session::GetTalkTypeHook)));
 }

@@ -24,6 +24,10 @@ bool Bourgeon::Initialize() {
   console_.LogInfo("Loading plugins ...");
   LoadPlugins("./plugins");
 
+  return true;
+}
+
+void Bourgeon::RunTick() {
   // Process ticks indefinitely
   for (;;) {
     for (auto& registree : callbacks_["OnTick"]) {
@@ -36,8 +40,6 @@ bool Bourgeon::Initialize() {
     }
     Sleep(100);
   }
-
-  return true;
 }
 
 void Bourgeon::RegisterCallback(const std::string& callback_name,

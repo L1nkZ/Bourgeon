@@ -1,10 +1,11 @@
 #include "object_factory.h"
+#include "mode_mgr/20170613/mode_mgr.h"
 #include "rag_connection/20170613/rag_connection.h"
 #include "session/20170613/session.h"
 #include "ui_window_mgr/20170613/ui_window_mgr.h"
 
-std::unique_ptr<Session> ObjectFactory::CreateSession(unsigned long timestamp) {
-  std::unique_ptr<Session> result;
+Session::Pointer ObjectFactory::CreateSession(unsigned long timestamp) {
+  Session::Pointer result;
 
   switch (timestamp) {
     case 20170613:
@@ -17,9 +18,9 @@ std::unique_ptr<Session> ObjectFactory::CreateSession(unsigned long timestamp) {
   return result;
 }
 
-std::unique_ptr<RagConnection> ObjectFactory::CreateRagConnection(
+RagConnection::Pointer ObjectFactory::CreateRagConnection(
     unsigned long timestamp) {
-  std::unique_ptr<RagConnection> result;
+  RagConnection::Pointer result;
 
   switch (timestamp) {
     case 20170613:
@@ -32,13 +33,26 @@ std::unique_ptr<RagConnection> ObjectFactory::CreateRagConnection(
   return result;
 }
 
-std::unique_ptr<UIWindowMgr> ObjectFactory::CreateUIWindowMgr(
-    unsigned long timestamp) {
-  std::unique_ptr<UIWindowMgr> result;
+UIWindowMgr::Pointer ObjectFactory::CreateUIWindowMgr(unsigned long timestamp) {
+  UIWindowMgr::Pointer result;
 
   switch (timestamp) {
     case 20170613:
       result = std::make_unique<UIWindowMgr_20170613>();
+      break;
+    default:
+      result = nullptr;
+  }
+
+  return result;
+}
+
+ModeMgr::Pointer ObjectFactory::CreateModeMgr(unsigned long timestamp) {
+  ModeMgr::Pointer result;
+
+  switch (timestamp) {
+    case 20170613:
+      result = std::make_unique<ModeMgr_20170613>();
       break;
     default:
       result = nullptr;

@@ -30,6 +30,11 @@ set(BOURGEON_FILES
 	"ragnarok/ui_window_mgr/20170613/ui_window_mgr.cc"
 	"ragnarok/ui_window_mgr/20170613/ui_window_mgr.h"
 
+	"ragnarok/mode_mgr/mode_mgr.cc"
+	"ragnarok/mode_mgr/mode_mgr.h"
+	"ragnarok/mode_mgr/20170613/mode_mgr.cc"
+	"ragnarok/mode_mgr/20170613/mode_mgr.h"
+
 	# Utils
 	"utils/byte_pattern.cc"
 	"utils/byte_pattern.h"

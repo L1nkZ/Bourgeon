@@ -11,6 +11,8 @@ class Session {
  public:
   using Pointer = std::unique_ptr<Session>;
 
+  virtual ~Session() = default;
+
   virtual uint32_t GetAid() const = 0;
   virtual int GetMaxHp() const = 0;
   virtual int GetHp() const = 0;
@@ -29,7 +31,7 @@ class Session {
   static MethodRef<Session,
                    int (Session::*)(const char *chatBuf,
                                     enum TalkType *talkType, void *param)>
-      GetTalkType;
+      GetTalkTypeRef;
 };
 
 #endif  // BOURGEON_RAGNAROK_SESSION_H_

@@ -25,6 +25,9 @@ bool RagnarokClient::Initialize() {
   window_mgr_ = factory.CreateUIWindowMgr(timestamp_);
   if (!window_mgr_) return false;
 
+  mode_mgr_ = factory.CreateModeMgr(timestamp_);
+  if (!mode_mgr_) return false;
+
   return true;
 }
 
