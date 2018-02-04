@@ -1,5 +1,4 @@
-#ifndef BOURGEON_CORE_BOURGEON_H_
-#define BOURGEON_CORE_BOURGEON_H_
+#pragma once
 
 #include <pybind11/embed.h>
 #include <memory>
@@ -7,6 +6,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
+
 #include "ragnarok/ragnarok_client.h"
 #include "utils/log_console.h"
 
@@ -44,5 +44,3 @@ class Bourgeon {
   std::vector<unsigned long> plugin_threads_;
   RagnarokClient client_;
 };
-
-#endif  // BOURGEON_CORE_BOURGEON_H_

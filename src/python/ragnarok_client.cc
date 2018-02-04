@@ -30,6 +30,9 @@ PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
   m.def("get_max_sp", []() -> int {
     return Bourgeon::Instance().client().session().GetMaxSp();
   });
+  m.def("get_char_name", []() -> std::string {
+    return Bourgeon::Instance().client().session().GetCharName();
+  });
 }
 
 }  // namespace python

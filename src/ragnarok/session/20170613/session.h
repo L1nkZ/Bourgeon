@@ -20,6 +20,7 @@ class Session_20170613 final : public Session {
   int GetHp() const override;
   int GetMaxSp() const override;
   int GetSp() const override;
+  std::string GetCharName() const override;
   // bool IsSiegeMode();
   // bool IsBattleFieldMode();
 
@@ -27,9 +28,11 @@ class Session_20170613 final : public Session {
   const std::list<struct ITEM_INFO> &item_list() const override;
 
  private:
-  struct Attrs {
+  struct Attributes {
     int cur_map_type_;
-    uint8_t padding0[0xAF8];
+    uint8_t padding0[0x64C];
+    char char_name_[0x40];
+    uint8_t padding1[0x46C];
     int mkcount_;
     int haircolor_;
     int deadcount_;
@@ -46,19 +49,19 @@ class Session_20170613 final : public Session {
     int effect_state_;
     int pos_x_;
     int pos_y_;
-    uint8_t padding1[0x6C4];
+    uint8_t padding2[0x6C4];
     uint32_t aid_;
-    uint8_t padding2[0xEC];
+    uint8_t padding3[0xEC];
     std::list<struct ITEM_INFO> item_list_;
-    uint8_t padding3[0x3464];
+    uint8_t padding4[0x3464];
     std::vector<std::pair<char const *, enum TALKTYPE>> talk_type_table_;
-    uint8_t padding4[0x3F0];
+    uint8_t padding5[0x3F0];
     int hp_;
     int max_hp_;
     int sp_;
     int max_sp_;
   };
-  Attrs *attributes_;
+  Attributes *this_;
 };
 
 #endif  // BOURGEON_RAGNAROK_20170613_SESSION_H_

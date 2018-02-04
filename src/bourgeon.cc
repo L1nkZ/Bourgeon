@@ -21,7 +21,6 @@ bool Bourgeon::Initialize() {
   }
   console_.LogInfo("Bourgeon initialized successfully !");
   console_.LogInfo("Detected client: " + std::to_string(client_.timestamp()));
-  console_.LogInfo("Loading plugins ...");
   LoadPlugins("./plugins");
 
   return true;
@@ -84,7 +83,7 @@ void Bourgeon::LoadPlugins(const std::string& folder) {
     if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
     std::string filename(fd.cFileName);
-    console_.LogInfo("Found " + filename);
+    console_.LogInfo("Loading " + filename);
     try {
       eval_file(folder + '/' + filename,
                 module::import("__main__").attr("__dict__"));

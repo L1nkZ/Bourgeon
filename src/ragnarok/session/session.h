@@ -18,6 +18,7 @@ class Session {
   virtual int GetHp() const = 0;
   virtual int GetMaxSp() const = 0;
   virtual int GetSp() const = 0;
+  virtual std::string GetCharName() const = 0;
 
   ITEM_INFO GetItemInfoById(int nameid) const;
 
