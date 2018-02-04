@@ -22,7 +22,9 @@ $ git clone https://github.com/L1nkZ/Bourgeon --recurse-submodules
 $ cd Bourgeon
 $ mkdir build && cd build
 $ cmake .. -T v140
+$ cmake --build . --config MinSizeRel
 ```
+Note: The project has to be built in Release mode for the C++ std objects to be exactly the same as the ones the game client uses.
 
 How to use
 ----------
