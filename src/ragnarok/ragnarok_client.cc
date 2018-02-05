@@ -1,6 +1,8 @@
 #include "ragnarok_client.h"
+
 #include <iomanip>
 #include <sstream>
+
 #include "object_factory.h"
 #include "packets.h"
 #include "utils/byte_pattern.h"
@@ -42,13 +44,15 @@ RagConnection& RagnarokClient::rag_connection() const {
 UIWindowMgr& RagnarokClient::window_mgr() const { return *window_mgr_; }
 
 bool RagnarokClient::UseItemById(int item_id) const {
-  ITEM_INFO iinfo = session_->GetItemInfoById(item_id);
-  if (iinfo.item_index_ == 0) return false;
-
   PACKET_CZ_USE_ITEM packet;
+  ItemInfo iinfo;
+
+  if (!session_->GetItemInfoById(item_id, iinfo)) return false;
+
   packet.header = static_cast<short>(PacketHeader::CZ_USE_ITEM);
   packet.index = (unsigned short)iinfo.item_index_;
   packet.aid = session_->GetAid();
+
   return rag_connection_->SendPacket(sizeof(PACKET_CZ_USE_ITEM),
                                      (char*)&packet);
 }

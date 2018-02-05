@@ -17,6 +17,9 @@ PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
   m.def("use_item", [](int item_id) -> bool {
     return Bourgeon::Instance().client().UseItemById(item_id);
   });
+  // m.def("get_item_name", [](int item_id) -> std::string {
+  //  return Bourgeon::Instance().client().session().GetItemNameById(item_id);
+  //});
 
   m.def("get_hp", []() -> int {
     return Bourgeon::Instance().client().session().GetHp();

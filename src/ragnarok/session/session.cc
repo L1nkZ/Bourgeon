@@ -2,14 +2,25 @@
 #include <iostream>
 #include "bourgeon.h"
 
-ITEM_INFO Session::GetItemInfoById(int nameid) const {
-  auto ilist = item_list();
+bool Session::GetItemInfoById(int nameid, ItemInfo& item_info) const {
+  const std::list<ItemInfo> ilist = item_list();
 
-  for (const auto iinfo : ilist) {
-    if (atoi(iinfo.item_name_.c_str()) == nameid) return iinfo;
+  for (const auto& iinfo : ilist) {
+    if (atoi(iinfo.item_name_.c_str()) == nameid) {
+      item_info = iinfo;
+      return true;
+    }
   }
 
-  return ITEM_INFO();
+  return false;
+}
+
+std::string Session::GetItemNameById(int id) const {
+  ItemInfo iinfo;
+
+  if (!GetItemInfoById(id, iinfo)) return "Unknown item";
+
+  return std::string(iinfo.item_name_);
 }
 
 int Session::GetTalkTypeHook(char const* chat_buffer, TalkType* talk_type,

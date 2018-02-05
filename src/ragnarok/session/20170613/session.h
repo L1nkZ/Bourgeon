@@ -1,9 +1,9 @@
-#ifndef BOURGEON_RAGNAROK_20170613_SESSION_H_
-#define BOURGEON_RAGNAROK_20170613_SESSION_H_
+#pragma once
 
 #include <stdint.h>
 #include <list>
 #include <vector>
+
 #include "ragnarok/session/session.h"
 #include "ragnarok/talktype.h"
 
@@ -25,7 +25,7 @@ class Session_20170613 final : public Session {
   // bool IsBattleFieldMode();
 
  protected:
-  const std::list<struct ITEM_INFO> &item_list() const override;
+  const std::list<ItemInfo> &item_list() const override;
 
  private:
   struct Attributes {
@@ -52,9 +52,9 @@ class Session_20170613 final : public Session {
     uint8_t padding2[0x6C4];
     uint32_t aid_;
     uint8_t padding3[0xEC];
-    std::list<struct ITEM_INFO> item_list_;
+    std::list<ItemInfo> item_list_;
     uint8_t padding4[0x3464];
-    std::vector<std::pair<char const *, enum TALKTYPE>> talk_type_table_;
+    std::vector<std::pair<char const *, TalkType>> talk_type_table_;
     uint8_t padding5[0x3F0];
     int hp_;
     int max_hp_;
@@ -63,5 +63,3 @@ class Session_20170613 final : public Session {
   };
   Attributes *this_;
 };
-
-#endif  // BOURGEON_RAGNAROK_20170613_SESSION_H_

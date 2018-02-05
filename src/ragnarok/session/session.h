@@ -1,8 +1,8 @@
-#ifndef BOURGEON_RAGNAROK_SESSION_H_
-#define BOURGEON_RAGNAROK_SESSION_H_
+#pragma once
 
 #include <list>
 #include <memory>
+
 #include "item_info.h"
 #include "ragnarok/talktype.h"
 #include "utils/hooking/proxy.h"
@@ -20,19 +20,18 @@ class Session {
   virtual int GetSp() const = 0;
   virtual std::string GetCharName() const = 0;
 
-  ITEM_INFO GetItemInfoById(int nameid) const;
+  bool GetItemInfoById(int id, ItemInfo &item_info) const;
+  std::string GetItemNameById(int id) const;
 
   // Hooks
   int GetTalkTypeHook(char const *chat_buffer, TalkType *talk_type,
                       void *param);
 
  protected:
-  virtual const std::list<struct ITEM_INFO> &item_list() const = 0;
+  virtual const std::list<ItemInfo> &item_list() const = 0;
 
   static MethodRef<Session,
                    int (Session::*)(const char *chatBuf,
                                     enum TalkType *talkType, void *param)>
       GetTalkTypeRef;
 };
-
-#endif  // BOURGEON_RAGNAROK_SESSION_H_

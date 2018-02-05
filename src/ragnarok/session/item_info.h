@@ -1,7 +1,7 @@
 #ifndef BOURGEON_RAGNAROK_ITEM_INFO_H_
 #define BOURGEON_RAGNAROK_ITEM_INFO_H_
 
-struct ITEM_INFO {
+struct ItemInfo {
   int item_type_;
   int location_;
   unsigned long item_index_;

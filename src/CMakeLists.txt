@@ -21,6 +21,7 @@ set(BOURGEON_FILES
 	"ragnarok/session/20170613/session.cc"
 	"ragnarok/session/20170613/session.h"
 
+	"ragnarok/rag_connection/rag_connection.cc"
 	"ragnarok/rag_connection/rag_connection.h"
 	"ragnarok/rag_connection/20170613/rag_connection.cc"
 	"ragnarok/rag_connection/20170613/rag_connection.h"

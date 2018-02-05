@@ -43,6 +43,6 @@ std::string Session_20170613::GetCharName() const {
   return std::string(clear_name);
 }
 
-const std::list<struct ITEM_INFO>& Session_20170613::item_list() const {
+const std::list<ItemInfo>& Session_20170613::item_list() const {
   return this_->item_list_;
 }

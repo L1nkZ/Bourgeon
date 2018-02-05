@@ -1,7 +1,7 @@
-#ifndef BOURGEON_RAGNAROK_UI_WINDOW_MGR_UI_WINDOW_MGR_H_
-#define BOURGEON_RAGNAROK_UI_WINDOW_MGR_UI_WINDOW_MGR_H_
+#pragma once
 
 #include <memory>
+
 #include "utils/hooking/proxy.h"
 
 enum class UIMessage {
@@ -55,5 +55,3 @@ class UIWindowMgr {
  protected:
   UIWindowMgr* this_;
 };
-
-#endif /* BOURGEON_RAGNAROK_UI_WINDOW_MGR_UI_WINDOW_MGR_H_ */

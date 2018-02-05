@@ -1,19 +1,17 @@
 #include "rag_connection.h"
+
 #include <stdint.h>
 
-RagConnection_20170613::RagConnection_20170613() {
-  rag_connection_ = reinterpret_cast<RagConnection_20170613*>(
-      0x00FC21D8);  // Client's RagConnection
-}
+#include "utils/hooking/hook_manager.h"
 
-bool RagConnection_20170613::SendPacket(int packet_len, char* packet) {
-  return rag_connection_->SendPacketWrapper(packet_len, packet);
-}
+RagConnection_20170613::RagConnection_20170613() : RagConnection() {
+  using namespace hooking;
 
-// We need this wrapper to make a "clean" thiscall with a correct "this" pointer
-// to the original SendPacket method
-_declspec(naked) bool RagConnection_20170613::SendPacketWrapper(int packet_len,
-                                                                char* packet) {
-  static uint32_t send_packet = 0x0091E1F0;
-  __asm jmp send_packet;  // Original method address
+  this_ =
+      reinterpret_cast<RagConnection*>(0x00FC21D8);  // Client's RagConnection
+
+  // Hooks
+  RagConnection::SendPacketRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x0091E1F0),
+      reinterpret_cast<uint8_t*>(void_cast(&RagConnection::SendPacketHook)));
 }

@@ -1,15 +1,27 @@
-#ifndef BOURGEON_RAGNAROK_RAGCONNECTION_H_
-#define BOURGEON_RAGNAROK_RAGCONNECTION_H_
+#pragma once
 
 #include <memory>
+
+#include "utils/hooking/proxy.h"
 
 class RagConnection {
  public:
   using Pointer = std::unique_ptr<RagConnection>;
 
+  RagConnection();
+
   virtual ~RagConnection() = default;
 
-  virtual bool SendPacket(int packet_len, char* packet) = 0;
-};
+  bool SendPacket(int packet_len, char *packet);
 
-#endif /* BOURGEON_RAGNAROK_RAGCONNECTION_H_ */
+  // Hooks
+  bool SendPacketHook(int packet_len, char *packet);
+
+ protected:
+  static MethodRef<RagConnection,
+                   bool (RagConnection::*)(int packet_len, char *packet)>
+      SendPacketRef;
+
+ protected:
+  RagConnection *this_;
+};
