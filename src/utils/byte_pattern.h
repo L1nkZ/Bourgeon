@@ -1,5 +1,4 @@
-#ifndef BOURGEON_UTILS_BYTE_PATTERN_H_
-#define BOURGEON_UTILS_BYTE_PATTERN_H_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -15,5 +14,3 @@ class BytePattern {
   std::vector<uint8_t> pattern_;
   std::string mask_;
 };
-
-#endif /* BOURGEON_UTILS_BYTE_PATTERN_H_ */

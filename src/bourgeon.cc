@@ -2,25 +2,23 @@
 
 #include <Windows.h>
 
-#define VERSION_MAJOR "0"
-#define VERSION_MINOR "1"
-
 Bourgeon::Bourgeon()
-    : console_(), interpreter_(), callbacks_(), plugin_threads_(), client_() {}
+    : interpreter_(), callbacks_(), plugin_threads_(), client_() {}
 
 RagnarokClient& Bourgeon::client() { return client_; }
 
 bool Bourgeon::Initialize() {
-  console_.LogInfo("Bourgeon " VERSION_MAJOR "." VERSION_MINOR "\n");
+  LogInfo("Bourgeon " BOURGEON_VERSION "\n");
 
   if (!client_.Initialize()) {
-    console_.LogError(
+    LogError(
         "Bourgeon failed to initialize, your client is most likely not "
         "supported. (yet!)");
     return false;
   }
-  console_.LogInfo("Bourgeon initialized successfully !");
-  console_.LogInfo("Detected client: " + std::to_string(client_.timestamp()));
+  
+  LogInfo("Bourgeon initialized successfully !");
+  LogInfo("Detected client: " + std::to_string(client_.timestamp()));
   LoadPlugins("./plugins");
 
   return true;
@@ -33,7 +31,7 @@ void Bourgeon::RunTick() {
       try {
         registree();
       } catch (pybind11::error_already_set& error) {
-        console_.LogError(error.what());
+        LogError(error.what());
         UnregisterCallback("OnTick", registree);
       }
     }
@@ -44,10 +42,10 @@ void Bourgeon::RunTick() {
 void Bourgeon::RegisterCallback(const std::string& callback_name,
                                 const pybind11::object& function) {
   try {
-    console_.LogInfo(function.attr("__name__").cast<std::string>() +
+    LogInfo(function.attr("__name__").cast<std::string>() +
                      " has been registered to " + callback_name);
   } catch (pybind11::error_already_set& error) {
-    console_.LogError(error.what());
+    LogError(error.what());
   }
   callbacks_[callback_name].push_back(function);
 }
@@ -58,7 +56,7 @@ void Bourgeon::UnregisterCallback(const std::string& callback_name,
        it != callbacks_[callback_name].end(); ++it) {
     if (function.ptr() == it->ptr()) {
       callbacks_[callback_name].erase(it);
-      console_.LogInfo(function.attr("__name__").cast<std::string>() +
+      LogInfo(function.attr("__name__").cast<std::string>() +
                        " has been unregistered from " + callback_name);
       break;
     }
@@ -77,18 +75,22 @@ void Bourgeon::LoadPlugins(const std::string& folder) {
   WIN32_FIND_DATA fd;
   HANDLE h_find = FindFirstFileA(search_path.c_str(), &fd);
 
-  if (h_find == INVALID_HANDLE_VALUE) return;
+  if (h_find == INVALID_HANDLE_VALUE) {
+    return;
+  }
 
   do {
-    if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+    if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+      continue;
+    }
 
     std::string filename(fd.cFileName);
-    console_.LogInfo("Loading " + filename);
+    LogInfo("Loading " + filename);
     try {
       eval_file(folder + '/' + filename,
                 module::import("__main__").attr("__dict__"));
     } catch (error_already_set& error) {
-      console_.LogError(error.what());
+      LogError(error.what());
     }
   } while (FindNextFileA(h_find, &fd));
 

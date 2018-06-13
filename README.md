@@ -1,6 +1,6 @@
 Bourgeon
 --------
-Bourgeon is a C++11 library whose purpose is to provide an easy-to-use python
+Bourgeon is a C++14 library whose purpose is to provide an easy-to-use python
 interface to implement plugins for Ragnarok Online clients.  
 
 *Note: This is a work in progress.*

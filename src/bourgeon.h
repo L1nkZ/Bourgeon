@@ -38,7 +38,6 @@ class Bourgeon {
   void LoadPlugins(const std::string& folder);
 
  private:
-  LogConsole console_;
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
   std::vector<unsigned long> plugin_threads_;

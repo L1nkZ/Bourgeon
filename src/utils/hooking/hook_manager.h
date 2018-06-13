@@ -1,5 +1,4 @@
-#ifndef BOURGEON_UTILS_HOOKING_HOOK_MANAGER_H_
-#define BOURGEON_UTILS_HOOKING_HOOK_MANAGER_H_
+#pragma once
 
 #include <memory>
 #include <unordered_map>
@@ -51,4 +50,3 @@ class HookManager {
 };
 
 }  // namespace hooking
-#endif /* BOURGEON_UTILS_HOOKING_HOOK_MANAGER_H_ */

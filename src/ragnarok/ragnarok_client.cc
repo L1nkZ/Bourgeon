@@ -90,7 +90,7 @@ std::string RagnarokClient::GetClientFilename() const {
 }
 
 // Translate a string of the form "Jan 02 1990" to an unsigned long of the form
-// 20170102
+// 19900102
 unsigned long RagnarokClient::TranslateTimeStamp(const std::string& str) const {
   std::istringstream sstream(str);
   std::tm time;

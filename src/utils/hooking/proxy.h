@@ -1,5 +1,4 @@
-#ifndef BOURGEON_RAGNAROK_PROXY_H_
-#define BOURGEON_RAGNAROK_PROXY_H_
+#pragma once
 
 // Taken from https://github.com/curio-r/rextensions
 
@@ -32,5 +31,3 @@ struct MethodRef {
     return (_Context->*_Ptr)(_Args...);
   }
 };
-
-#endif /* BOURGEON_RAGNAROK_PROXY_H_ */

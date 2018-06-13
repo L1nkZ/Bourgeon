@@ -1,20 +1,40 @@
-#ifndef BOURGEON_UTILS_LOG_CONSOLE_H_
-#define BOURGEON_UTILS_LOG_CONSOLE_H_
+#pragma once
 
 #include <string>
+#include <memory>
+
+#include <spdlog/spdlog.h>
 
 class LogConsole {
  public:
-  LogConsole(bool alloc_console = true);
-  ~LogConsole();
+  LogConsole(LogConsole const &) = delete;
+  void operator=(LogConsole const &) = delete;
+  static LogConsole &instance() {
+    // Guaranteed to be destroyed.
+    // Instantiated on first use.
+    static LogConsole instance;
 
-  void LogInfo(const std::string& info);
-  void LogError(const std::string& error);
-  void LogDebug(const std::string& log);
+    return instance;
+  }
+
+  void Info(const std::string& info);
+  void Error(const std::string& error);
+  void Debug(const std::string& log);
 
  private:
-  FILE* cout_fp_;
-  FILE* cerr_fp_;
+  LogConsole();
+  ~LogConsole();
+
+ private:
+  int should_free_console_;
+  std::shared_ptr<spdlog::logger> p_logger_;
 };
 
-#endif /* BOURGEON_UTILS_LOG_CONSOLE_H_ */
+#define LogInfo(fmt, ...)                                                     \
+  LogConsole::instance().Info(fmt, ##__VA_ARGS__)
+
+#define LogError(fmt, ...)                                                    \
+  LogConsole::instance().Error(fmt, ##__VA_ARGS__)
+
+#define LogDebug(fmt, ...)                                                    \
+  LogConsole::instance().Debug(fmt, ##__VA_ARGS__)

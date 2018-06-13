@@ -1,0 +1,1 @@
+add_subdirectory(spdlog EXCLUDE_FROM_ALL)

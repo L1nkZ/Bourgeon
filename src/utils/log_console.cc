@@ -1,31 +1,39 @@
 #include "log_console.h"
-#include <Windows.h>
-#include <iostream>
 
-LogConsole::LogConsole(bool alloc_console) : cout_fp_(), cerr_fp_() {
-  if (alloc_console && AllocConsole()) {
-    freopen_s(&cout_fp_, "CONOUT$", "w", stdout);
-    freopen_s(&cerr_fp_, "CONOUT$", "w", stderr);
-  }
+#include <iostream>
+#include <vector>
+
+#include <Windows.h>
+
+#include <spdlog/sinks/msvc_sink.h>
+
+LogConsole::LogConsole() : should_free_console_() {
+  should_free_console_ = AllocConsole();
+
+  auto stdout_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+  p_logger_ = std::make_shared<spdlog::logger>("Bourgeon", stdout_sink);
+
+#ifdef _DEBUG
+  p_logger_->set_level(spdlog::level::debug);
+#else
+  p_logger_->set_level(spdlog::level::info);
+#endif
 }
 
 LogConsole::~LogConsole() {
-  if (cout_fp_ || cerr_fp_) FreeConsole();
-
-  if (cout_fp_) fclose(cout_fp_);
-  if (cerr_fp_) fclose(cerr_fp_);
+  if (should_free_console_) {
+    FreeConsole();
+  }
 }
 
-void LogConsole::LogInfo(const std::string& log) {
-  std::cout << log << std::endl;
+void LogConsole::Info(const std::string& msg) {
+  p_logger_->info(msg);
 }
 
-void LogConsole::LogError(const std::string& error) {
-  std::cerr << error << std::endl;
+void LogConsole::Error(const std::string& msg) {
+  p_logger_->error(msg);
 }
 
-void LogConsole::LogDebug(const std::string& log) {
-#ifdef _DEBUG
-  std::cout << log << std::endl;
-#endif
+void LogConsole::Debug(const std::string& msg) {
+  p_logger_->debug(msg);
 }

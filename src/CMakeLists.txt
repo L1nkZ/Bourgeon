@@ -50,7 +50,10 @@ set(BOURGEON_FILES
 
 add_library(bourgeon MODULE ${BOURGEON_FILES})
 target_include_directories(bourgeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(bourgeon PRIVATE /MT$<$<CONFIG:Debug>:d>)
+
 target_link_libraries(bourgeon pybind11::embed)
+target_link_libraries(bourgeon spdlog)
 
 foreach(source IN LISTS BOURGEON_FILES)
     get_filename_component(source_path "${source}" PATH)
