@@ -1,0 +1,13 @@
+version: 1.0.{build}
+image: Visual Studio 2015
+environment:
+  matrix:
+  - GENERATOR: '"Visual Studio 14 2015"'
+    BUILD_TYPE: Release
+build_script:
+- cmd: >-
+    mkdir build
+    cd build
+    cmake .. -G %GENERATOR% -DCMAKE_BUILD_TYPE=%BUILD_TYPE%
+    cmake --build . --config %BUILD_TYPE%
+test: off
