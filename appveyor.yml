@@ -6,6 +6,8 @@ environment:
     BUILD_TYPE: Release
 init:
 - git config --global core.autocrlf true
+install:
+- git submodule update --init --recursive
 build_script:
 - cmd: >-
     mkdir build
