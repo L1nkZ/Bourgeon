@@ -1,5 +1,4 @@
-#ifndef BOURGEON_RAGNAROK_TALKTYPE_H_
-#define BOURGEON_RAGNAROK_TALKTYPE_H_
+#pragma once
 
 enum TalkType {
   TT_NORMAL = 0x0,
@@ -142,5 +141,3 @@ enum TalkType {
   TT_REQ_EMOTION_HPTIME = 0x89,
   TT_BATTLE_ON_OFF = 0x8A,
 };
-
-#endif /* BOURGEON_RAGNAROK_TALKTYPE_H_ */

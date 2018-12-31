@@ -1,6 +1,8 @@
 #include "bourgeon.h"
-#include <pybind11/embed.h>
+
 #include <iostream>
+
+#include <pybind11/embed.h>
 
 namespace python {
 

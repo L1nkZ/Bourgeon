@@ -1,8 +1,8 @@
-#include "object_factory.h"
-#include "mode_mgr/20170613/mode_mgr.h"
-#include "rag_connection/20170613/rag_connection.h"
-#include "session/20170613/session.h"
-#include "ui_window_mgr/20170613/ui_window_mgr.h"
+#include "ragnarok/object_factory.h"
+#include "ragnarok/mode_mgr/20170613/mode_mgr.h"
+#include "ragnarok/rag_connection/20170613/rag_connection.h"
+#include "ragnarok/session/20170613/session.h"
+#include "ragnarok/ui_window_mgr/20170613/ui_window_mgr.h"
 
 Session::Pointer ObjectFactory::CreateSession(unsigned long timestamp) {
   Session::Pointer result;

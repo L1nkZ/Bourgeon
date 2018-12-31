@@ -1,11 +1,11 @@
-#ifndef BOURGEON_CORE_RAGNAROK_CLIENT_H_
-#define BOURGEON_CORE_RAGNAROK_CLIENT_H_
+#pragma once
 
 #include <string>
-#include "mode_mgr/mode_mgr.h"
-#include "rag_connection/rag_connection.h"
-#include "session/session.h"
-#include "ui_window_mgr/ui_window_mgr.h"
+
+#include "ragnarok/mode_mgr/mode_mgr.h"
+#include "ragnarok/rag_connection/rag_connection.h"
+#include "ragnarok/session/session.h"
+#include "ragnarok/ui_window_mgr/ui_window_mgr.h"
 
 class RagnarokClient {
  public:
@@ -37,5 +37,3 @@ class RagnarokClient {
   UIWindowMgr::Pointer window_mgr_;
   ModeMgr::Pointer mode_mgr_;
 };
-
-#endif  // BOURGEON_CORE_RAGNAROK_CLIENT_H_

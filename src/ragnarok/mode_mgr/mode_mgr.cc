@@ -1,5 +1,7 @@
-#include "mode_mgr.h"
+#include "ragnarok/mode_mgr/mode_mgr.h"
+
 #include <iostream>
+
 #include "bourgeon.h"
 
 void ModeMgr::SwitchHook(int mode_type, char const* map_name) {

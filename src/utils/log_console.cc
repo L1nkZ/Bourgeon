@@ -1,9 +1,8 @@
-#include "log_console.h"
-
-#include <iostream>
-#include <vector>
+#include "utils/log_console.h"
 
 #include <Windows.h>
+#include <iostream>
+#include <vector>
 
 #include <spdlog/sinks/msvc_sink.h>
 
@@ -26,14 +25,8 @@ LogConsole::~LogConsole() {
   }
 }
 
-void LogConsole::Info(const std::string& msg) {
-  p_logger_->info(msg);
-}
+void LogConsole::Info(const std::string &msg) { p_logger_->info(msg); }
 
-void LogConsole::Error(const std::string& msg) {
-  p_logger_->error(msg);
-}
+void LogConsole::Error(const std::string &msg) { p_logger_->error(msg); }
 
-void LogConsole::Debug(const std::string& msg) {
-  p_logger_->debug(msg);
-}
+void LogConsole::Debug(const std::string &msg) { p_logger_->debug(msg); }

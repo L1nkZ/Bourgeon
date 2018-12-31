@@ -3,7 +3,7 @@
 #include <list>
 #include <memory>
 
-#include "item_info.h"
+#include "ragnarok/session/item_info.h"
 #include "ragnarok/talktype.h"
 #include "utils/hooking/proxy.h"
 

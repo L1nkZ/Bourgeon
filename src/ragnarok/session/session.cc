@@ -1,5 +1,7 @@
-#include "session.h"
+#include "ragnarok/session/session.h"
+
 #include <iostream>
+
 #include "bourgeon.h"
 
 bool Session::GetItemInfoById(int nameid, ItemInfo& item_info) const {
@@ -18,7 +20,9 @@ bool Session::GetItemInfoById(int nameid, ItemInfo& item_info) const {
 std::string Session::GetItemNameById(int id) const {
   ItemInfo iinfo;
 
-  if (!GetItemInfoById(id, iinfo)) return "Unknown item";
+  if (!GetItemInfoById(id, iinfo)) {
+    return "Unknown item";
+  }
 
   return std::string(iinfo.item_name_);
 }

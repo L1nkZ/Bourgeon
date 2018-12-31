@@ -1,5 +1,4 @@
-#ifndef BOURGEON_RAGNAROK_ITEM_INFO_H_
-#define BOURGEON_RAGNAROK_ITEM_INFO_H_
+#pragma once
 
 struct ItemInfo {
   int item_type_;
@@ -17,5 +16,3 @@ struct ItemInfo {
   unsigned short is_yours_;
   long delete_time_;
 };
-
-#endif  // BOURGEON_RAGNAROK_ITEM_INFO_H_

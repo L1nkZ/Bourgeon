@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 #include "utils/hooking/proxy.h"
 
 class ModeMgr {

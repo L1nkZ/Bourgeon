@@ -1,15 +1,15 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include <spdlog/spdlog.h>
 
 class LogConsole {
  public:
-  LogConsole(LogConsole const &) = delete;
-  void operator=(LogConsole const &) = delete;
-  static LogConsole &instance() {
+  LogConsole(LogConsole const&) = delete;
+  void operator=(LogConsole const&) = delete;
+  static LogConsole& instance() {
     // Guaranteed to be destroyed.
     // Instantiated on first use.
     static LogConsole instance;
@@ -30,11 +30,8 @@ class LogConsole {
   std::shared_ptr<spdlog::logger> p_logger_;
 };
 
-#define LogInfo(fmt, ...)                                                     \
-  LogConsole::instance().Info(fmt, ##__VA_ARGS__)
+#define LogInfo(fmt, ...) LogConsole::instance().Info(fmt, ##__VA_ARGS__)
 
-#define LogError(fmt, ...)                                                    \
-  LogConsole::instance().Error(fmt, ##__VA_ARGS__)
+#define LogError(fmt, ...) LogConsole::instance().Error(fmt, ##__VA_ARGS__)
 
-#define LogDebug(fmt, ...)                                                    \
-  LogConsole::instance().Debug(fmt, ##__VA_ARGS__)
+#define LogDebug(fmt, ...) LogConsole::instance().Debug(fmt, ##__VA_ARGS__)

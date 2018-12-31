@@ -1,34 +1,43 @@
-#include "ragnarok_client.h"
+#include "ragnarok/ragnarok_client.h"
 
+#include <Windows.h>
 #include <iomanip>
 #include <sstream>
 
-#include "object_factory.h"
-#include "packets.h"
+#include "ragnarok/object_factory.h"
+#include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
-
-#include <Windows.h>
 
 RagnarokClient::RagnarokClient()
     : timestamp_(), session_(), rag_connection_(), window_mgr_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
-  if (timestamp_ == kUnknownTimeStamp) return false;
+  if (timestamp_ == kUnknownTimeStamp) {
+    return false;
+  }
 
   ObjectFactory factory;
   session_ = factory.CreateSession(timestamp_);
-  if (!session_) return false;
+  if (!session_) {
+    return false;
+  }
 
   rag_connection_ = factory.CreateRagConnection(timestamp_);
-  if (!rag_connection_) return false;
+  if (!rag_connection_) {
+    return false;
+  }
 
   window_mgr_ = factory.CreateUIWindowMgr(timestamp_);
-  if (!window_mgr_) return false;
+  if (!window_mgr_) {
+    return false;
+  }
 
   mode_mgr_ = factory.CreateModeMgr(timestamp_);
-  if (!mode_mgr_) return false;
+  if (!mode_mgr_) {
+    return false;
+  }
 
   return true;
 }
@@ -47,7 +56,9 @@ bool RagnarokClient::UseItemById(int item_id) const {
   PACKET_CZ_USE_ITEM packet;
   ItemInfo iinfo;
 
-  if (!session_->GetItemInfoById(item_id, iinfo)) return false;
+  if (!session_->GetItemInfoById(item_id, iinfo)) {
+    return false;
+  }
 
   packet.header = static_cast<short>(PacketHeader::CZ_USE_ITEM);
   packet.index = (unsigned short)iinfo.item_index_;

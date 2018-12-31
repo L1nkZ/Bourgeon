@@ -1,13 +1,13 @@
-#include "byte_pattern.h"
+#include "utils/byte_pattern.h"
 
-BytePattern::BytePattern(const std::vector<uint8_t>& pattern,
-                         const std::string& mask) {
+BytePattern::BytePattern(const std::vector<uint8_t> &pattern,
+                         const std::string &mask) {
   pattern_ = pattern;
   mask_ = mask;
 }
 
-void* BytePattern::Search(void* address, size_t len) {
-  uint8_t* haystack = reinterpret_cast<uint8_t*>(address);
+void *BytePattern::Search(void *address, size_t len) {
+  uint8_t *haystack = reinterpret_cast<uint8_t *>(address);
   size_t scan, nlen = mask_.length();
   size_t bad_char_skip[256];
 
@@ -20,8 +20,11 @@ void* BytePattern::Search(void* address, size_t len) {
 
   while (len >= nlen) {
     for (scan = last; mask_[scan] == '?' || haystack[scan] == pattern_[scan];
-         scan--)
-      if (scan == 0) return haystack;
+         scan--) {
+      if (scan == 0) {
+        return haystack;
+      }
+    }
 
     len -= bad_char_skip[haystack[last]];
     haystack += bad_char_skip[haystack[last]];
@@ -30,6 +33,6 @@ void* BytePattern::Search(void* address, size_t len) {
   return nullptr;
 }
 
-bool BytePattern::Match(void* address, size_t offset) { return false; }
+bool BytePattern::Match(void *address, size_t offset) { return false; }
 
 size_t BytePattern::GetSize() { return pattern_.size(); }

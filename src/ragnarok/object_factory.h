@@ -1,10 +1,9 @@
-#ifndef BOURGEON_RAGNAROK_OBJECT_FACTORY_H_
-#define BOURGEON_RAGNAROK_OBJECT_FACTORY_H_
+#pragma once
 
-#include "mode_mgr/mode_mgr.h"
-#include "rag_connection/rag_connection.h"
-#include "session/session.h"
-#include "ui_window_mgr/ui_window_mgr.h"
+#include "ragnarok/mode_mgr/mode_mgr.h"
+#include "ragnarok/rag_connection/rag_connection.h"
+#include "ragnarok/session/session.h"
+#include "ragnarok/ui_window_mgr/ui_window_mgr.h"
 
 class ObjectFactory {
  public:
@@ -13,5 +12,3 @@ class ObjectFactory {
   UIWindowMgr::Pointer CreateUIWindowMgr(unsigned long timestamp);
   ModeMgr::Pointer CreateModeMgr(unsigned long timestamp);
 };
-
-#endif BOURGEON_RAGNAROK_OBJECT_FACTORY_H_

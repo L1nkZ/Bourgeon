@@ -16,7 +16,7 @@ bool Bourgeon::Initialize() {
         "supported. (yet!)");
     return false;
   }
-  
+
   LogInfo("Bourgeon initialized successfully !");
   LogInfo("Detected client: " + std::to_string(client_.timestamp()));
   LoadPlugins("./plugins");
@@ -43,7 +43,7 @@ void Bourgeon::RegisterCallback(const std::string& callback_name,
                                 const pybind11::object& function) {
   try {
     LogInfo(function.attr("__name__").cast<std::string>() +
-                     " has been registered to " + callback_name);
+            " has been registered to " + callback_name);
   } catch (pybind11::error_already_set& error) {
     LogError(error.what());
   }
@@ -57,7 +57,7 @@ void Bourgeon::UnregisterCallback(const std::string& callback_name,
     if (function.ptr() == it->ptr()) {
       callbacks_[callback_name].erase(it);
       LogInfo(function.attr("__name__").cast<std::string>() +
-                       " has been unregistered from " + callback_name);
+              " has been unregistered from " + callback_name);
       break;
     }
   }
