@@ -12,7 +12,7 @@ LogConsole::LogConsole() : should_free_console_() {
   auto stdout_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
   p_logger_ = std::make_shared<spdlog::logger>("Bourgeon", stdout_sink);
 
-#ifdef _DEBUG
+#ifdef BOURGEON_DEBUG
   p_logger_->set_level(spdlog::level::debug);
 #else
   p_logger_->set_level(spdlog::level::info);
