@@ -47,17 +47,18 @@ set(BOURGEON_FILES
 	"utils/hooking/hook_manager.h"
 	"utils/hooking/proxy.h"
 )
-
-add_library(bourgeon MODULE ${BOURGEON_FILES})
-target_include_directories(bourgeon PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_compile_options(bourgeon PRIVATE /MT$<$<CONFIG:Debug>:d>)
-target_compile_definitions(bourgeon PRIVATE $<$<CONFIG:RelWithDebInfo>:BOURGEON_DEBUG>)
-
-target_link_libraries(bourgeon pybind11::embed)
-target_link_libraries(bourgeon spdlog)
-
 foreach(source IN LISTS BOURGEON_FILES)
     get_filename_component(source_path "${source}" PATH)
     string(REPLACE "/" "\\" source_path_msvc "${source_path}")
     source_group("${source_path_msvc}" FILES "${source}")
 endforeach()
+
+add_library(bourgeon MODULE ${BOURGEON_FILES})
+target_include_directories(bourgeon PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_compile_options(bourgeon PRIVATE "/MT")
+target_compile_definitions(bourgeon PUBLIC -DWITH_THREAD)
+target_compile_definitions(bourgeon PRIVATE -DBOURGEON_VERSION="${PROJECT_VERSION}")
+target_compile_definitions(bourgeon PRIVATE $<$<CONFIG:RelWithDebInfo>:BOURGEON_DEBUG>)
+
+target_link_libraries(bourgeon PRIVATE pybind11::embed)
+target_link_libraries(bourgeon PRIVATE spdlog)

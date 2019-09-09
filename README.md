@@ -12,8 +12,8 @@ Clients supported
 Requirements
 ------------
 * Python >= 3.5 (32-bit)
-* CMake
-* Visual Studio 2015
+* CMake >= 3.4
+* Visual Studio >= 2015
 
 Clone and build
 -----
@@ -21,10 +21,13 @@ Clone and build
 $ git clone https://github.com/L1nkZ/Bourgeon --recurse-submodules
 $ cd Bourgeon
 $ mkdir build && cd build
-$ cmake .. -T v140
+# You may need to do "cmake .. -A Win32", if you're using Visual Studio 2019
+$ cmake ..
 $ cmake --build . --config MinSizeRel
 ```
-Note: The project has to be built in Release mode for the C++ std objects to be exactly the same as the ones the game client uses.
+Note: The project has to be built in Release mode for it work.
+This is required to ensure ABI compatibility of our C++ std objects' and those
+of the game client's.
 
 How to use
 ----------

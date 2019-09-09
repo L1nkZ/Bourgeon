@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 struct ItemInfo {
   int item_type_;
   int location_;
