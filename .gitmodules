@@ -1,6 +1,6 @@
 [submodule "thirdparty/pybind11/pybind11"]
 	path = thirdparty/pybind11/pybind11
-	url = https://github.com/L1nkZ/pybind11.git
+	url = https://github.com/pybind/pybind11
 [submodule "thirdparty/spdlog/spdlog"]
 	path = thirdparty/spdlog/spdlog
-	url = https://github.com/L1nkZ/spdlog
+	url = https://github.com/gabime/spdlog
