@@ -1,13 +1,14 @@
 #include "utils/log_console.h"
 
 #include <Windows.h>
+
 #include <iostream>
 #include <vector>
 
-#include <spdlog/sinks/msvc_sink.h>
+#include "spdlog/sinks/msvc_sink.h"
 
 LogConsole::LogConsole() : should_free_console_() {
-  should_free_console_ = AllocConsole();
+  should_free_console_ = AllocConsole() == TRUE;
 
   auto stdout_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
   p_logger_ = std::make_shared<spdlog::logger>("Bourgeon", stdout_sink);

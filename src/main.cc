@@ -1,13 +1,15 @@
-#include "bourgeon.h"
-
 #include <Windows.h>
 
-static HANDLE bourgeon_thread;
+#include "bourgeon.h"
 
-void bourgeon_tick() { Bourgeon::Instance().RunTick(); }
+DWORD WINAPI bourgeon_tick(LPVOID) {
+  Bourgeon::Instance().RunTick();
+  return 0;
+}
 
 BOOL WINAPI DllMain(HINSTANCE hinst_dll, DWORD fdw_reason,
                     LPVOID lpv_reserved) {
+  static HANDLE bourgeon_thread;
   switch (fdw_reason) {
     case DLL_PROCESS_ATTACH:
       DisableThreadLibraryCalls(hinst_dll);
@@ -17,11 +19,13 @@ BOOL WINAPI DllMain(HINSTANCE hinst_dll, DWORD fdw_reason,
         return FALSE;
       }
 
-      bourgeon_thread = CreateThread(
-          NULL, 0, (LPTHREAD_START_ROUTINE)&bourgeon_tick, NULL, 0, NULL);
+      bourgeon_thread =
+          CreateThread(nullptr, 0, &bourgeon_tick, nullptr, 0, nullptr);
       break;
     case DLL_PROCESS_DETACH:
       TerminateThread(bourgeon_thread, 0);
+      break;
+    default:
       break;
   };
 

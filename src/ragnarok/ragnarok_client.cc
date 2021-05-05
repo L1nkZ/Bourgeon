@@ -1,6 +1,7 @@
 #include "ragnarok/ragnarok_client.h"
 
 #include <Windows.h>
+
 #include <iomanip>
 #include <sstream>
 

@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 
 class LogConsole {
  public:
@@ -26,7 +26,7 @@ class LogConsole {
   ~LogConsole();
 
  private:
-  int should_free_console_;
+  bool should_free_console_;
   std::shared_ptr<spdlog::logger> p_logger_;
 };
 

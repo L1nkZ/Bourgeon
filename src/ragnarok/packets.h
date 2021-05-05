@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 enum class PacketHeader { CZ_USE_ITEM = 0x439 };
 
 #pragma pack(push, 1)

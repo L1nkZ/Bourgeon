@@ -1,12 +1,13 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <thread>
 #include <unordered_map>
 #include <vector>
 
-#include <pybind11/embed.h>
+#include "pybind11/embed.h"
 #include "ragnarok/ragnarok_client.h"
 #include "utils/log_console.h"
 
@@ -40,6 +41,6 @@ class Bourgeon {
  private:
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
-  std::vector<unsigned long> plugin_threads_;
+  std::vector<uint32_t> plugin_threads_;
   RagnarokClient client_;
 };
