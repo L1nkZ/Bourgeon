@@ -1,6 +1,6 @@
 Bourgeon [![Build status](https://ci.appveyor.com/api/projects/status/aqtwv6lfq6g1pbxq?svg=true)](https://ci.appveyor.com/project/L1nkZ/bourgeon)
 --------
-Bourgeon is a C++14 library whose purpose is to provide an easy-to-use python
+Bourgeon is a C++14 library whose purpose is to provide an easy-to-use Python
 interface to implement plugins for Ragnarok Online clients.  
 
 *Note: This is a work in progress.*
@@ -21,7 +21,9 @@ Clone and build
 $ git clone https://github.com/L1nkZ/Bourgeon --recurse-submodules
 $ cd Bourgeon
 $ mkdir build && cd build
-# You may need to do "cmake .. -A Win32", if you're using Visual Studio 2019
+# You need to do "cmake .. -A Win32", if you're using Visual Studio 2019
+# You may also need to use -DPYTHON_EXECUTABLE:FILEPATH="C:\Path\To\python.exe"
+# if you have several version of Python installed (32 and 64 bit for example).
 $ cmake ..
 $ cmake --build . --config MinSizeRel
 ```

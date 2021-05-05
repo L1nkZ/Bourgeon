@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4)
 
 project(Bourgeon
   LANGUAGES CXX
-  VERSION 0.1
+  VERSION 0.1.0
 )
 
 # Prevent 64-bit build
