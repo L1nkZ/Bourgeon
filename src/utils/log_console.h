@@ -26,7 +26,6 @@ class LogConsole {
   ~LogConsole();
 
  private:
-  bool should_free_console_;
   std::shared_ptr<spdlog::logger> p_logger_;
 };
 

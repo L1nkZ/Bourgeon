@@ -10,6 +10,7 @@ DWORD WINAPI bourgeon_tick(LPVOID) {
 BOOL WINAPI DllMain(HINSTANCE hinst_dll, DWORD fdw_reason,
                     LPVOID lpv_reserved) {
   static HANDLE bourgeon_thread;
+
   switch (fdw_reason) {
     case DLL_PROCESS_ATTACH:
       DisableThreadLibraryCalls(hinst_dll);

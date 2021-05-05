@@ -7,11 +7,12 @@
 
 #include "spdlog/sinks/msvc_sink.h"
 
-LogConsole::LogConsole() : should_free_console_() {
-  should_free_console_ = AllocConsole() == TRUE;
+LogConsole::LogConsole() {
+  AllocConsole();
 
   auto stdout_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
-  p_logger_ = std::make_shared<spdlog::logger>("Bourgeon", stdout_sink);
+  p_logger_ =
+      std::make_shared<spdlog::logger>("Bourgeon", std::move(stdout_sink));
 
 #ifdef BOURGEON_DEBUG
   p_logger_->set_level(spdlog::level::debug);
@@ -20,11 +21,7 @@ LogConsole::LogConsole() : should_free_console_() {
 #endif
 }
 
-LogConsole::~LogConsole() {
-  if (should_free_console_) {
-    FreeConsole();
-  }
-}
+LogConsole::~LogConsole() {}
 
 void LogConsole::Info(const std::string &msg) { p_logger_->info(msg); }
 
