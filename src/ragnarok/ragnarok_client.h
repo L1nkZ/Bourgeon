@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "ragnarok/mode_mgr/mode_mgr.h"
-#include "ragnarok/rag_connection/rag_connection.h"
-#include "ragnarok/session/session.h"
-#include "ragnarok/ui_window_mgr/ui_window_mgr.h"
+#include "ragnarok/mode_mgr.h"
+#include "ragnarok/rag_connection.h"
+#include "ragnarok/session.h"
+#include "ragnarok/ui_window_mgr.h"
 
 class RagnarokClient {
  public:

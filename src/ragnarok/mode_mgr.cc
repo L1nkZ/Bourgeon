@@ -1,4 +1,4 @@
-#include "ragnarok/mode_mgr/mode_mgr.h"
+#include "ragnarok/mode_mgr.h"
 
 #include <iostream>
 

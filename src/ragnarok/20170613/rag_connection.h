@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ragnarok/rag_connection/rag_connection.h"
+#include "ragnarok/rag_connection.h"
 
 class RagConnection_20170613 final : public RagConnection {
  public:

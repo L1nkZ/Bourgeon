@@ -1,11 +1,10 @@
 #pragma once
 
-#include <stdint.h>
-
+#include <cstdint>
 #include <list>
 #include <vector>
 
-#include "ragnarok/session/session.h"
+#include "ragnarok/session.h"
 #include "ragnarok/talktype.h"
 
 class Session_20170613 final : public Session {
