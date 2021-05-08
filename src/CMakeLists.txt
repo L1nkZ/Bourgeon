@@ -3,6 +3,11 @@ set(BOURGEON_FILES
 	"bourgeon.cc"
 	"bourgeon.h"
 
+        # DDRAW Wrapper
+        "ddraw/ddraw.def"
+        "ddraw/ddraw.cc"
+        "ddraw/ddraw.h"
+
 	# Python
 	"python/bourgeon.cc"
 	"python/ragnarok_client.cc"
@@ -54,6 +59,7 @@ foreach(source IN LISTS BOURGEON_FILES)
 endforeach()
 
 add_library(bourgeon MODULE ${BOURGEON_FILES})
+set_target_properties(bourgeon PROPERTIES OUTPUT_NAME "ddraw")
 target_include_directories(bourgeon PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_options(bourgeon PRIVATE "/MT")
 target_compile_definitions(bourgeon PUBLIC -DWITH_THREAD -DNOMINMAX)
