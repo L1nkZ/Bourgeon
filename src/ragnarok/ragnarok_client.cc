@@ -10,6 +10,7 @@
 #include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
+#include "utils/log_console.h"
 
 RagnarokClient::RagnarokClient()
     : timestamp_(), session_(), rag_connection_(), window_mgr_() {}
@@ -17,8 +18,10 @@ RagnarokClient::RagnarokClient()
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
   if (timestamp_ == kUnknownTimeStamp) {
+    LogError("Failed to determine client date");
     return false;
   }
+  LogInfo("Detected client: " + std::to_string(timestamp_));
 
   ObjectFactory factory;
   session_ = factory.CreateSession(timestamp_);

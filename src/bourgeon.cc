@@ -18,7 +18,6 @@ bool Bourgeon::Initialize() {
   }
 
   LogInfo("Bourgeon initialized successfully !");
-  LogInfo("Detected client: " + std::to_string(client_.timestamp()));
   LoadPlugins("./plugins");
 
   return true;
