@@ -27,6 +27,12 @@ std::string Session::GetItemNameById(int id) const {
   return std::string(iinfo.item_name_);
 }
 
+void Session::SessionHook() {
+  LogDebug("Session: " + std::to_string((size_t)this));
+  this_ = this;
+  SessionRef(this);
+}
+
 int Session::GetTalkTypeHook(char const* chat_buffer, TalkType* talk_type,
                              void* param) {
   auto registrees = Bourgeon::Instance().GetCallbackRegistrees("OnTalkType");
@@ -46,6 +52,7 @@ int Session::GetTalkTypeHook(char const* chat_buffer, TalkType* talk_type,
 }
 
 // References
+MethodRef<Session, void (Session::*)()> Session::SessionRef;
 MethodRef<Session, int (Session::*)(const char* chatBuf,
                                     enum TalkType* talkType, void* param)>
     Session::GetTalkTypeRef;

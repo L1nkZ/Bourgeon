@@ -15,9 +15,11 @@ class RagConnection {
   bool SendPacket(int packet_len, char *packet);
 
   // Hooks
+  void ConnectionHook();
   bool SendPacketHook(int packet_len, char *packet);
 
  protected:
+  static MethodRef<RagConnection, void (RagConnection::*)()> ConnectionRef;
   static MethodRef<RagConnection,
                    bool (RagConnection::*)(int packet_len, char *packet)>
       SendPacketRef;

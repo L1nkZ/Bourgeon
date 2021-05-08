@@ -24,14 +24,18 @@ class Session {
   std::string GetItemNameById(int id) const;
 
   // Hooks
+  void SessionHook();
   int GetTalkTypeHook(char const *chat_buffer, TalkType *talk_type,
                       void *param);
 
  protected:
   virtual const std::list<ItemInfo> &item_list() const = 0;
 
+  static MethodRef<Session, void (Session::*)()> SessionRef;
   static MethodRef<Session,
                    int (Session::*)(const char *chatBuf,
                                     enum TalkType *talkType, void *param)>
       GetTalkTypeRef;
+
+  Session *this_;
 };

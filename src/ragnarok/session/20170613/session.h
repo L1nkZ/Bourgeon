@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+
 #include <list>
 #include <vector>
 
@@ -11,18 +12,12 @@ class Session_20170613 final : public Session {
  public:
   Session_20170613();
 
-  // void InitTalkTypeTable();
-  // int GetBodyState();
-  // int GetEffectState();
-  // int GetHealthState();
   uint32_t GetAid() const override;
   int GetMaxHp() const override;
   int GetHp() const override;
   int GetMaxSp() const override;
   int GetSp() const override;
   std::string GetCharName() const override;
-  // bool IsSiegeMode();
-  // bool IsBattleFieldMode();
 
  protected:
   const std::list<ItemInfo> &item_list() const override;
@@ -61,5 +56,4 @@ class Session_20170613 final : public Session {
     int sp_;
     int max_sp_;
   };
-  Attributes *this_;
 };

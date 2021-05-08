@@ -39,10 +39,13 @@ class UIWindowMgr {
   size_t SendMsg(UIMessage message, int val1, int val2, int val3, int val4);
 
   // Hooks
+  void UIWindowMgrHook();
   bool ProcessPushButtonHook(unsigned long vkey, int new_key, int accurate_key);
   size_t SendMsgHook(UIMessage message, int val1, int val2, int val3, int val4);
 
  protected:
+  static MethodRef<UIWindowMgr, void (UIWindowMgr::*)()>
+      UIWindowMgr::UIWindowMgrRef;
   static MethodRef<UIWindowMgr,
                    bool (UIWindowMgr::*)(unsigned long vkey, int new_key,
                                          int accurate_key)>

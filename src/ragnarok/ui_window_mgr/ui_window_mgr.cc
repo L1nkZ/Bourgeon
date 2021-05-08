@@ -1,5 +1,7 @@
 #include "ui_window_mgr.h"
+
 #include <iostream>
+
 #include "bourgeon.h"
 
 bool UIWindowMgr::ProcessPushButton(unsigned long vkey, int new_key,
@@ -10,6 +12,12 @@ bool UIWindowMgr::ProcessPushButton(unsigned long vkey, int new_key,
 size_t UIWindowMgr::SendMsg(UIMessage message, int val1, int val2, int val3,
                             int val4) {
   return SendMsgRef(this_, static_cast<int>(message), val1, val2, val3, val4);
+}
+
+void UIWindowMgr::UIWindowMgrHook() {
+  LogDebug("UIWindowMgr: " + std::to_string((size_t)this));
+  this_ = this;
+  UIWindowMgrRef(this);
 }
 
 bool UIWindowMgr::ProcessPushButtonHook(unsigned long vkey, int new_key,
@@ -51,6 +59,8 @@ size_t UIWindowMgr::SendMsgHook(UIMessage message, int val1, int val2, int val3,
 }
 
 // References
+MethodRef<UIWindowMgr, void (UIWindowMgr::*)()> UIWindowMgr::UIWindowMgrRef;
+
 MethodRef<UIWindowMgr, bool (UIWindowMgr::*)(unsigned long vkey, int new_key,
                                              int accurate_key)>
     UIWindowMgr::ProcessPushButtonRef;
