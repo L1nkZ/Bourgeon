@@ -13,7 +13,7 @@ class RagnarokClient {
 
   bool Initialize();
 
-  unsigned long timestamp() const;
+  uint32_t timestamp() const;
   Session& session() const;
   RagConnection& rag_connection() const;
   UIWindowMgr& window_mgr() const;
@@ -22,16 +22,15 @@ class RagnarokClient {
   bool UseItemById(int item_id) const;
 
  private:
-  unsigned long GetClientTimeStamp() const;
+  uint32_t GetClientTimeStamp() const;
   void* GetClientBase() const;
   std::string GetClientFilename() const;
-  unsigned long TranslateTimeStamp(const std::string& str) const;
 
  public:
-  const unsigned long kUnknownTimeStamp = 0;
+  const uint32_t kUnknownTimeStamp = 0;
 
  private:
-  unsigned long timestamp_;
+  uint32_t timestamp_;
   Session::Pointer session_;
   RagConnection::Pointer rag_connection_;
   UIWindowMgr::Pointer window_mgr_;
