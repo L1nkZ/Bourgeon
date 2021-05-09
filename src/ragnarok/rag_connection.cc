@@ -5,14 +5,11 @@
 #include "utils/hooking/hook_manager.h"
 #include "utils/log_console.h"
 
-static CRITICAL_SECTION sendpacket_cs;
 // Pointer to the game's RagConnection singleton instance
 std::atomic<RagConnection*> RagConnection::g_ragconnection_ptr(nullptr);
 
 RagConnection::RagConnection(const YAML::Node& ragconnection_configuration) {
   using namespace hooking;
-
-  InitializeCriticalSection(&sendpacket_cs);
 
   // Hooks
   const auto connection_addr = ragconnection_configuration["CConnection"];
@@ -37,13 +34,7 @@ RagConnection::RagConnection(const YAML::Node& ragconnection_configuration) {
 }
 
 bool RagConnection::SendPacket(int packet_len, char* packet) {
-  bool result;
-
-  EnterCriticalSection(&sendpacket_cs);
-  result = SendPacketRef(g_ragconnection_ptr.load(), packet_len, packet);
-  LeaveCriticalSection(&sendpacket_cs);
-
-  return result;
+  return SendPacketRef(g_ragconnection_ptr.load(), packet_len, packet);
 }
 
 void RagConnection::ConnectionHook() {
@@ -53,13 +44,7 @@ void RagConnection::ConnectionHook() {
 }
 
 bool RagConnection::SendPacketHook(int packet_len, char* packet) {
-  bool result;
-
-  EnterCriticalSection(&sendpacket_cs);
-  result = SendPacketRef(this, packet_len, packet);
-  LeaveCriticalSection(&sendpacket_cs);
-
-  return result;
+  return SendPacketRef(this, packet_len, packet);
 }
 
 // References

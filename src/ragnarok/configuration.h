@@ -18,6 +18,10 @@ const std::string kYamlConfiguration = R"(
     SendPacket: 0x0091e1f0
   CModeMgr:
     Switch: 0x006f4800
+  CLoginMode:
+    OnUpdate: 0x00A1F2A0
+  CGameMode:
+    OnUpdate: 0x00996910
 
 # 2019-01-16cRagexe
 20190116:
@@ -34,4 +38,8 @@ const std::string kYamlConfiguration = R"(
     SendPacket: 0x008d5410
   CModeMgr:
     Switch: 0x0075f850
+  CLoginMode:
+    OnUpdate: 0x009DED20
+  CGameMode:
+    OnUpdate: 0x0094EE20
 )";

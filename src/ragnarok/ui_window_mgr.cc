@@ -4,6 +4,7 @@
 
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
+#include "utils/log_console.h"
 
 // Pointer to the game's UIWindowMgr singleton instance
 std::atomic<UIWindowMgr*> UIWindowMgr::g_uiwindowmgr_ptr(nullptr);

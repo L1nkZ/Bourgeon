@@ -41,6 +41,3 @@ SESSION_IMPLEMENTATION(20190116, {
   /*+0x4E88*/ int32_t sp_;
   /*+0x4E8C*/ int32_t max_sp_;
 });
-
-TalkTypeTable lol;
-auto e = sizeof(lol);

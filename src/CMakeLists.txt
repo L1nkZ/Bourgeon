@@ -29,6 +29,10 @@ set(BOURGEON_FILES
 	"ragnarok/ui_window_mgr.h"
 	"ragnarok/mode_mgr.cc"
 	"ragnarok/mode_mgr.h"
+	"ragnarok/login_mode.cc"
+	"ragnarok/login_mode.h"
+	"ragnarok/game_mode.cc"
+	"ragnarok/game_mode.h"
 
         # Layouts
 	"ragnarok/object_layouts/session/layouts.h"

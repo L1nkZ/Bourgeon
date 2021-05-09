@@ -42,3 +42,13 @@ ModeMgr::Pointer ObjectFactory::CreateModeMgr(
     const YAML::Node& modemgr_configuration) {
   return std::make_unique<ModeMgr>(modemgr_configuration);
 }
+
+LoginMode::Pointer ObjectFactory::CreateLoginMode(
+    const YAML::Node& login_mode_configuration) {
+  return std::make_unique<LoginMode>(login_mode_configuration);
+}
+
+GameMode::Pointer ObjectFactory::CreateGameMode(
+    const YAML::Node& game_mode_configuration) {
+  return std::make_unique<GameMode>(game_mode_configuration);
+}

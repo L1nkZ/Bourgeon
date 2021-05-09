@@ -6,6 +6,7 @@
 
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
+#include "utils/log_console.h"
 
 // Pointer to the game's Session singleton instance
 std::atomic<Session*> Session::g_session_ptr(nullptr);

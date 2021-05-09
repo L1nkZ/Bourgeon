@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "ragnarok/game_mode.h"
+#include "ragnarok/login_mode.h"
 #include "ragnarok/mode_mgr.h"
 #include "ragnarok/rag_connection.h"
 #include "ragnarok/session.h"
@@ -35,4 +37,6 @@ class RagnarokClient {
   RagConnection::Pointer rag_connection_;
   UIWindowMgr::Pointer window_mgr_;
   ModeMgr::Pointer mode_mgr_;
+  LoginMode::Pointer login_mode_;
+  GameMode::Pointer game_mode_;
 };

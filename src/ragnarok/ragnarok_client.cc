@@ -14,7 +14,12 @@
 #include "utils/log_console.h"
 
 RagnarokClient::RagnarokClient()
-    : timestamp_(), session_(), rag_connection_(), window_mgr_() {}
+    : timestamp_(),
+      session_(),
+      rag_connection_(),
+      window_mgr_(),
+      login_mode_(),
+      game_mode_() {}
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
@@ -51,6 +56,16 @@ bool RagnarokClient::Initialize() {
 
   mode_mgr_ = factory.CreateModeMgr(client_configuration["CModeMgr"]);
   if (!mode_mgr_) {
+    return false;
+  }
+
+  login_mode_ = factory.CreateLoginMode(client_configuration["CLoginMode"]);
+  if (!login_mode_) {
+    return false;
+  }
+
+  game_mode_ = factory.CreateGameMode(client_configuration["CGameMode"]);
+  if (!game_mode_) {
     return false;
   }
 

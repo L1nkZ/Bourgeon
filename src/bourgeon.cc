@@ -2,8 +2,10 @@
 
 #include <Windows.h>
 
+#include "utils/log_console.h"
+
 Bourgeon::Bourgeon()
-    : interpreter_(), callbacks_(), plugin_threads_(), client_() {}
+    : interpreter_(), callbacks_(), client_(), last_tick_count_() {}
 
 RagnarokClient& Bourgeon::client() { return client_; }
 
@@ -21,18 +23,22 @@ bool Bourgeon::Initialize() {
   return true;
 }
 
-void Bourgeon::RunTick() {
-  // Process ticks indefinitely
-  for (;;) {
-    for (auto& registree : callbacks_["OnTick"]) {
-      try {
-        registree();
-      } catch (pybind11::error_already_set& error) {
-        LogError(error.what());
-        UnregisterCallback("OnTick", registree);
-      }
+void Bourgeon::OnTick() {
+  // Only run once every 100ms
+  const auto current_tick_count = GetTickCount();
+  if (current_tick_count >= last_tick_count_ &&
+      current_tick_count <= last_tick_count_ + 100) {
+    return;
+  }
+  last_tick_count_ = current_tick_count;
+
+  for (auto& registree : callbacks_["OnTick"]) {
+    try {
+      registree();
+    } catch (pybind11::error_already_set& error) {
+      LogError(error.what());
+      UnregisterCallback("OnTick", registree);
     }
-    Sleep(100);
   }
 }
 

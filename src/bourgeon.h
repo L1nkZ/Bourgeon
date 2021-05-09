@@ -9,7 +9,6 @@
 
 #include "pybind11/embed.h"
 #include "ragnarok/ragnarok_client.h"
-#include "utils/log_console.h"
 
 class Bourgeon {
  public:
@@ -24,7 +23,7 @@ class Bourgeon {
   RagnarokClient& client();
 
   bool Initialize();
-  void RunTick();
+  void OnTick();
 
   // Python related
   void RegisterCallback(const std::string& callback_name,
@@ -36,11 +35,11 @@ class Bourgeon {
 
  private:
   Bourgeon();
+
   void LoadPlugins(const std::string& folder);
 
- private:
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
-  std::vector<uint32_t> plugin_threads_;
   RagnarokClient client_;
+  uint32_t last_tick_count_;
 };
