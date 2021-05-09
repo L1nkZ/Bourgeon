@@ -81,7 +81,7 @@ bool RagnarokClient::UseItemById(int item_id) const {
 
   packet.header = static_cast<short>(PacketHeader::CZ_USE_ITEM);
   packet.index = (unsigned short)iinfo.item_index_;
-  packet.aid = session_->GetAid();
+  packet.aid = session_->aid();
 
   return rag_connection_->SendPacket(sizeof(PACKET_CZ_USE_ITEM),
                                      (char*)&packet);

@@ -30,8 +30,10 @@ set(BOURGEON_FILES
 	"ragnarok/mode_mgr.cc"
 	"ragnarok/mode_mgr.h"
 
-	"ragnarok/20170613/session.cc"
-	"ragnarok/20170613/session.h"
+        # Layouts
+	"ragnarok/object_layouts/session/layouts.h"
+	"ragnarok/object_layouts/session/macro_utils.h"
+	"ragnarok/object_layouts/session/20170613.h"
 
 	# Utils
 	"utils/byte_pattern.cc"

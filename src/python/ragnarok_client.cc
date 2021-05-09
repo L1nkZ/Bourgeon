@@ -22,17 +22,15 @@ PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
   //  return Bourgeon::Instance().client().session().GetItemNameById(item_id);
   //});
 
-  m.def("get_hp", []() -> int {
-    return Bourgeon::Instance().client().session().GetHp();
-  });
+  m.def("get_hp",
+        []() -> int { return Bourgeon::Instance().client().session().hp(); });
   m.def("get_max_hp", []() -> int {
-    return Bourgeon::Instance().client().session().GetMaxHp();
+    return Bourgeon::Instance().client().session().max_hp();
   });
-  m.def("get_sp", []() -> int {
-    return Bourgeon::Instance().client().session().GetSp();
-  });
+  m.def("get_sp",
+        []() -> int { return Bourgeon::Instance().client().session().sp(); });
   m.def("get_max_sp", []() -> int {
-    return Bourgeon::Instance().client().session().GetMaxSp();
+    return Bourgeon::Instance().client().session().max_sp();
   });
   m.def("get_char_name", []() -> std::string {
     return Bourgeon::Instance().client().session().GetCharName();

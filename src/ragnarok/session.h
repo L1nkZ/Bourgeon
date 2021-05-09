@@ -15,13 +15,14 @@ class Session {
   Session(const YAML::Node &session_configuration);
   virtual ~Session() = default;
 
-  virtual uint32_t GetAid() const = 0;
-  virtual int GetMaxHp() const = 0;
-  virtual int GetHp() const = 0;
-  virtual int GetMaxSp() const = 0;
-  virtual int GetSp() const = 0;
-  virtual std::string GetCharName() const = 0;
+  virtual uint32_t aid() const = 0;
+  virtual int max_hp() const = 0;
+  virtual int hp() const = 0;
+  virtual int max_sp() const = 0;
+  virtual int sp() const = 0;
+  virtual const char *char_name() const = 0;
 
+  std::string GetCharName() const;
   bool GetItemInfoById(int id, ItemInfo &item_info) const;
   std::string GetItemNameById(int id) const;
 

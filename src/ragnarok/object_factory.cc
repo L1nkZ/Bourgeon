@@ -1,6 +1,6 @@
 #include "ragnarok/object_factory.h"
 
-#include "ragnarok/20170613/session.h"
+#include "ragnarok/object_layouts/session/layouts.h"
 #include "utils/log_console.h"
 
 Session::Pointer ObjectFactory::CreateSession(
