@@ -53,7 +53,7 @@ std::string Session::GetCharName() const {
 }
 
 bool Session::GetItemInfoById(int nameid, ItemInfo& item_info) const {
-  const std::list<ItemInfo> ilist = item_list();
+  const auto& ilist = item_list();
 
   for (const auto& iinfo : ilist) {
     if (atoi(iinfo.item_name_.c_str()) == nameid) {

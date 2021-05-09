@@ -1,6 +1,5 @@
 #include "ui_window_mgr.h"
 
-#include <atomic>
 #include <iostream>
 
 #include "bourgeon.h"

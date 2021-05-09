@@ -22,7 +22,7 @@ const std::string kYamlConfiguration = R"(
 # 2019-01-16cRagexe
 20190116:
   CSession:
-    layout: 20170613
+    layout: 20190116
     CSession: 0x00a145b0
     GetTalkType: 0x00a226f0
   UIWindowMgr:

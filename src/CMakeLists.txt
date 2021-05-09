@@ -34,6 +34,7 @@ set(BOURGEON_FILES
 	"ragnarok/object_layouts/session/layouts.h"
 	"ragnarok/object_layouts/session/macro_utils.h"
 	"ragnarok/object_layouts/session/20170613.h"
+	"ragnarok/object_layouts/session/20190116.h"
 
 	# Utils
 	"utils/byte_pattern.cc"
