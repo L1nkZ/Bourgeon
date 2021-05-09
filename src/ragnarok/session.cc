@@ -5,7 +5,10 @@
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
 
-Session::Session(const YAML::Node& session_configuration) : this_() {
+// Pointer to the game's Session singleton instance
+std::atomic<Session*> Session::g_session_ptr(nullptr);
+
+Session::Session(const YAML::Node& session_configuration) {
   using namespace hooking;
 
   // Hooks
@@ -53,7 +56,7 @@ std::string Session::GetItemNameById(int id) const {
 
 void Session::SessionHook() {
   LogDebug("Session: " + std::to_string((size_t)this));
-  this_ = this;
+  g_session_ptr.store(this);
   SessionRef(this);
 }
 

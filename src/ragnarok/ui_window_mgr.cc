@@ -1,12 +1,15 @@
 #include "ui_window_mgr.h"
 
+#include <atomic>
 #include <iostream>
 
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
 
-UIWindowMgr::UIWindowMgr(const YAML::Node& uiwindowmgr_configuration)
-    : this_() {
+// Pointer to the game's UIWindowMgr singleton instance
+std::atomic<UIWindowMgr*> UIWindowMgr::g_uiwindowmgr_ptr(nullptr);
+
+UIWindowMgr::UIWindowMgr(const YAML::Node& uiwindowmgr_configuration) {
   using namespace hooking;
 
   // Hooks
@@ -44,17 +47,19 @@ UIWindowMgr::UIWindowMgr(const YAML::Node& uiwindowmgr_configuration)
 
 bool UIWindowMgr::ProcessPushButton(unsigned long vkey, int new_key,
                                     int accurate_key) {
-  return ProcessPushButtonRef(this_, vkey, new_key, accurate_key);
+  return ProcessPushButtonRef(g_uiwindowmgr_ptr.load(), vkey, new_key,
+                              accurate_key);
 }
 
 size_t UIWindowMgr::SendMsg(UIMessage message, int val1, int val2, int val3,
                             int val4) {
-  return SendMsgRef(this_, static_cast<int>(message), val1, val2, val3, val4);
+  return SendMsgRef(g_uiwindowmgr_ptr.load(), static_cast<int>(message), val1,
+                    val2, val3, val4);
 }
 
 void UIWindowMgr::UIWindowMgrHook() {
   LogDebug("UIWindowMgr: " + std::to_string((size_t)this));
-  this_ = this;
+  g_uiwindowmgr_ptr.store(this);
   UIWindowMgrRef(this);
 }
 

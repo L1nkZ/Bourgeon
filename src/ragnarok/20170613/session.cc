@@ -2,7 +2,9 @@
 
 #include "utils/hooking/proxy.h"
 
-#define THIS (reinterpret_cast<Session_20170613::Attributes*>(this_))
+#define THIS                                        \
+  (reinterpret_cast<Session_20170613::Attributes*>( \
+      Session::g_session_ptr.load()))
 
 Session_20170613::Session_20170613(const YAML::Node& session_configuration)
     : Session(session_configuration) {}

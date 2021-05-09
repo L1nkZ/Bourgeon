@@ -57,6 +57,5 @@ class UIWindowMgr {
                                            int val3, int val4)>
       SendMsgRef;
 
- protected:
-  UIWindowMgr* this_;
+  static std::atomic<UIWindowMgr*> g_uiwindowmgr_ptr;
 };

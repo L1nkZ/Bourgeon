@@ -39,5 +39,5 @@ class Session {
                                     enum TalkType *talkType, void *param)>
       GetTalkTypeRef;
 
-  Session *this_;
+  static std::atomic<Session *> g_session_ptr;
 };

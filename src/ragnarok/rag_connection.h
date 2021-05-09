@@ -25,6 +25,5 @@ class RagConnection {
                    bool (RagConnection::*)(int packet_len, char *packet)>
       SendPacketRef;
 
- protected:
-  RagConnection *this_;
+  static std::atomic<RagConnection *> g_ragconnection_ptr;
 };
