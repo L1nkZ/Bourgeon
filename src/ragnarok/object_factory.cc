@@ -1,63 +1,41 @@
 #include "ragnarok/object_factory.h"
 
-#include "ragnarok/20170613/mode_mgr.h"
-#include "ragnarok/20170613/rag_connection.h"
 #include "ragnarok/20170613/session.h"
-#include "ragnarok/20170613/ui_window_mgr.h"
+#include "utils/log_console.h"
 
-Session::Pointer ObjectFactory::CreateSession(unsigned long timestamp) {
+Session::Pointer ObjectFactory::CreateSession(
+    const YAML::Node& session_configuration) {
   Session::Pointer result;
 
-  switch (timestamp) {
+  const auto session_layout = session_configuration["layout"];
+  if (!session_layout.IsDefined()) {
+    LogError("Missing required field 'layout' for Session");
+    return nullptr;
+  }
+
+  switch (session_layout.as<uint32_t>()) {
     case 20170613:
-      result = std::make_unique<Session_20170613>();
+      result = std::make_unique<Session_20170613>(session_configuration);
       break;
     default:
       result = nullptr;
+      break;
   }
 
   return result;
 }
 
 RagConnection::Pointer ObjectFactory::CreateRagConnection(
-    unsigned long timestamp) {
-  RagConnection::Pointer result;
-
-  switch (timestamp) {
-    case 20170613:
-      result = std::make_unique<RagConnection_20170613>();
-      break;
-    default:
-      result = nullptr;
-  }
-
-  return result;
+    const YAML::Node& ragconnection_configuration) {
+  return std::make_unique<RagConnection>(ragconnection_configuration);
 }
 
-UIWindowMgr::Pointer ObjectFactory::CreateUIWindowMgr(unsigned long timestamp) {
-  UIWindowMgr::Pointer result;
-
-  switch (timestamp) {
-    case 20170613:
-      result = std::make_unique<UIWindowMgr_20170613>();
-      break;
-    default:
-      result = nullptr;
-  }
-
-  return result;
+UIWindowMgr::Pointer ObjectFactory::CreateUIWindowMgr(
+    const YAML::Node& uiwindowmgr_configuration) {
+  return std::make_unique<UIWindowMgr>(uiwindowmgr_configuration);
 }
 
-ModeMgr::Pointer ObjectFactory::CreateModeMgr(unsigned long timestamp) {
-  ModeMgr::Pointer result;
-
-  switch (timestamp) {
-    case 20170613:
-      result = std::make_unique<ModeMgr_20170613>();
-      break;
-    default:
-      result = nullptr;
-  }
-
-  return result;
+ModeMgr::Pointer ObjectFactory::CreateModeMgr(
+    const YAML::Node& modemgr_configuration) {
+  return std::make_unique<ModeMgr>(modemgr_configuration);
 }

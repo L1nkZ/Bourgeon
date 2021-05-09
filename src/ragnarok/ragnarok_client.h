@@ -6,9 +6,12 @@
 #include "ragnarok/rag_connection.h"
 #include "ragnarok/session.h"
 #include "ragnarok/ui_window_mgr.h"
+#include "yaml-cpp/yaml.h"
 
 class RagnarokClient {
  public:
+  static const uint32_t kUnknownTimeStamp = 0;
+
   RagnarokClient();
 
   bool Initialize();
@@ -22,14 +25,11 @@ class RagnarokClient {
   bool UseItemById(int item_id) const;
 
  private:
-  uint32_t GetClientTimeStamp() const;
-  void* GetClientBase() const;
-  std::string GetClientFilename() const;
+  static YAML::Node LoadConfiguration();
+  static uint32_t GetClientTimeStamp();
+  static void* GetClientBase();
+  static std::string GetClientFilename();
 
- public:
-  const uint32_t kUnknownTimeStamp = 0;
-
- private:
   uint32_t timestamp_;
   Session::Pointer session_;
   RagConnection::Pointer rag_connection_;

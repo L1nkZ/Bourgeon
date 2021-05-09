@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "utils/hooking/proxy.h"
+#include "yaml-cpp/yaml.h"
 
 enum class UIMessage {
   UIM_CREATESTATUSWND = 0x0,
@@ -32,6 +33,7 @@ class UIWindowMgr {
  public:
   using Pointer = std::unique_ptr<UIWindowMgr>;
 
+  UIWindowMgr(const YAML::Node& uiwindowmgr_configuration);
   virtual ~UIWindowMgr() = default;
 
   // Original

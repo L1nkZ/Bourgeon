@@ -3,6 +3,30 @@
 #include <iostream>
 
 #include "bourgeon.h"
+#include "utils/hooking/hook_manager.h"
+
+Session::Session(const YAML::Node& session_configuration) : this_() {
+  using namespace hooking;
+
+  // Hooks
+  const auto session_addr = session_configuration["CSession"];
+  if (!session_addr.IsDefined()) {
+    throw std::exception("Missing required field 'CSession' for Session");
+  }
+  Session::SessionRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook,
+      reinterpret_cast<uint8_t*>(session_addr.as<uint32_t>()),
+      reinterpret_cast<uint8_t*>(void_cast(&Session::SessionHook)));
+
+  const auto getalktype_addr = session_configuration["GetTalkType"];
+  if (!getalktype_addr.IsDefined()) {
+    throw std::exception("Missing required field 'GetTalkType' for Session");
+  }
+  Session::GetTalkTypeRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook,
+      reinterpret_cast<uint8_t*>(getalktype_addr.as<uint32_t>()),
+      reinterpret_cast<uint8_t*>(void_cast(&Session::GetTalkTypeHook)));
+}
 
 bool Session::GetItemInfoById(int nameid, ItemInfo& item_info) const {
   const std::list<ItemInfo> ilist = item_list();

@@ -13,6 +13,7 @@ set(BOURGEON_FILES
 	"python/ragnarok_client.cc"
 
 	# Ragnarok
+	"ragnarok/configuration.h"
 	"ragnarok/ragnarok_client.cc"
 	"ragnarok/ragnarok_client.h"
 	"ragnarok/object_factory.cc"
@@ -31,12 +32,6 @@ set(BOURGEON_FILES
 
 	"ragnarok/20170613/session.cc"
 	"ragnarok/20170613/session.h"
-	"ragnarok/20170613/rag_connection.cc"
-	"ragnarok/20170613/rag_connection.h"
-	"ragnarok/20170613/ui_window_mgr.cc"
-	"ragnarok/20170613/ui_window_mgr.h"
-	"ragnarok/20170613/mode_mgr.cc"
-	"ragnarok/20170613/mode_mgr.h"
 
 	# Utils
 	"utils/byte_pattern.cc"
@@ -63,5 +58,4 @@ target_compile_definitions(bourgeon PUBLIC -DWITH_THREAD -DNOMINMAX)
 target_compile_definitions(bourgeon PRIVATE -DBOURGEON_VERSION="${PROJECT_VERSION}")
 target_compile_definitions(bourgeon PRIVATE $<$<CONFIG:RelWithDebInfo>:BOURGEON_DEBUG>)
 
-target_link_libraries(bourgeon PRIVATE pybind11::embed)
-target_link_libraries(bourgeon PRIVATE spdlog)
+target_link_libraries(bourgeon PRIVATE pybind11::embed spdlog yaml-cpp)

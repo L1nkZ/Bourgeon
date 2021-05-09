@@ -3,12 +3,13 @@
 #include <memory>
 
 #include "utils/hooking/proxy.h"
+#include "yaml-cpp/yaml.h"
 
 class RagConnection {
  public:
   using Pointer = std::unique_ptr<RagConnection>;
 
-  RagConnection();
+  RagConnection(const YAML::Node &ragconnection_configuration);
 
   virtual ~RagConnection() = default;
 

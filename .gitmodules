@@ -4,3 +4,6 @@
 [submodule "thirdparty/spdlog/spdlog"]
 	path = thirdparty/spdlog/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "thirdparty/yaml-cpp/yaml-cpp"]
+	path = thirdparty/yaml-cpp/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git

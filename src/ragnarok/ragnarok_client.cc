@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <sstream>
 
+#include "ragnarok/configuration.h"
 #include "ragnarok/object_factory.h"
 #include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
@@ -21,30 +22,43 @@ bool RagnarokClient::Initialize() {
     LogError("Failed to determine client date");
     return false;
   }
-  LogInfo("Detected client: " + std::to_string(timestamp_));
+  const auto timestamp_as_str = std::to_string(timestamp_);
+  LogInfo("Detected client: " + timestamp_as_str);
+
+  const YAML::Node configuration = LoadConfiguration();
+  const auto client_configuration = configuration[timestamp_as_str];
+  if (!client_configuration.IsDefined()) {
+    LogError("This client isn't supported");
+    return false;
+  }
 
   ObjectFactory factory;
-  session_ = factory.CreateSession(timestamp_);
+  session_ = factory.CreateSession(client_configuration["CSession"]);
   if (!session_) {
     return false;
   }
 
-  rag_connection_ = factory.CreateRagConnection(timestamp_);
+  rag_connection_ =
+      factory.CreateRagConnection(client_configuration["CRagConnection"]);
   if (!rag_connection_) {
     return false;
   }
 
-  window_mgr_ = factory.CreateUIWindowMgr(timestamp_);
+  window_mgr_ = factory.CreateUIWindowMgr(client_configuration["UIWindowMgr"]);
   if (!window_mgr_) {
     return false;
   }
 
-  mode_mgr_ = factory.CreateModeMgr(timestamp_);
+  mode_mgr_ = factory.CreateModeMgr(client_configuration["CModeMgr"]);
   if (!mode_mgr_) {
     return false;
   }
 
   return true;
+}
+
+YAML::Node RagnarokClient::LoadConfiguration() {
+  return YAML::Load(kYamlConfiguration);
 }
 
 uint32_t RagnarokClient::timestamp() const { return timestamp_; }
@@ -73,11 +87,11 @@ bool RagnarokClient::UseItemById(int item_id) const {
                                      (char*)&packet);
 }
 
-uint32_t RagnarokClient::GetClientTimeStamp() const {
+uint32_t RagnarokClient::GetClientTimeStamp() {
   const auto* const p_client_base =
       static_cast<const uint8_t*>(GetClientBase());
   if (p_client_base == nullptr) {
-    return kUnknownTimeStamp;
+    return RagnarokClient::kUnknownTimeStamp;
   }
 
   const auto* p_dos_header =
@@ -92,11 +106,11 @@ uint32_t RagnarokClient::GetClientTimeStamp() const {
   return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
 }
 
-void* RagnarokClient::GetClientBase() const {
+void* RagnarokClient::GetClientBase() {
   return static_cast<void*>(GetModuleHandleW(nullptr));
 }
 
-std::string RagnarokClient::GetClientFilename() const {
+std::string RagnarokClient::GetClientFilename() {
   std::array<char, MAX_PATH> filename;
 
   GetModuleFileNameA(nullptr, filename.data(), filename.size());

@@ -3,11 +3,13 @@
 #include <memory>
 
 #include "utils/hooking/proxy.h"
+#include "yaml-cpp/yaml.h"
 
 class ModeMgr {
  public:
   using Pointer = std::unique_ptr<ModeMgr>;
 
+  ModeMgr(const YAML::Node &modemgr_configuration);
   virtual ~ModeMgr() = default;
 
   // Hooks

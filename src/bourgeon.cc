@@ -11,13 +11,11 @@ bool Bourgeon::Initialize() {
   LogInfo("Bourgeon " BOURGEON_VERSION "\n");
 
   if (!client_.Initialize()) {
-    LogError(
-        "Bourgeon failed to initialize, your client is most likely not "
-        "supported. (yet!)");
+    LogError("Bourgeon failed to initialize");
     return false;
   }
 
-  LogInfo("Bourgeon initialized successfully !");
+  LogInfo("Bourgeon initialized successfully!");
   LoadPlugins("./plugins");
 
   return true;

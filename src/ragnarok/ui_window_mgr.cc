@@ -3,6 +3,44 @@
 #include <iostream>
 
 #include "bourgeon.h"
+#include "utils/hooking/hook_manager.h"
+
+UIWindowMgr::UIWindowMgr(const YAML::Node& uiwindowmgr_configuration)
+    : this_() {
+  using namespace hooking;
+
+  // Hooks
+  const auto uiwindowmgr_addr = uiwindowmgr_configuration["UIWindowMgr"];
+  if (!uiwindowmgr_addr.IsDefined()) {
+    throw std::exception(
+        "Missing required field 'UIWindowMgr' for UIWindowMgr");
+  }
+  UIWindowMgr::UIWindowMgrRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook,
+      reinterpret_cast<uint8_t*>(uiwindowmgr_addr.as<uint32_t>()),
+      reinterpret_cast<uint8_t*>(void_cast(&UIWindowMgr::UIWindowMgrHook)));
+
+  const auto processpushbtn_addr =
+      uiwindowmgr_configuration["ProcessPushButton"];
+  if (!processpushbtn_addr.IsDefined()) {
+    throw std::exception(
+        "Missing required field 'ProcessPushButton' for UIWindowMgr");
+  }
+  UIWindowMgr::ProcessPushButtonRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook,
+      reinterpret_cast<uint8_t*>(processpushbtn_addr.as<uint32_t>()),
+      reinterpret_cast<uint8_t*>(
+          void_cast(&UIWindowMgr::ProcessPushButtonHook)));
+
+  const auto sendmsg_addr = uiwindowmgr_configuration["SendMsg"];
+  if (!sendmsg_addr.IsDefined()) {
+    throw std::exception("Missing required field 'SendMsg' for UIWindowMgr");
+  }
+  UIWindowMgr::SendMsgRef = HookManager::Instance().SetHook(
+      HookType::kJmpHook,
+      reinterpret_cast<uint8_t*>(sendmsg_addr.as<uint32_t>()),
+      reinterpret_cast<uint8_t*>(void_cast(&UIWindowMgr::SendMsgHook)));
+}
 
 bool UIWindowMgr::ProcessPushButton(unsigned long vkey, int new_key,
                                     int accurate_key) {

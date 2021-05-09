@@ -1,21 +1,11 @@
 #include "session.h"
 
-#include "utils/hooking/hook_manager.h"
 #include "utils/hooking/proxy.h"
 
 #define THIS (reinterpret_cast<Session_20170613::Attributes*>(this_))
 
-Session_20170613::Session_20170613() {
-  using namespace hooking;
-
-  // Hooks
-  Session::SessionRef = HookManager::Instance().SetHook(
-      HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x00A50B70),
-      reinterpret_cast<uint8_t*>(void_cast(&Session::SessionHook)));
-  Session::GetTalkTypeRef = HookManager::Instance().SetHook(
-      HookType::kJmpHook, reinterpret_cast<uint8_t*>(0x00A5E960),
-      reinterpret_cast<uint8_t*>(void_cast(&Session::GetTalkTypeHook)));
-}
+Session_20170613::Session_20170613(const YAML::Node& session_configuration)
+    : Session(session_configuration) {}
 
 uint32_t Session_20170613::GetAid() const { return THIS->aid_; }
 

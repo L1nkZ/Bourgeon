@@ -6,10 +6,11 @@
 
 #include "ragnarok/session.h"
 #include "ragnarok/talktype.h"
+#include "yaml-cpp/yaml.h"
 
 class Session_20170613 final : public Session {
  public:
-  Session_20170613();
+  Session_20170613(const YAML::Node &session_configuration);
 
   uint32_t GetAid() const override;
   int GetMaxHp() const override;

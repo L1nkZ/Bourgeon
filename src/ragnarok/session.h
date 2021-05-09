@@ -6,11 +6,13 @@
 #include "ragnarok/item_info.h"
 #include "ragnarok/talktype.h"
 #include "utils/hooking/proxy.h"
+#include "yaml-cpp/yaml.h"
 
 class Session {
  public:
   using Pointer = std::unique_ptr<Session>;
 
+  Session(const YAML::Node &session_configuration);
   virtual ~Session() = default;
 
   virtual uint32_t GetAid() const = 0;
