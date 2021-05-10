@@ -5,9 +5,10 @@ interface to implement plugins for Ragnarok Online clients.
 
 *Note: This is a work in progress.*
 
-Clients supported
+Supported Clients
 -----------------
-* 2017-06-14a
+* 2017-06-14bRagexeRE
+* 2019-01-16cRagexe
 
 Requirements
 ------------
@@ -33,8 +34,9 @@ of the game client's.
 
 How to use
 ----------
-* Build the module (*bourgeon.dll*)
-* Move the module to your Ragnarok folder and rename it to **bourgeon.mix**
+* Build the module (*ddraw.dll*)
+* Move the module to your Ragnarok folder
+* Make sure *python3x.dll* is in your PATH or in your Ragnarok folder
 * Create a folder named **plugins** in your Ragnarok folder and put your plugins into it
 * Run your Ragnarok client
 
