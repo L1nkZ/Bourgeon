@@ -12,11 +12,13 @@ class ObjectFactory {
  public:
   Session::Pointer CreateSession(const YAML::Node& session_configuration);
   RagConnection::Pointer CreateRagConnection(
-      const YAML::Node& ragconnection_configuration);
+      const YAML::Node& ragconnection_configuration) noexcept;
   UIWindowMgr::Pointer CreateUIWindowMgr(
-      const YAML::Node& uiwindowmgr_configuration);
-  ModeMgr::Pointer CreateModeMgr(const YAML::Node& modemgr_configuration);
+      const YAML::Node& uiwindowmgr_configuration) noexcept;
+  ModeMgr::Pointer CreateModeMgr(
+      const YAML::Node& modemgr_configuration) noexcept;
   LoginMode::Pointer CreateLoginMode(
-      const YAML::Node& login_mode_configuration);
-  GameMode::Pointer CreateGameMode(const YAML::Node& game_mode_configuration);
+      const YAML::Node& login_mode_configuration) noexcept;
+  GameMode::Pointer CreateGameMode(
+      const YAML::Node& game_mode_configuration) noexcept;
 };

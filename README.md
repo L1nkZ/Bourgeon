@@ -26,7 +26,7 @@ $ mkdir build && cd build
 # You may also need to use -DPYTHON_EXECUTABLE:FILEPATH="C:\Path\To\python.exe"
 # if you have several version of Python installed (32 and 64 bit for example).
 $ cmake ..
-$ cmake --build . --config MinSizeRel
+$ cmake --build . --config Release
 ```
 Note: The project has to be built in Release mode for it work.
 This is required to ensure ABI compatibility of our C++ std objects' and those

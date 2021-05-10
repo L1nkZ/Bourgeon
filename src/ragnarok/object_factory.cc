@@ -13,42 +13,73 @@ Session::Pointer ObjectFactory::CreateSession(
     return nullptr;
   }
 
-  switch (session_layout.as<uint32_t>()) {
-    case 20170613:
-      result = std::make_unique<Session_20170613>(session_configuration);
-      break;
-    case 20190116:
-      result = std::make_unique<Session_20190116>(session_configuration);
-      break;
-    default:
-      result = nullptr;
-      break;
-  }
+  try {
+    switch (session_layout.as<uint32_t>()) {
+      case 20170613:
+        result = std::make_unique<Session_20170613>(session_configuration);
+        break;
+      case 20190116:
+        result = std::make_unique<Session_20190116>(session_configuration);
+        break;
+      default:
+        result = nullptr;
+        break;
+    }
 
-  return result;
+    return result;
+  } catch (std::exception& ex) {
+    LogError(std::string("CSession configuration is invalid") + ex.what());
+    return nullptr;
+  }
 }
 
 RagConnection::Pointer ObjectFactory::CreateRagConnection(
-    const YAML::Node& ragconnection_configuration) {
-  return std::make_unique<RagConnection>(ragconnection_configuration);
+    const YAML::Node& ragconnection_configuration) noexcept {
+  try {
+    return std::make_unique<RagConnection>(ragconnection_configuration);
+  } catch (std::exception& ex) {
+    LogError(std::string("CRagConnection configuration is invalid: ") +
+             ex.what());
+    return nullptr;
+  }
 }
 
 UIWindowMgr::Pointer ObjectFactory::CreateUIWindowMgr(
-    const YAML::Node& uiwindowmgr_configuration) {
-  return std::make_unique<UIWindowMgr>(uiwindowmgr_configuration);
+    const YAML::Node& uiwindowmgr_configuration) noexcept {
+  try {
+    return std::make_unique<UIWindowMgr>(uiwindowmgr_configuration);
+  } catch (std::exception& ex) {
+    LogError(std::string("UIWindowMgr configuration is invalid") + ex.what());
+    return nullptr;
+  }
 }
 
 ModeMgr::Pointer ObjectFactory::CreateModeMgr(
-    const YAML::Node& modemgr_configuration) {
-  return std::make_unique<ModeMgr>(modemgr_configuration);
+    const YAML::Node& modemgr_configuration) noexcept {
+  try {
+    return std::make_unique<ModeMgr>(modemgr_configuration);
+  } catch (std::exception& ex) {
+    LogError(std::string("CModeMgr configuration is invalid") + ex.what());
+    return nullptr;
+  }
 }
 
 LoginMode::Pointer ObjectFactory::CreateLoginMode(
-    const YAML::Node& login_mode_configuration) {
-  return std::make_unique<LoginMode>(login_mode_configuration);
+    const YAML::Node& login_mode_configuration) noexcept {
+  try {
+    return std::make_unique<LoginMode>(login_mode_configuration);
+  } catch (std::exception& ex) {
+    LogError(std::string("CLoginMode configuration is invalid") + ex.what());
+    return nullptr;
+  }
 }
 
 GameMode::Pointer ObjectFactory::CreateGameMode(
-    const YAML::Node& game_mode_configuration) {
-  return std::make_unique<GameMode>(game_mode_configuration);
+    const YAML::Node& game_mode_configuration) noexcept {
+  try {
+    return std::make_unique<GameMode>(game_mode_configuration);
+  } catch (std::exception& ex) {
+    LogError(std::string("CGameMode configuration is invalid") + ex.what());
+    return nullptr;
+  }
 }
