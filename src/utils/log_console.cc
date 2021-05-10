@@ -8,7 +8,10 @@
 #include "spdlog/sinks/msvc_sink.h"
 
 LogConsole::LogConsole() {
-  AllocConsole();
+  if (AllocConsole() == TRUE) {
+    FILE *out;
+    freopen_s(&out, "CONOUT$", "w", stdout);
+  }
 
   auto stdout_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
   p_logger_ =
