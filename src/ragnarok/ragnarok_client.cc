@@ -114,15 +114,36 @@ uint32_t RagnarokClient::GetClientTimeStamp() {
   const auto* p_nt_headers = reinterpret_cast<const IMAGE_NT_HEADERS*>(
       p_client_base + p_dos_header->e_lfanew);
 
-  const std::time_t temp = p_nt_headers->FileHeader.TimeDateStamp;
-  std::tm time{};
-  gmtime_s(&time, &temp);
+  // Check PE timestamp
+  if (p_nt_headers->FileHeader.TimeDateStamp != 0) {
+    return ConvertClientTimestamp(p_nt_headers->FileHeader.TimeDateStamp);
+  }
 
-  return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
+  const IMAGE_DATA_DIRECTORY& dir =
+      p_nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG];
+  if (dir.Size == 0 || dir.VirtualAddress == 0) {
+    return kUnknownTimeStamp;
+  }
+
+  // Check the debug data directory timestamp
+  const auto* p_dbg_dir = reinterpret_cast<const IMAGE_DEBUG_DIRECTORY*>(
+      p_client_base + dir.VirtualAddress);
+  if (p_dbg_dir->TimeDateStamp != 0) {
+    return ConvertClientTimestamp(p_dbg_dir->TimeDateStamp);
+  }
+
+  return kUnknownTimeStamp;
 }
 
 void* RagnarokClient::GetClientBase() {
   return static_cast<void*>(GetModuleHandleW(nullptr));
+}
+
+uint32_t RagnarokClient::ConvertClientTimestamp(uint32_t timestamp) {
+  const std::time_t temp = timestamp;
+  std::tm time{};
+  gmtime_s(&time, &temp);
+  return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
 }
 
 std::string RagnarokClient::GetClientFilename() {

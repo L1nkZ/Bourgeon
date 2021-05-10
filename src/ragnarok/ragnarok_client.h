@@ -30,6 +30,7 @@ class RagnarokClient {
   static YAML::Node LoadConfiguration();
   static uint32_t GetClientTimeStamp();
   static void* GetClientBase();
+  static uint32_t ConvertClientTimestamp(uint32_t timestamp);
   static std::string GetClientFilename();
 
   uint32_t timestamp_;
