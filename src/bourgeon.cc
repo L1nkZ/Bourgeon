@@ -24,7 +24,7 @@ bool Bourgeon::Initialize() {
 }
 
 void Bourgeon::OnTick() {
-  // Only run once every 100ms
+  // Only run once every 100ms (6 frames at 60fps)
   const auto current_tick_count = GetTickCount();
   if (current_tick_count >= last_tick_count_ &&
       current_tick_count <= last_tick_count_ + 100) {

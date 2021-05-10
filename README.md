@@ -7,6 +7,7 @@ interface to implement plugins for Ragnarok Online clients.
 
 Supported Clients
 -----------------
+* 2015-11-04aRagexe
 * 2017-06-14bRagexeRE
 * 2019-01-16cRagexe
 

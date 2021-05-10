@@ -8,7 +8,7 @@
 #include "ragnarok/item_info.h"
 #include "ragnarok/object_layouts/session/macro_utils.h"
 
-SESSION_IMPLEMENTATION(20170613, {
+SESSION_IMPLEMENTATION(20151102, {
   /*+0x000*/ int32_t cur_map_type_;
   /*+0x004*/ uint8_t padding0[0x64C];
   /*+0x650*/ char char_name_[0x40];
@@ -29,15 +29,15 @@ SESSION_IMPLEMENTATION(20170613, {
   /*+0xB30*/ int32_t effect_state_;
   /*+0xB34*/ int32_t pos_x_;
   /*+0xB38*/ int32_t pos_y_;
-  /*+0xB3C*/ uint8_t padding2[0x6C4];
-  /*+0x1200*/ uint32_t aid_;
-  /*+0x1204*/ uint8_t padding3[0xEC];
-  /*+0x12F0*/ std::list<ItemInfo> item_list_;
-  /*+0x12F8*/ uint8_t padding4[0x3464];
-  /*+0x475C*/ TalkTypeTable talk_type_table_;
-  /*+0x4768*/ uint8_t padding5[0x3F0];
-  /*+0x4B58*/ int32_t hp_;
-  /*+0x4B5C*/ int32_t max_hp_;
-  /*+0x4B60*/ int32_t sp_;
-  /*+0x4B64*/ int32_t max_sp_;
+  /*+0xB3C*/ uint8_t padding2[0x6C8];
+  /*+0x1204*/ uint32_t aid_;
+  /*+0x1208*/ uint8_t padding3[0xE0];
+  /*+0x12E8*/ std::list<ItemInfo> item_list_;
+  /*+0x12F0*/ uint8_t padding4[0x3464];
+  /*+0x4754*/ TalkTypeTable talk_type_table_;
+  /*+0x4760*/ uint8_t padding5[0x3A4];
+  /*+0x4B04*/ int32_t hp_;
+  /*+0x4B08*/ int32_t max_hp_;
+  /*+0x4B0C*/ int32_t sp_;
+  /*+0x4B10*/ int32_t max_sp_;
 });

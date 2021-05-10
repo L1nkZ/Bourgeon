@@ -3,6 +3,26 @@
 #include <string>
 
 const std::string kYamlConfiguration = R"(
+# 2015-11-04aRagexe
+20151102:
+  CSession:
+    layout: 20151102
+    CSession: 0x0093DA20
+    GetTalkType: 0x0094AFB0
+  UIWindowMgr:
+    UIWindowMgr: 0x0060C820
+    ProcessPushButton: 0x00613100
+    SendMsg: 0x00623E20
+  CRagConnection:
+    CConnection: 0x00814BB0
+    SendPacket: 0x00815630
+  CModeMgr:
+    Switch: 0x0065AE30
+  CLoginMode:
+    OnUpdate: 0x0090CE90
+  CGameMode:
+    OnUpdate: 0x0088D730
+
 # 2017-06-14bRagexeRE
 20170613:
   CSession:

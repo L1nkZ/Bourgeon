@@ -15,6 +15,9 @@ Session::Pointer ObjectFactory::CreateSession(
 
   try {
     switch (session_layout.as<uint32_t>()) {
+      case 20151102:
+        result = std::make_unique<Session_20151102>(session_configuration);
+        break;
       case 20170613:
         result = std::make_unique<Session_20170613>(session_configuration);
         break;

@@ -37,6 +37,7 @@ set(BOURGEON_FILES
         # Layouts
 	"ragnarok/object_layouts/session/layouts.h"
 	"ragnarok/object_layouts/session/macro_utils.h"
+	"ragnarok/object_layouts/session/20151102.h"
 	"ragnarok/object_layouts/session/20170613.h"
 	"ragnarok/object_layouts/session/20190116.h"
 
