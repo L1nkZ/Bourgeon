@@ -38,7 +38,7 @@ bool RagConnection::SendPacket(int packet_len, char* packet) {
 }
 
 void RagConnection::ConnectionHook() {
-  LogDebug("RagConnection: " + std::to_string((size_t)this));
+  LogDebug("RagConnection: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   g_ragconnection_ptr.store(this);
   ConnectionRef(this);
 }

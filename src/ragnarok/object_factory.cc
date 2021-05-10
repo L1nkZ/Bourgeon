@@ -28,7 +28,7 @@ Session::Pointer ObjectFactory::CreateSession(
 
     return result;
   } catch (std::exception& ex) {
-    LogError(std::string("CSession configuration is invalid") + ex.what());
+    LogError("CSession configuration is invalid: {}", ex.what());
     return nullptr;
   }
 }
@@ -38,8 +38,7 @@ RagConnection::Pointer ObjectFactory::CreateRagConnection(
   try {
     return std::make_unique<RagConnection>(ragconnection_configuration);
   } catch (std::exception& ex) {
-    LogError(std::string("CRagConnection configuration is invalid: ") +
-             ex.what());
+    LogError("CRagConnection configuration is invalid: {}", ex.what());
     return nullptr;
   }
 }
@@ -59,7 +58,7 @@ ModeMgr::Pointer ObjectFactory::CreateModeMgr(
   try {
     return std::make_unique<ModeMgr>(modemgr_configuration);
   } catch (std::exception& ex) {
-    LogError(std::string("CModeMgr configuration is invalid") + ex.what());
+    LogError("CModeMgr configuration is invalid: {}", ex.what());
     return nullptr;
   }
 }
@@ -69,7 +68,7 @@ LoginMode::Pointer ObjectFactory::CreateLoginMode(
   try {
     return std::make_unique<LoginMode>(login_mode_configuration);
   } catch (std::exception& ex) {
-    LogError(std::string("CLoginMode configuration is invalid") + ex.what());
+    LogError("CLoginMode configuration is invalid: {}", +ex.what());
     return nullptr;
   }
 }
@@ -79,7 +78,7 @@ GameMode::Pointer ObjectFactory::CreateGameMode(
   try {
     return std::make_unique<GameMode>(game_mode_configuration);
   } catch (std::exception& ex) {
-    LogError(std::string("CGameMode configuration is invalid") + ex.what());
+    LogError("CGameMode configuration is invalid: {}", ex.what());
     return nullptr;
   }
 }

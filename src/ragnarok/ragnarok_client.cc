@@ -28,7 +28,7 @@ bool RagnarokClient::Initialize() {
     return false;
   }
   const auto timestamp_as_str = std::to_string(timestamp_);
-  LogInfo("Detected client: " + timestamp_as_str);
+  LogInfo("Detected client: {}", timestamp_as_str);
 
   const YAML::Node configuration = LoadConfiguration();
   const auto client_configuration = configuration[timestamp_as_str];

@@ -77,7 +77,7 @@ std::string Session::GetItemNameById(int id) const {
 }
 
 void Session::SessionHook() {
-  LogDebug("Session: " + std::to_string((size_t)this));
+  LogDebug("Session: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   g_session_ptr.store(this);
   SessionRef(this);
 }

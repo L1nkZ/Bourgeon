@@ -10,7 +10,7 @@ Bourgeon::Bourgeon()
 RagnarokClient& Bourgeon::client() { return client_; }
 
 bool Bourgeon::Initialize() {
-  LogInfo("Bourgeon " BOURGEON_VERSION "\n");
+  LogInfo("Bourgeon {}\n", BOURGEON_VERSION);
 
   if (!client_.Initialize()) {
     LogError("Bourgeon failed to initialize");
@@ -45,10 +45,10 @@ void Bourgeon::OnTick() {
 void Bourgeon::RegisterCallback(const std::string& callback_name,
                                 const pybind11::object& function) {
   try {
-    LogInfo(function.attr("__name__").cast<std::string>() +
-            " has been registered to " + callback_name);
+    LogInfo("{} has been registered to {}",
+            function.attr("__name__").cast<std::string>(), callback_name);
   } catch (pybind11::error_already_set& error) {
-    LogError(error.what());
+    LogError("{}", error.what());
   }
   callbacks_[callback_name].push_back(function);
 }
@@ -59,8 +59,8 @@ void Bourgeon::UnregisterCallback(const std::string& callback_name,
        it != callbacks_[callback_name].end(); ++it) {
     if (function.ptr() == it->ptr()) {
       callbacks_[callback_name].erase(it);
-      LogInfo(function.attr("__name__").cast<std::string>() +
-              " has been unregistered from " + callback_name);
+      LogInfo("{} has been unregistered from {}",
+              function.attr("__name__").cast<std::string>(), callback_name);
       break;
     }
   }
@@ -88,12 +88,12 @@ void Bourgeon::LoadPlugins(const std::string& folder) {
     }
 
     std::string filename(fd.cFileName);
-    LogInfo("Loading " + filename);
+    LogInfo("Loading {}", filename);
     try {
       eval_file(folder + '/' + filename,
                 module::import("__main__").attr("__dict__"));
     } catch (error_already_set& error) {
-      LogError(error.what());
+      LogError("{}", error.what());
     }
   } while (FindNextFileA(h_find, &fd));
 

@@ -17,20 +17,21 @@ class LogConsole {
     return instance;
   }
 
-  void Info(const std::string& info);
-  void Error(const std::string& error);
-  void Debug(const std::string& log);
+  spdlog::logger* logger() const;
 
  private:
   LogConsole();
   ~LogConsole();
 
  private:
-  std::shared_ptr<spdlog::logger> p_logger_;
+  std::unique_ptr<spdlog::logger> p_logger_;
 };
 
-#define LogInfo(fmt, ...) LogConsole::instance().Info(fmt, ##__VA_ARGS__)
+#define LogInfo(fmt, ...) \
+  LogConsole::instance().logger()->info(fmt, ##__VA_ARGS__)
 
-#define LogError(fmt, ...) LogConsole::instance().Error(fmt, ##__VA_ARGS__)
+#define LogError(fmt, ...) \
+  LogConsole::instance().logger()->error(fmt, ##__VA_ARGS__)
 
-#define LogDebug(fmt, ...) LogConsole::instance().Debug(fmt, ##__VA_ARGS__)
+#define LogDebug(fmt, ...) \
+  LogConsole::instance().logger()->debug(fmt, ##__VA_ARGS__)

@@ -58,7 +58,7 @@ size_t UIWindowMgr::SendMsg(UIMessage message, int val1, int val2, int val3,
 }
 
 void UIWindowMgr::UIWindowMgrHook() {
-  LogDebug("UIWindowMgr: " + std::to_string((size_t)this));
+  LogDebug("UIWindowMgr: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   g_uiwindowmgr_ptr.store(this);
   UIWindowMgrRef(this);
 }
