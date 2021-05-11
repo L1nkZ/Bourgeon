@@ -21,6 +21,9 @@
 #include <d3d.h>
 #include <ddraw.h>
 
+#include "ddraw/proxy_idirectdraw.h"
+#include "utils/log_console.h"
+
 #define DDWRAPPER_TYPEX 0x80
 #define D3DERR_COMMAND_UNPARSED MAKE_DDHRESULT(3000)
 
@@ -91,7 +94,7 @@ bool LoadDDraw() {
   strcat_s(path, "\\ddraw.dll");
 
   ddrawdll = LoadLibraryA(path);
-  if (ddrawdll == NULL) {
+  if (ddrawdll == nullptr) {
     return false;
   }
 
@@ -223,11 +226,21 @@ HRESULT WINAPI DirectDrawCreateClipper(DWORD dwFlags,
 
 HRESULT WINAPI DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID riid,
                                   IUnknown FAR *pUnkOuter) {
+  LogDebug("DirectDrawCreateEx");
   if (!m_pDirectDrawCreateEx) {
     return E_FAIL;
   }
 
-  return m_pDirectDrawCreateEx(lpGUID, lplpDD, riid, pUnkOuter);
+  HRESULT result = m_pDirectDrawCreateEx(lpGUID, lplpDD, riid, pUnkOuter);
+  if (FAILED(result)) {
+    return result;
+  }
+
+  CProxyIDirectDraw7 *lpcDD;
+  *lplpDD = lpcDD = new CProxyIDirectDraw7((IDirectDraw7 *)*lplpDD);
+  lpcDD->setThis(lpcDD);
+
+  return result;
 }
 
 HRESULT WINAPI DirectDrawEnumerateA(LPDDENUMCALLBACKA lpCallback,

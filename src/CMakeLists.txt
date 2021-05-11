@@ -7,6 +7,8 @@ set(BOURGEON_FILES
         "ddraw/ddraw.def"
         "ddraw/ddraw.cc"
         "ddraw/ddraw.h"
+        "ddraw/proxy_idirectdraw.cc"
+        "ddraw/proxy_idirectdraw.h"
 
 	# Python
 	"python/bourgeon.cc"
