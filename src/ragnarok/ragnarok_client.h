@@ -15,6 +15,7 @@ class RagnarokClient {
   static const uint32_t kUnknownTimeStamp = 0;
 
   RagnarokClient();
+  ~RagnarokClient();
 
   bool Initialize();
 
@@ -31,7 +32,7 @@ class RagnarokClient {
   static uint32_t GetClientTimeStamp();
   static void* GetClientBase();
   static uint32_t ConvertClientTimestamp(uint32_t timestamp);
-  static std::string GetClientFilename();
+  static bool SetupImgui();
 
   uint32_t timestamp_;
   Session::Pointer session_;

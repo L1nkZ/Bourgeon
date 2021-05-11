@@ -53,6 +53,10 @@ set(BOURGEON_FILES
 	"utils/hooking/hook_manager.cc"
 	"utils/hooking/hook_manager.h"
 	"utils/hooking/proxy.h"
+
+        # imgui
+        "imgui/imgui_impl_dx7.cc"
+        "imgui/imgui_impl_dx7.h"
 )
 foreach(source IN LISTS BOURGEON_FILES)
     get_filename_component(source_path "${source}" PATH)
@@ -68,4 +72,4 @@ target_compile_definitions(bourgeon PUBLIC -DWITH_THREAD -DNOMINMAX)
 target_compile_definitions(bourgeon PRIVATE -DBOURGEON_VERSION="${PROJECT_VERSION}")
 target_compile_definitions(bourgeon PRIVATE $<$<CONFIG:RelWithDebInfo>:BOURGEON_DEBUG>)
 
-target_link_libraries(bourgeon PRIVATE pybind11::embed spdlog yaml-cpp)
+target_link_libraries(bourgeon PRIVATE pybind11::embed spdlog yaml-cpp imgui)

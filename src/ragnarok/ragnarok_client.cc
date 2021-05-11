@@ -6,12 +6,31 @@
 #include <iomanip>
 #include <sstream>
 
+#include "backends/imgui_impl_win32.h"
+#include "imgui/imgui_impl_dx7.h"
 #include "ragnarok/configuration.h"
 #include "ragnarok/object_factory.h"
 #include "ragnarok/packets.h"
 #include "utils/byte_pattern.h"
 #include "utils/hooking/hook_manager.h"
 #include "utils/log_console.h"
+
+using CreateWindowExAFunc = HWND(WINAPI*)(DWORD, LPCSTR, LPCSTR, DWORD, int,
+                                          int, int, int, HWND, HMENU, HINSTANCE,
+                                          LPVOID);
+using WindowProcFunc = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);
+
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg,
+                                                      WPARAM wParam,
+                                                      LPARAM lParam);
+static HWND WINAPI CreateWindowExAHook(DWORD, LPCSTR, LPCSTR, DWORD, int, int,
+                                       int, int, HWND, HMENU, HINSTANCE,
+                                       LPVOID);
+static LRESULT CALLBACK WindowProcHook(HWND hwnd, UINT uMsg, WPARAM wParam,
+                                       LPARAM lParam);
+
+static CreateWindowExAFunc CreateWindowExARef;
+static WindowProcFunc WndProcRef;
 
 RagnarokClient::RagnarokClient()
     : timestamp_(),
@@ -20,6 +39,8 @@ RagnarokClient::RagnarokClient()
       window_mgr_(),
       login_mode_(),
       game_mode_() {}
+
+RagnarokClient::~RagnarokClient() { ImGui_ImplWin32_Shutdown(); }
 
 bool RagnarokClient::Initialize() {
   timestamp_ = GetClientTimeStamp();
@@ -69,6 +90,9 @@ bool RagnarokClient::Initialize() {
     return false;
   }
 
+  // Setup hooks required for imgui's IO
+  SetupImgui();
+
   return true;
 }
 
@@ -94,12 +118,12 @@ bool RagnarokClient::UseItemById(int item_id) const {
     return false;
   }
 
-  packet.header = static_cast<short>(PacketHeader::CZ_USE_ITEM);
-  packet.index = (unsigned short)iinfo.item_index_;
+  packet.header = static_cast<int16_t>(PacketHeader::CZ_USE_ITEM);
+  packet.index = static_cast<uint16_t>(iinfo.item_index_);
   packet.aid = session_->aid();
 
-  return rag_connection_->SendPacket(sizeof(PACKET_CZ_USE_ITEM),
-                                     (char*)&packet);
+  return rag_connection_->SendPacket(sizeof(packet),
+                                     reinterpret_cast<char*>(&packet));
 }
 
 uint32_t RagnarokClient::GetClientTimeStamp() {
@@ -146,9 +170,82 @@ uint32_t RagnarokClient::ConvertClientTimestamp(uint32_t timestamp) {
   return (time.tm_year + 1900) * 10000 + (time.tm_mon + 1) * 100 + time.tm_mday;
 }
 
-std::string RagnarokClient::GetClientFilename() {
-  std::array<char, MAX_PATH> filename;
+bool RagnarokClient::SetupImgui() {
+  using namespace hooking;
 
-  GetModuleFileNameA(nullptr, filename.data(), filename.size());
-  return std::string(filename.data());
+  const HMODULE h_user32 = GetModuleHandleA("user32.dll");
+  if (h_user32 == nullptr) {
+    LogError("Failed to get user32.dll's handle");
+    return false;
+  }
+
+  auto* api_addr =
+      reinterpret_cast<uint8_t*>(GetProcAddress(h_user32, "CreateWindowExA"));
+  if (api_addr == nullptr) {
+    LogError("Failed to resolve CreateWindowExA's address");
+    return false;
+  }
+
+  CreateWindowExARef =
+      reinterpret_cast<CreateWindowExAFunc>(HookManager::Instance().SetHook(
+          HookType::kJmpHook, api_addr,
+          reinterpret_cast<uint8_t*>(CreateWindowExAHook)));
+  return CreateWindowExARef != nullptr;
+}
+
+static HWND WINAPI CreateWindowExAHook(DWORD dwExStyle, LPCSTR lpClassName,
+                                       LPCSTR lpWindowName, DWORD dwStyle,
+                                       int X, int Y, int nWidth, int nHeight,
+                                       HWND hWndParent, HMENU hMenu,
+                                       HINSTANCE hInstance, LPVOID lpParam) {
+  using namespace hooking;
+
+  const auto hwnd = CreateWindowExARef(dwExStyle, lpClassName, lpWindowName,
+                                       dwStyle, X, Y, nWidth, nHeight,
+                                       hWndParent, hMenu, hInstance, lpParam);
+  if (hwnd == nullptr) {
+    return hwnd;
+  }
+
+  // Hook WndProc
+  WNDCLASSEXA wnd_class;
+  wnd_class.cbSize = sizeof(wnd_class);
+  if (!GetClassInfoExA(hInstance, lpClassName, &wnd_class)) {
+    return hwnd;
+  }
+  if (wnd_class.lpfnWndProc == nullptr) {
+    LogError("WndProc was nullptr, cannot hook");
+    return hwnd;
+  }
+
+  WndProcRef = reinterpret_cast<WindowProcFunc>(HookManager::Instance().SetHook(
+      HookType::kJmpHook, reinterpret_cast<uint8_t*>(wnd_class.lpfnWndProc),
+      reinterpret_cast<uint8_t*>(WindowProcHook)));
+  LogDebug("Hooked WndProc: 0x{:x}",
+           reinterpret_cast<size_t>(wnd_class.lpfnWndProc));
+
+  // Start initializing imgui
+  ImGui::CreateContext();
+  ImGui::StyleColorsDark();
+  ImGui_ImplWin32_Init(hwnd);
+  ImGuiIO& io = ImGui::GetIO();
+  io.MouseDrawCursor = true;
+
+  return hwnd;
+}
+
+static LRESULT CALLBACK WindowProcHook(HWND hwnd, UINT uMsg, WPARAM wParam,
+                                       LPARAM lParam) {
+  const LRESULT result =
+      ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
+
+  ImGuiIO& io = ImGui::GetIO();
+  // "Capture" mouse/keyboard inputs when imgui uses them
+  if ((uMsg > WM_MOUSEFIRST && uMsg < WM_MOUSELAST && io.WantCaptureMouse) ||
+      (uMsg > WM_KEYFIRST && uMsg < WM_KEYLAST &&
+       (io.WantCaptureKeyboard || io.WantTextInput))) {
+    return result;
+  }
+
+  return WndProcRef(hwnd, uMsg, wParam, lParam);
 }

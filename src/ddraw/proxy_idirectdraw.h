@@ -1,5 +1,5 @@
 #pragma once
-// This file was taken from SimpleROHook
+// This file was taken from SimpleROHook and adapted
 
 #include <d3d.h>
 
@@ -27,7 +27,7 @@
   }
 
 #define CLASSNAME "IDirectDraw7"
-class CProxyIDirectDraw7 : public IDirectDraw7 {
+class CProxyIDirectDraw7 final : public IDirectDraw7 {
  private:
   IDirectDraw7 *m_Instance;
   IDirectDrawSurface7 *TargetSurface;
@@ -137,7 +137,7 @@ class CProxyIDirectDraw7 : public IDirectDraw7 {
 #undef CLASSNAME
 
 #define CLASSNAME "IDirectDrawSurface7"
-class CProxyIDirectDrawSurface7 : public IDirectDrawSurface7 {
+class CProxyIDirectDrawSurface7 final : public IDirectDrawSurface7 {
  private:
   IDirectDrawSurface7 *m_Instance;
 
@@ -241,32 +241,23 @@ class CProxyIDirectDrawSurface7 : public IDirectDrawSurface7 {
 
 // D3DDev HOOK
 #define CLASSNAME "IDirect3DDevice7"
-class CProxyIDirect3DDevice7 : public IDirect3DDevice7 {
+class CProxyIDirect3DDevice7 final : public IDirect3DDevice7 {
  private:
   IDirect3DDevice7 *m_Instance;
   IDirectDrawSurface7 *TargetSurface;
 
-  BOOL m_firstonce;
-  BOOL m_frameonce;
-
  public:
   CProxyIDirect3DDevice7(IDirect3DDevice7 *ptr, IDirectDrawSurface7 *psf)
-      : m_Instance(ptr), TargetSurface(psf), m_firstonce(true), m_frameonce() {}
+      : m_Instance(ptr), TargetSurface(psf) {}
+  ~CProxyIDirect3DDevice7();
 
   /*** IUnknown methods ***/
   STDMETHOD(QueryInterface)
   (THIS_ REFIID p1, LPVOID *p2) PROXY2(QueryInterface);
   STDMETHOD_(ULONG, AddRef)(THIS) PROXY0(AddRef);
-  STDMETHOD_(ULONG, Release)(THIS) {
-    Proxy_Release();
-    ULONG Count = m_Instance->Release();
+  STDMETHOD_(ULONG, Release)(THIS) { return Proxy_Release(); }
 
-    if (Count == 0) delete this;
-
-    return Count;
-  }
-
-  void Proxy_Release(void);
+  ULONG Proxy_Release();
 
   /*** IDirect3DDevice7 methods ***/
   STDMETHOD(GetCaps)
@@ -387,7 +378,7 @@ class CProxyIDirect3DDevice7 : public IDirect3DDevice7 {
 
 // D3D HOOK
 #define CLASSNAME "IDirect3D7"
-class CProxyIDirect3D7 : public IDirect3D7 {
+class CProxyIDirect3D7 final : public IDirect3D7 {
  private:
   IDirect3D7 *m_Instance;
 
