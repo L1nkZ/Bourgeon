@@ -229,7 +229,8 @@ static HWND WINAPI CreateWindowExAHook(DWORD dwExStyle, LPCSTR lpClassName,
   ImGui::StyleColorsDark();
   ImGui_ImplWin32_Init(hwnd);
   ImGuiIO& io = ImGui::GetIO();
-  io.MouseDrawCursor = true;
+  io.MouseDrawCursor = false;
+  io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
 
   return hwnd;
 }
@@ -240,6 +241,13 @@ static LRESULT CALLBACK WindowProcHook(HWND hwnd, UINT uMsg, WPARAM wParam,
       ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
 
   ImGuiIO& io = ImGui::GetIO();
+  // Draw system cursor over imgui's windows
+  if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+    io.MouseDrawCursor = true;
+  } else {
+    io.MouseDrawCursor = false;
+  }
+
   // "Capture" mouse/keyboard inputs when imgui uses them
   if ((uMsg > WM_MOUSEFIRST && uMsg < WM_MOUSELAST && io.WantCaptureMouse) ||
       (uMsg > WM_KEYFIRST && uMsg < WM_KEYLAST &&

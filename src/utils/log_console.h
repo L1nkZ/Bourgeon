@@ -33,5 +33,9 @@ class LogConsole {
 #define LogError(fmt, ...) \
   LogConsole::instance().logger()->error(fmt, ##__VA_ARGS__)
 
+#ifdef BOURGEON_DEBUG
 #define LogDebug(fmt, ...) \
   LogConsole::instance().logger()->debug(fmt, ##__VA_ARGS__)
+#else
+#define LogDebug(fmt, ...) 0
+#endif  // BOURGEON_DEBUG

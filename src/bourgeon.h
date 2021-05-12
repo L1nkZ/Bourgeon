@@ -24,6 +24,8 @@ class Bourgeon {
 
   bool Initialize();
   void OnTick();
+  void AddLogLine(std::string log_line);
+  void RenderUI() const;
 
   // Python related
   void RegisterCallback(const std::string& callback_name,
@@ -37,9 +39,12 @@ class Bourgeon {
   Bourgeon();
 
   void LoadPlugins(const std::string& folder);
+  void ShowBourgeonWindow() const;
 
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
-  RagnarokClient client_;
   uint32_t last_tick_count_;
+  std::vector<std::string> log_lines_;
+  RagnarokClient client_;
+  std::vector<std::string> loaded_plugins_;
 };

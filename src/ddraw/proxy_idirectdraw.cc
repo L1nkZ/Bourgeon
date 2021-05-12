@@ -2,6 +2,7 @@
 #include "ddraw/proxy_idirectdraw.h"
 
 #include "backends/imgui_impl_win32.h"
+#include "bourgeon.h"
 #include "imgui/imgui_impl_dx7.h"
 #include "utils/log_console.h"
 
@@ -213,7 +214,7 @@ HRESULT CProxyIDirect3DDevice7::Proxy_EndScene(void) {
   ImGui_ImplDX7_NewFrame();
   ImGui_ImplWin32_NewFrame();
   ImGui::NewFrame();
-  ImGui::ShowDemoWindow();
+  Bourgeon::Instance().RenderUI();
   ImGui::EndFrame();
   ImGui::Render();
   // Render UI with DX7
