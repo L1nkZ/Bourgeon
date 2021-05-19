@@ -57,6 +57,19 @@ set(BOURGEON_FILES
         # imgui
         "imgui/imgui_impl_dx7.cc"
         "imgui/imgui_impl_dx7.h"
+
+        # UI
+        "ui/widget.h"
+        "ui/window.cc"
+        "ui/window.h"
+        "ui/window_manager.cc"
+        "ui/window_manager.h"
+        "ui/text.cc"
+        "ui/text.h"
+        "ui/button.cc"
+        "ui/button.h"
+        "ui/check_box.cc"
+        "ui/check_box.h"
 )
 foreach(source IN LISTS BOURGEON_FILES)
     get_filename_component(source_path "${source}" PATH)

@@ -1,8 +1,8 @@
-version: 0.1.{build}
-image: Visual Studio 2015
+version: 0.1.0-{build}
+image: Visual Studio 2017
 environment:
   matrix:
-  - GENERATOR: '"Visual Studio 14 2015"'
+  - GENERATOR: '"Visual Studio 15 2017"'
     BUILD_TYPE: Release
 init:
 - git config --global core.autocrlf true

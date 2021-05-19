@@ -1,6 +1,6 @@
 Bourgeon [![Build status](https://ci.appveyor.com/api/projects/status/aqtwv6lfq6g1pbxq?svg=true)](https://ci.appveyor.com/project/L1nkZ/bourgeon)
 --------
-Bourgeon is a C++14 library whose purpose is to provide an easy-to-use Python
+Bourgeon is a C++17 library whose purpose is to provide an easy-to-use Python
 interface to implement plugins for Ragnarok Online clients.  
 
 *Note: This is a work in progress.*
@@ -15,7 +15,7 @@ Requirements
 ------------
 * Python >= 3.5 (32-bit)
 * CMake >= 3.4
-* Visual Studio >= 2015
+* Visual Studio >= 2017
 
 Clone and build
 -----

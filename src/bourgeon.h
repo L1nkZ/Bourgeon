@@ -9,6 +9,7 @@
 
 #include "pybind11/embed.h"
 #include "ragnarok/ragnarok_client.h"
+#include "ui/window_manager.h"
 
 class Bourgeon {
  public:
@@ -21,6 +22,7 @@ class Bourgeon {
   void operator=(Bourgeon const&) = delete;
 
   RagnarokClient& client();
+  ui::WindowManager& window_manager();
 
   bool Initialize();
   void OnTick();
@@ -44,6 +46,7 @@ class Bourgeon {
   pybind11::scoped_interpreter interpreter_;
   std::unordered_map<std::string, std::vector<pybind11::object>> callbacks_;
   uint32_t last_tick_count_;
+  ui::WindowManager window_mgr_;
   std::vector<std::string> log_lines_;
   RagnarokClient client_;
   std::vector<std::string> loaded_plugins_;

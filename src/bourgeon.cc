@@ -9,11 +9,14 @@ Bourgeon::Bourgeon()
     : interpreter_(),
       callbacks_(),
       last_tick_count_(),
+      window_mgr_(),
       log_lines_(),
       client_(),
       loaded_plugins_() {}
 
 RagnarokClient& Bourgeon::client() { return client_; }
+
+ui::WindowManager& Bourgeon::window_manager() { return window_mgr_; }
 
 bool Bourgeon::Initialize() {
   LogInfo("Bourgeon {}\n", BOURGEON_VERSION);
@@ -57,7 +60,11 @@ void Bourgeon::RenderUI() const {
   ImGui::ShowDemoWindow();
 #endif  // BOURGEON_DEBUG
 
+  // Render Bourgeon's main window
   ShowBourgeonWindow();
+
+  // Render windows created by plugins
+  window_mgr_.RenderWindows();
 }
 
 void Bourgeon::RegisterCallback(const std::string& callback_name,
