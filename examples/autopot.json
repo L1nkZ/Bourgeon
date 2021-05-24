@@ -1,0 +1,52 @@
+{
+    "hp": {
+        "percent": 80,
+        "items": [
+            {
+                "name": "Red Potion",
+                "id": 501
+            },
+            {
+                "name": "Light Red Potion",
+                "id": 598
+            },
+            {
+                "name": "Condensed Red Potion",
+                "id": 545
+            },
+            {
+                "name": "White Potion",
+                "id": 504
+            },
+            {
+                "name": "Light White Potion",
+                "id": 11501
+            },
+            {
+                "name": "Condensed White Potion",
+                "id": 547
+            },
+            {
+                "name": "Apple Juice",
+                "id": 531
+            }
+        ]
+    },
+    "sp": {
+        "percent": 80,
+        "items": [
+            {
+                "name": "Blue Potion",
+                "id": 505
+            },
+            {
+                "name": "Light Blue Potion",
+                "id": 11502
+            },
+            {
+                "name": "WoE Blue Potion",
+                "id": 11504
+            }
+        ]
+    }
+}

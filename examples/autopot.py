@@ -1,60 +1,176 @@
-# Plugin settings --------------------------------------------------------------
-HP_MIN_PERCENT = 0.9
-SP_MIN_PERCENT = 0.8
-HP_ITEM = 545 # Red slim potion
-SP_ITEM = 505 # Blue potion
+import json
+from enum import IntEnum
+from typing import List, Dict, Any
 
-# Plugin code ------------------------------------------------------------------
 import bourgeon
 import ragnarok_client as client
-
-LOGIN_MODE = 0
-GAME_MODE = 1
-
-current_mode = LOGIN_MODE
-ap_activated = False
-
-def on_mode_switch(mode_type, map_name):
-	global current_mode
-
-	current_mode = mode_type
+from bourgeon import ui
 
 
-def on_tick():
-	if current_mode == GAME_MODE and ap_activated:
-		hp_percent = client.get_hp() / client.get_max_hp()
-		sp_percent = client.get_sp() / client.get_max_sp()
-
-		if hp_percent < HP_MIN_PERCENT:
-			client.use_item(HP_ITEM)
-		elif sp_percent < SP_MIN_PERCENT:
-			client.use_item(SP_ITEM)
+class Mode(IntEnum):
+    Login = 0
+    Game = 1
 
 
-def show_ap_settings():
-		client.print_in_chat("Autopot Settings", 0xFF00, 0)
-		client.print_in_chat("Status: %s" % \
-			("Activated" if ap_activated else "Deactivated"), 0xFFFFFF, 0)
-		client.print_in_chat("HP: %d%%" % int(HP_MIN_PERCENT * 100), 0xFFFFFF, 0)
-		client.print_in_chat("SP: %d%%" % int(SP_MIN_PERCENT * 100), 0xFFFFFF, 0)
-		client.print_in_chat("HP item: %s" % HP_ITEM, 0xFF, 0)
-		client.print_in_chat("SP item: %s" % SP_ITEM, 0xFF0000, 0)
+class Configuration:
+    def __init__(self, path: str):
+        with open(path) as fp:
+            data = json.load(fp)
+
+        self.hp_min_percent = data["hp"]["percent"]
+        self.sp_min_percent = data["sp"]["percent"]
+
+        self.hp_items = data["hp"]["items"]
+        self.sp_items = data["sp"]["items"]
+        self.selected_hp_item = self.hp_items[0]["id"]
+        self.selected_sp_item = self.sp_items[0]["id"]
 
 
-def on_command(chat_buffer):
-	global ap_activated
-
-	if chat_buffer.find("/ap_settings") == 0:
-		show_ap_settings()
-	elif chat_buffer.find("/ap_toggle") == 0:
-		ap_activated = not ap_activated
-		if ap_activated:
-			client.print_in_chat("Autopot activated", 0xFFFFFF, 0)
-		else:
-			client.print_in_chat("Autopot deactivated", 0xFFFFFF, 0)
+config = Configuration("plugins/autopot.json")
 
 
-bourgeon.log("-= Autopot plugin =-")
+class SettingsWindow:
+    class UiMessage(IntEnum):
+        AutopotWindowClosed = 1
+        AutopotToggle = 2
+        HpEdit = 3
+        SpEdit = 4
+        HpItemSelected = 5
+        SpItemSelected = 6
+
+    def __init__(self) -> None:
+        self.activated = False
+        max_chars = 2
+        input_width = 25
+
+        # HP threshold input
+        self.hp_input = ui.TextInput(
+            "%##hp_input",
+            str(config.hp_min_percent),
+            ui.AllowedChars.Decimal,
+            max_chars,
+            self.UiMessage.HpEdit,
+        )
+        self.hp_input.set_width(input_width)
+
+        # SP threshold input
+        self.sp_input = ui.TextInput(
+            "%##sp_input",
+            str(config.sp_min_percent),
+            ui.AllowedChars.Decimal,
+            max_chars,
+            self.UiMessage.SpEdit,
+        )
+        self.sp_input.set_width(input_width)
+
+        self.hp_combo = self._combo_from_item_list(
+            "##hp_combo", self.UiMessage.HpItemSelected, config.hp_items)
+        self.sp_combo = self._combo_from_item_list(
+            "##sp_combo", self.UiMessage.SpItemSelected, config.sp_items)
+
+        # Settings window
+        self.window = ui.Window("Autopot Settings",
+                                [[ui.Text("HP"), self.hp_combo, self.hp_input],
+                                 [ui.Text("SP"), self.sp_combo, self.sp_input],
+                                 [
+                                     ui.CheckBox("Activated", self.activated,
+                                                 self.UiMessage.AutopotToggle)
+                                 ]], self.UiMessage.AutopotWindowClosed)
+        self.window.set_size((240, 105))
+        self.window.set_resizable(False)
+
+    def open(self) -> None:
+        ui.register_window(self.window)
+
+    def close(self) -> None:
+        ui.unregister_window(self.window)
+
+    def handle_messages(self) -> None:
+        message = self.window.read()
+        while message is not None:
+            msg_id, values = message
+            if msg_id == self.UiMessage.AutopotWindowClosed:
+                self.close()
+            elif msg_id == self.UiMessage.AutopotToggle:
+                self.activated = values[0]
+                self.hp_input.set_read_only(self.activated)
+                self.sp_input.set_read_only(self.activated)
+                self.hp_combo.set_disabled(self.activated)
+                self.sp_combo.set_disabled(self.activated)
+                if self.activated:
+                    bourgeon.log("Autopot activated")
+                    bourgeon.log(
+                        f" -> HP {config.hp_min_percent}%/{config.selected_hp_item}"
+                    )
+                    bourgeon.log(
+                        f" -> SP {config.sp_min_percent}%/{config.selected_sp_item}"
+                    )
+                else:
+                    bourgeon.log("Autopot deactivated")
+            elif msg_id == self.UiMessage.HpEdit:
+                try:
+                    config.hp_min_percent = int(values[0])
+                except ValueError:
+                    config.hp_min_percent = 0
+            elif msg_id == self.UiMessage.SpEdit:
+                try:
+                    config.sp_min_percent = int(values[0])
+                except ValueError:
+                    config.sp_min_percent = 0
+            elif msg_id == self.UiMessage.HpItemSelected:
+                item_index = values[0]
+                config.selected_hp_item = config.hp_items[item_index]["id"]
+            elif msg_id == self.UiMessage.SpItemSelected:
+                item_index = values[0]
+                config.selected_sp_item = config.sp_items[item_index]["id"]
+
+            message = self.window.read()
+
+    @staticmethod
+    def _combo_from_item_list(label: str, msg_id: int,
+                              item_list: List[Dict[str, Any]]) -> ui.Combo:
+        name_list = [item["name"] for item in item_list]
+        return ui.Combo(label, name_list, msg_id)
+
+
+current_mode = Mode.Login
+ap_window = SettingsWindow()
+
+
+def on_mode_switch(mode_type: int, _map_name: str) -> None:
+    """
+    OnModeSwitch callback.
+    """
+    global current_mode
+    current_mode = Mode(mode_type)
+
+
+def on_tick() -> None:
+    """
+    OnTick callback.
+    """
+    global ap_window
+
+    ap_window.handle_messages()
+    if current_mode == Mode.Game and ap_window.activated:
+        hp_percent = (client.get_hp() / client.get_max_hp()) * 100.0
+        sp_percent = (client.get_sp() / client.get_max_sp()) * 100.0
+
+        if hp_percent < config.hp_min_percent:
+            client.use_item(config.selected_hp_item)
+        elif sp_percent < config.sp_min_percent:
+            client.use_item(config.selected_sp_item)
+
+
+def on_command(chat_buffer: str) -> None:
+    """
+    OnTalkType callback.
+    """
+    if chat_buffer.find("/autopot") == 0:
+        ap_window.open()
+
+
 bourgeon.register_callback("OnTick", on_tick)
 bourgeon.register_callback("OnModeSwitch", on_mode_switch)
 bourgeon.register_callback("OnTalkType", on_command)
+bourgeon.log("Autopot plugin loaded!")

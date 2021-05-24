@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include "ui/widget.h"
 #include "ui/window.h"
