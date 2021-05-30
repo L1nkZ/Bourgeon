@@ -7,6 +7,7 @@
 
 #include "ui/button.h"
 #include "ui/check_box.h"
+#include "ui/combo.h"
 #include "ui/text.h"
 #include "ui/text_input.h"
 #include "ui/window.h"
@@ -83,6 +84,15 @@ PYBIND11_EMBEDDED_MODULE(bourgeon, m) {
       .value("Hexadecimal", ui::TextInput::AllowedChars::kHexadecimal)
       .value("NoBlanks", ui::TextInput::AllowedChars::kNoBlanks)
       .value("Scientific", ui::TextInput::AllowedChars::kScientific);
+
+  pybind11::class_<ui::Combo, ui::Widget, std::shared_ptr<ui::Combo>>(m_ui,
+                                                                      "Combo")
+      .def(pybind11::init<std::string, std::vector<std::string>,
+                          ui::MessageId>())
+      .def("label", &ui::Combo::label)
+      .def("set_label", &ui::Combo::set_label)
+      .def("disabled", &ui::Combo::disabled)
+      .def("set_disabled", &ui::Combo::set_disabled);
 }
 
 }  // namespace python
