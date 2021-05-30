@@ -8,6 +8,8 @@
 #include "ui/button.h"
 #include "ui/check_box.h"
 #include "ui/combo.h"
+#include "ui/list_box.h"
+#include "ui/separator.h"
 #include "ui/text.h"
 #include "ui/text_input.h"
 #include "ui/window.h"
@@ -48,6 +50,10 @@ PYBIND11_EMBEDDED_MODULE(bourgeon, m) {
       .def("set_resizable", &ui::Window::set_resizable)
       .def("size", &ui::Window::size)
       .def("set_size", &ui::Window::set_size);
+
+  pybind11::class_<ui::Separator, ui::Widget, std::shared_ptr<ui::Separator>>(
+      m_ui, "Separator")
+      .def(pybind11::init<>());
 
   pybind11::class_<ui::Text, ui::Widget, std::shared_ptr<ui::Text>>(m_ui,
                                                                     "Text")
@@ -93,6 +99,17 @@ PYBIND11_EMBEDDED_MODULE(bourgeon, m) {
       .def("set_label", &ui::Combo::set_label)
       .def("disabled", &ui::Combo::disabled)
       .def("set_disabled", &ui::Combo::set_disabled);
+
+  pybind11::class_<ui::ListBox, ui::Widget, std::shared_ptr<ui::ListBox>>(
+      m_ui, "ListBox")
+      .def(pybind11::init<std::string, std::vector<std::string>,
+                          ui::MessageId>())
+      .def("label", &ui::ListBox::label)
+      .def("set_label", &ui::ListBox::set_label)
+      .def("size", &ui::ListBox::size)
+      .def("set_size", &ui::ListBox::set_size)
+      .def("disabled", &ui::ListBox::disabled)
+      .def("set_disabled", &ui::ListBox::set_disabled);
 }
 
 }  // namespace python

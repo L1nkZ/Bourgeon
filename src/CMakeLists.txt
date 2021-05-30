@@ -74,6 +74,10 @@ set(BOURGEON_FILES
         "ui/text_input.h"
         "ui/combo.cc"
         "ui/combo.h"
+        "ui/separator.cc"
+        "ui/separator.h"
+        "ui/list_box.cc"
+        "ui/list_box.h"
 )
 foreach(source IN LISTS BOURGEON_FILES)
     get_filename_component(source_path "${source}" PATH)
