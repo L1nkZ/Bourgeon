@@ -14,7 +14,9 @@ class GameMode {
 
   // Hooks
   void OnUpdateHook();
+  void ProcessInputHook();
 
  protected:
   static MethodRef<GameMode, void (GameMode::*)()> GameMode::OnUpdateRef;
+  static MethodRef<GameMode, void (GameMode::*)()> GameMode::ProcessInputRef;
 };

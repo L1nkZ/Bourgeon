@@ -22,6 +22,7 @@ const std::string kYamlConfiguration = R"(
     OnUpdate: 0x0090CE90
   CGameMode:
     OnUpdate: 0x0088D730
+    ProcessInput: 0x0088e6d0
 
 # 2017-06-14bRagexeRE
 20170613:
@@ -42,6 +43,7 @@ const std::string kYamlConfiguration = R"(
     OnUpdate: 0x00A1F2A0
   CGameMode:
     OnUpdate: 0x00996910
+    ProcessInput: 0x00997b50
 
 # 2019-01-16cRagexe
 20190116:
@@ -62,4 +64,5 @@ const std::string kYamlConfiguration = R"(
     OnUpdate: 0x009DED20
   CGameMode:
     OnUpdate: 0x0094EE20
+    ProcessInput: 0x009500f0
 )";

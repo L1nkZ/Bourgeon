@@ -248,12 +248,5 @@ static LRESULT CALLBACK WindowProcHook(HWND hwnd, UINT uMsg, WPARAM wParam,
     io.MouseDrawCursor = false;
   }
 
-  // "Capture" mouse/keyboard inputs when imgui uses them
-  if ((uMsg > WM_MOUSEFIRST && uMsg < WM_MOUSELAST && io.WantCaptureMouse) ||
-      (uMsg > WM_KEYFIRST && uMsg < WM_KEYLAST &&
-       (io.WantCaptureKeyboard || io.WantTextInput))) {
-    return result;
-  }
-
   return WndProcRef(hwnd, uMsg, wParam, lParam);
 }
