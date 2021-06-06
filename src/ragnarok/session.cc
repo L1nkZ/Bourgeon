@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cstdint>
-#include <iostream>
 
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
@@ -92,7 +91,7 @@ int Session::GetTalkTypeHook(char const* chat_buffer, TalkType* talk_type,
           PyUnicode_DecodeLatin1(chat_buffer, strlen(chat_buffer), nullptr));
       registree(py_chat);
     } catch (pybind11::error_already_set& error) {
-      std::cerr << error.what() << std::endl;
+      LogError(error.what());
       Bourgeon::Instance().UnregisterCallback("OnTalkType", registree);
     }
   }

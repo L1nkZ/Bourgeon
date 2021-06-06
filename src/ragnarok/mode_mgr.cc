@@ -1,9 +1,8 @@
 #include "ragnarok/mode_mgr.h"
 
-#include <iostream>
-
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
+#include "utils/log_console.h"
 
 ModeMgr::ModeMgr(const YAML::Node& modemgr_configuration) {
   using namespace hooking;
@@ -26,7 +25,7 @@ void ModeMgr::SwitchHook(ModeType mode_type, char const* map_name) {
     try {
       registree(mode_type, map_name);
     } catch (pybind11::error_already_set& error) {
-      std::cerr << error.what() << std::endl;
+      LogError(error.what());
       Bourgeon::Instance().UnregisterCallback("OnModeSwitch", registree);
     }
   }

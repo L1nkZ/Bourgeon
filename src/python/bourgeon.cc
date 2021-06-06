@@ -3,8 +3,6 @@
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 
-#include <iostream>
-
 #include "ui/button.h"
 #include "ui/check_box.h"
 #include "ui/combo.h"

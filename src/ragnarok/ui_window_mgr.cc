@@ -1,7 +1,5 @@
 #include "ui_window_mgr.h"
 
-#include <iostream>
-
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
 #include "utils/log_console.h"
@@ -71,7 +69,7 @@ bool UIWindowMgr::ProcessPushButtonHook(unsigned long vkey, int new_key,
     try {
       registree(vkey, new_key, accurate_key);
     } catch (pybind11::error_already_set& error) {
-      std::cerr << error.what() << std::endl;
+      LogError(error.what());
       Bourgeon::Instance().UnregisterCallback("OnKeyDown", registree);
     }
   }
@@ -93,7 +91,7 @@ size_t UIWindowMgr::SendMsgHook(UIMessage message, int val1, int val2, int val3,
           PyUnicode_DecodeLatin1(chat_buffer, strlen(chat_buffer), nullptr));
       registree(py_chat);
     } catch (pybind11::error_already_set& error) {
-      std::cerr << error.what() << std::endl;
+      LogError(error.what());
       Bourgeon::Instance().UnregisterCallback("OnChatMessage", registree);
     }
   }

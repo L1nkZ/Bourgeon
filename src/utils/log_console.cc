@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 
-#include <iostream>
 #include <vector>
 
 #include "spdlog/sinks/msvc_sink.h"

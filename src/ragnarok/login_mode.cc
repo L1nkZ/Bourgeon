@@ -1,7 +1,5 @@
 #include "ragnarok/login_mode.h"
 
-#include <iostream>
-
 #include "bourgeon.h"
 #include "utils/hooking/hook_manager.h"
 #include "utils/log_console.h"
