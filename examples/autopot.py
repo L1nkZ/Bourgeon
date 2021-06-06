@@ -5,11 +5,7 @@ from typing import List, Dict, Any
 import bourgeon
 import ragnarok_client as client
 from bourgeon import ui
-
-
-class Mode(IntEnum):
-    Login = 0
-    Game = 1
+from ragnarok_client import Mode
 
 
 class Configuration:
@@ -137,12 +133,12 @@ current_mode = Mode.Login
 ap_window = SettingsWindow()
 
 
-def on_mode_switch(mode_type: int, _map_name: str) -> None:
+def on_mode_switch(mode_type: Mode, _map_name: str) -> None:
     """
     OnModeSwitch callback.
     """
     global current_mode
-    current_mode = Mode(mode_type)
+    current_mode = mode_type
 
 
 def on_tick() -> None:

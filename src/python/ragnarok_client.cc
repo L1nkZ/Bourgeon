@@ -1,10 +1,16 @@
 #include <pybind11/embed.h>
 
 #include "bourgeon.h"
+#include "ragnarok/mode_mgr.h"
 
 namespace python {
 
 PYBIND11_EMBEDDED_MODULE(ragnarok_client, m) {
+  // Client modes enum (to be used with Switch)
+  pybind11::enum_<ModeMgr::ModeType>(m, "Mode")
+      .value("Login", ModeMgr::ModeType::kLogin)
+      .value("Game", ModeMgr::ModeType::kGame);
+
   // Print a message into the game chat
   m.def("print_in_chat",
         [](std::string message, unsigned int color, unsigned int filter) {

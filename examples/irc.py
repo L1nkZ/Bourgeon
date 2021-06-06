@@ -16,15 +16,14 @@ import bourgeon
 import ragnarok_client as ro_client
 import irc.client
 import atexit
+from ragnarok_client import Mode
 
 # Colors are of the form 0xBBGGRR
 COLOR_INFO = 0x00FF00
 COLOR_ERROR = 0xFF
 COLOR_IRC_MSG = 0x893D89
 
-LOGIN_MODE = 0
-GAME_MODE = 1
-current_mode = LOGIN_MODE
+current_mode = Mode.Login
 joined_channels = False
 
 # Objects' initialization
@@ -60,7 +59,7 @@ def on_mode_switch(mode_type, map_name):
 
 # Called whenever a public irc message is received
 def on_irc_message(server, event):
-    if current_mode == GAME_MODE:
+    if current_mode == Mode.Game:
         username = event.source.nick
         message = event.arguments[0]
         channel = event.target
@@ -70,7 +69,7 @@ def on_irc_message(server, event):
 
 
 def on_talktype(chat_buffer):
-    if current_mode == GAME_MODE:
+    if current_mode == Mode.Game:
         if chat_buffer.find("/irc ") == 0:
             parts = chat_buffer.split(' ', 2)
 
