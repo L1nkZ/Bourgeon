@@ -59,8 +59,8 @@ class DemoWindow:
             message = self.window.read()
 
 
-window = DemoWindow()
-window.open()
+demo_window = DemoWindow()
+demo_window.open()
 log("Demo UI loaded!")
 
 
@@ -68,8 +68,8 @@ def on_tick() -> None:
     """
     OnTick callback.
     """
-    global window
-    window.handle_messages()
+    global demo_window
+    demo_window.handle_messages()
 
 
 register_callback("OnTick", on_tick)

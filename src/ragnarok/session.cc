@@ -48,6 +48,7 @@ std::string Session::GetCharName() const {
   for (size_t i = 0; i < clear_name.size(); i++) {
     clear_name[i] ^= kNameKey[i];
   }
+  clear_name[clear_name.size() - 1] = '\0';
 
   return std::string(clear_name.data());
 }

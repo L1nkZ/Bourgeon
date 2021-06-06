@@ -10,9 +10,9 @@
 
 SESSION_IMPLEMENTATION(20151102, {
   /*+0x000*/ int32_t cur_map_type_;
-  /*+0x004*/ uint8_t padding0[0x64C];
-  /*+0x650*/ char char_name_[0x40];
-  /*+0x690*/ uint8_t padding1[0x46C];
+  /*+0x004*/ uint8_t padding0[0x644];
+  /*+0x648*/ char char_name_[0x40];
+  /*+0x688*/ uint8_t padding1[0x474];
   /*+0xAFC*/ int32_t mkcount_;
   /*+0xB00*/ int32_t haircolor_;
   /*+0xB04*/ int32_t deadcount_;
